@@ -15,6 +15,12 @@
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />  
 
+<!-- Toast para los eventos de Boton -->
+<script type="module">
+  import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+  window.toastController = toastController;
+</script>
+
   <title>Obligatorio: Taller de Dispositivos Moviles</title>
 </head>
 
@@ -63,12 +69,20 @@
       </ion-header>
       <ion-content class="ion-padding">
         <h1>Registro</h1>
-        <p>Click the icon in the top left to toggle the menu.</p>
+        <ion-item>
+          <ion-label position="floating">Ingrese Usuario:</ion-label>
+          <ion-input placeholder="Ingrese Usuario" id="userRegister"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Ingrese Contraseña:</ion-label>
+          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswRegister"></ion-input>
+        </ion-item>
+        <ion-button color="secondary" id="btnRegistro">Registrarse</ion-button>
       </ion-content>
     </ion-page>
 
     <!-- Pagina Login -->
-    <ion-page class="ion-page" id="pLogin"> <!-- Se crea un ion-page para que se genere el menu -->
+    <ion-page class="ion-page" id="pLogin"> 
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
