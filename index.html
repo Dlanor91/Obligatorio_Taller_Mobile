@@ -1,58 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Enlace a Codigo Ionic -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
-    <!-- Enlace a Codigo JS -->
-    <script src="js/codigo.js" type="text/javascript" defer></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
 
-    <title>Document</title>
+  <!-- Enlace a Codigo JS -->
+  <script src="js/codigo.js" type="text/javascript" defer></script>
+
+  <!-- Enlace a Codigo Ionic -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />  
+
+  <title>Obligatorio: Taller de Dispositivos Moviles</title>
 </head>
+
 <body>
-    <ion-app>
-        <ion-router>
-            <ion-route component="page-tabs">
-              <ion-route url="/schedule" component="tab-schedule"></ion-route>
-                <ion-route component="page-schedule"></ion-route>
-                <ion-route url="/session/:sessionId" component="page-session"></ion-route>
-        </ion-router>
-        <ion-nav></ion-nav>
+  <ion-app>
+   
+    <!-- Creo el router de el codigo para acceder a el -->
+    <ion-router>
+      <ion-route url="/" component="tab-schedule"></ion-route>
+      <ion-route url="/Login" component="page-session"></ion-route>
+    </ion-router>
+    <ion-nav></ion-nav><!-- Se le debe adicionar un nav para que se genere -->
 
-        <ion-menu side="start" menu-id="first" content-id="menu" id="menu">
-            <ion-header>
-              <ion-toolbar color="primary">
-                <ion-title>Start Menu</ion-title>
-              </ion-toolbar>
-            </ion-header>
-            <ion-content>
-              <ion-list>
+    <!-- Creo el menu hamburguesa -->
+    <ion-menu side="start" menu-id="first" class="my-custom-menu" content-id="main" id="menu">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Menú Principal</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item>Registro</ion-item>
+          <ion-item>Iniciar Sesión</ion-item>
+          <!-- <ion-item>Menu Item</ion-item>
                 <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item>
-              </ion-list>
-            </ion-content>
-          </ion-menu>
-          <div id="menu">
+                <ion-item>Menu Item</ion-item> -->
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <div id="main"></div> <!-- Se asocia a un div para que genere el menu -->
 
-          </div>
-      
-        <ion-content class="ion-padding">
-          <h1>Main Content</h1>
-        </ion-content>
-      
-        <ion-footer>
-          <ion-toolbar>
-            <ion-title>Footer</ion-title>
-          </ion-toolbar>
-        </ion-footer>
-      </ion-app>
-    
+    <!-- Se crea un ion-page para que se genere el menu -->
+    <ion-page class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Menú Principal</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Main Content</h1>
+        <p>Click the icon in the top left to toggle the menu.</p>
+      </ion-content>
+    </ion-page>
+
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-title size="small">Universidad ORT - Todos los Derechos Reservados - Natalia Didac y Ronald Lima</ion-title>
+      </ion-toolbar>
+    </ion-footer>
+
+  </ion-app>
+
 </body>
+
 </html>
