@@ -51,6 +51,7 @@ function regsitroUsuario(){
     }  
 }
 
+/* Codigo del Toast para carteles emergentes */
 async function handleButtonClick(showError) {
     const toast = await toastController.create({
       color: 'dark',
