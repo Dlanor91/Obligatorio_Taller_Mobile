@@ -64,7 +64,7 @@ async function handleButtonClick(showError) {
     await toast.present();            
 }
 
-/*  */
+/* Codigo del Toast para carteles emergentes - Registro*/
 async function registroCorrecto() {
     const toast = await toastController.create({
       color: 'dark',
