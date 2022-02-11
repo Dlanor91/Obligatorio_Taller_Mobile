@@ -21,6 +21,10 @@
   window.toastController = toastController;
 </script>
 
+<!-- Iconos Ionic -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
   <title>Obligatorio: Taller de Dispositivos Moviles</title>
 </head>
 
@@ -74,15 +78,18 @@
           <ion-input placeholder="Ingrese Usuario" id="userRegister"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Ingrese Contraseña:</ion-label>
-          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswRegister"></ion-input>
-        </ion-item>
-        <ion-button color="secondary" id="btnRegistro">Registrarse</ion-button>
+          <ion-label position="floating">Ingrese Contraseña:</ion-label>         
+          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswRegister">            
+          </ion-input>
+        </ion-item>       
+        <ion-button color="secondary" id="btnRegistro">
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>Registrarse
+        </ion-button>
       </ion-content>
     </ion-page>
 
     <!-- Pagina Login -->
-    <ion-page class="ion-page" id="pLogin"> 
+    <!-- <ion-page class="ion-page" id="pLogin"> 
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -99,7 +106,7 @@
         <h1>Iniciar Sesión</h1>
         <p>Click the icon in the top left to toggle the menu.</p>
       </ion-content>
-    </ion-page>
+    </ion-page> -->
 
 <!-- Footer -->
     <ion-footer>

@@ -40,7 +40,8 @@ function regsitroUsuario(){
             return response.json();
         })
         .then(function (data){ 
-            console.log(data.apiKey);                
+            //console.log(data); 
+            registroCorrecto();               
         })
         .catch(function(Error){
            handleButtonClick(Error); 
@@ -51,7 +52,7 @@ function regsitroUsuario(){
     }  
 }
 
-/* Codigo del Toast para carteles emergentes */
+/* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
     const toast = await toastController.create({
       color: 'dark',
@@ -60,6 +61,19 @@ async function handleButtonClick(showError) {
       showCloseButton: true,
     });
 
-    await toast.present();            }
+    await toast.present();            
+}
+
+/*  */
+async function registroCorrecto() {
+    const toast = await toastController.create({
+      color: 'dark',
+      duration: 2000,
+      message: "Usuario registrado correctamente.",
+      showCloseButton: true,
+    });
+
+    await toast.present();            
+}
 
  
