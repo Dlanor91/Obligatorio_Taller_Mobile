@@ -1,3 +1,6 @@
+/* Menú */
+
+
 /* Funcion Registro */
 document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario);
 
@@ -41,7 +44,8 @@ function regsitroUsuario(){
         })
         .then(function (data){ 
             //console.log(data); 
-            registroCorrecto();               
+            let registroExitoso = "Usuario registrado correctamente.";
+            registroCorrecto(registroExitoso);               
         })
         .catch(function(Error){
            handleButtonClick(Error); 
@@ -56,7 +60,7 @@ function regsitroUsuario(){
 async function handleButtonClick(showError) {
     const toast = await toastController.create({
       color: 'dark',
-      duration: 2000,
+      duration: 3000,
       message: showError.message,
       showCloseButton: true,
     });
@@ -65,11 +69,11 @@ async function handleButtonClick(showError) {
 }
 
 /* Codigo del Toast para carteles emergentes - Registro*/
-async function registroCorrecto() {
+async function registroCorrecto(showFine) {
     const toast = await toastController.create({
       color: 'dark',
-      duration: 2000,
-      message: "Usuario registrado correctamente.",
+      duration: 3000,
+      message: showFine,
       showCloseButton: true,
     });
 
