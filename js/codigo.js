@@ -28,6 +28,8 @@ document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario
 function regsitroUsuario(){
     let userRegister = document.querySelector("#userRegister").value.trim();
     let paswRegister = document.querySelector("#paswRegister").value.trim();
+    document.querySelector("#userRegister").innerHTML = "";
+    document.querySelector("#paswRegister").innerHTML = "";
 
     /* Creo mi arreglo de datos para pasar al sistema */
     let datosIngresados ={
@@ -75,6 +77,62 @@ function regsitroUsuario(){
         handleButtonClick(error);
     }  
 }
+
+/* Funcion Iniciar Sesion */
+
+document.querySelector("#btnLogin").addEventListener("click", loginUsuario);
+
+function loginUsuario(){
+    let userLogin = document.querySelector("#userLogin").value.trim();
+    let paswLogin = document.querySelector("#paswLogin").value.trim();
+    document.querySelector("#userLogin").innerHTML = "";
+    document.querySelector("#paswLogin").innerHTML = "";
+
+     let datosLogin ={
+        "usuario": userLogin, 
+        "password": paswLogin
+    }
+
+    try {
+        if(userLogin===""){
+            throw new Error("Complete el campo de Usuario.");
+        }
+        if(paswLogin===""){
+            throw new Error("Complete el campo de Contraseña.");
+        }
+
+        fetch("https://envios.develotion.com/login.php",
+        {
+            method: "POST",
+            body:JSON.stringify(datosLogin), 
+            headers:{
+                "content-type":"application/json"
+            }
+        })
+        .then(function(response){
+            
+            if(response.status === 409){
+                throw new Error("Usuario y/o contraseña incorrectos.");
+            }
+            if(response.status != 200){
+                throw new Error("Ingrese los datos correctamente.");
+            }
+            return response.json();
+        })
+        .then(function (data){ 
+            console.log(data); 
+            localStorage.setItem("token",data.apiKey);
+        })
+        .catch(function(Error){
+           handleButtonClick(Error); 
+        })
+
+    } catch (error) {        
+        handleButtonClick(error);
+    }  
+    
+}
+
 
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
