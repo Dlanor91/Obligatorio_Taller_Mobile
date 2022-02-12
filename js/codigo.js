@@ -28,8 +28,7 @@ document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario
 function regsitroUsuario(){
     let userRegister = document.querySelector("#userRegister").value.trim();
     let paswRegister = document.querySelector("#paswRegister").value.trim();
-    document.querySelector("#userRegister").innerHTML = "";
-    document.querySelector("#paswRegister").innerHTML = "";
+    
 
     /* Creo mi arreglo de datos para pasar al sistema */
     let datosIngresados ={
@@ -66,6 +65,8 @@ function regsitroUsuario(){
         })
         .then(function (data){ 
             //console.log(data); 
+            document.querySelector("#userRegister").value = "";
+            document.querySelector("#paswRegister").value = "";
             let registroExitoso = "Usuario registrado correctamente.";
             registroCorrecto(registroExitoso);               
         })
@@ -85,8 +86,7 @@ document.querySelector("#btnLogin").addEventListener("click", loginUsuario);
 function loginUsuario(){
     let userLogin = document.querySelector("#userLogin").value.trim();
     let paswLogin = document.querySelector("#paswLogin").value.trim();
-    document.querySelector("#userLogin").innerHTML = "";
-    document.querySelector("#paswLogin").innerHTML = "";
+    
 
      let datosLogin ={
         "usuario": userLogin, 
@@ -121,6 +121,8 @@ function loginUsuario(){
         })
         .then(function (data){ 
             console.log(data); 
+            document.querySelector("#userLogin").value = "";
+            document.querySelector("#paswLogin").value = "";
             localStorage.setItem("token",data.apiKey);
         })
         .catch(function(Error){
