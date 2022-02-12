@@ -2,16 +2,60 @@
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
 
 function navegacionMenu(event){
-    let paginaMenu = document.querySelectorAll(".paginaMenu") /* Aqui se llaman todas las paginas de mi sitio */
+    let paginaMenu = document.querySelectorAll(".paginaMenu"); /* Aqui se llaman todas las paginas de mi sitio */
+    //console.log(event)
     for(i=0;i<paginaMenu.length;i++){
         paginaMenu[i].style.display = "none";
     }
-    if(event.detail.to==="/"){
-        document.querySelector("#pRegistro").style.display = "block";
-    }else if(event.detail.to==="/Login"){
-        document.querySelector("#pLogin").style.display = "block";
+    
+    /* Validacion para Mostrar elementos sin registrar */
+    if(localStorage.length===0){ 
+        /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
+        let elementoMenuNoMostrar = document.querySelectorAll(".usuarioNoRegistrado");  
+        for(i=0;i<elementoMenuNoMostrar.length;i++){
+            elementoMenuNoMostrar[i].style.display = "none";
+        }
+
+        /* Se muestran los enlaces en el menu de las paginas que no se precisa estar registrado */
+        let elementoMenuMostrar = document.querySelectorAll(".usuarioRegistrado");  
+        for(i=0;i<elementoMenuMostrar.length;i++){
+            elementoMenuMostrar[i].style.display = "block";
+        }
+        
+        if(event.detail.to==="/"){
+            document.querySelector("#pRegistro").style.display = "block";
+        }else if(event.detail.to==="/Login"){
+            document.querySelector("#pLogin").style.display = "block";
+        }
     }
 
+    if(localStorage.getItem("token")){
+        /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
+        let elementoMenuNoMostrar = document.querySelectorAll(".usuarioRegistrado");  
+        for(i=0;i<elementoMenuNoMostrar.length;i++){
+            elementoMenuNoMostrar[i].style.display = "none";
+        }
+
+        /* Se muestran los enlaces en el menu de las paginas que no se precisa estar registrado */
+        let elementoMenuMostrar = document.querySelectorAll(".usuarioNoRegistrado");  
+        for(i=0;i<elementoMenuMostrar.length;i++){
+            elementoMenuMostrar[i].style.display = "block";
+        }
+       
+        if(event.detail.to==="/CerrarSesion"){
+            document.querySelector("#pCerrarSesion").style.display = "block";
+        }else if(event.detail.to==="/CalcularEnvios"){
+            document.querySelector("#pCalcularEnvios").style.display = "block";
+        }else if(event.detail.to==="/AgregarEnvios"){
+            document.querySelector("#pAgregarEnvios").style.display = "block";
+        }else if(event.detail.to==="/AccionesEnvios"){
+            document.querySelector("#pAccionesEnvios").style.display = "block";
+        }else if(event.detail.to==="/CiudadCercana"){
+            document.querySelector("#pCiudadCercana").style.display = "block";
+        }else if(event.detail.to==="/Estadisticas"){
+            document.querySelector("#pEstadisticas").style.display = "block";
+        }
+    }
 }
 
 /* Menu cerrar menu */
@@ -21,14 +65,21 @@ function cerrarMenu(){
     menu.close();       //permite cerrar el menu
 }
 
+function cambiarEnlace(){
+    menu.click();       //permite cerrar el menu
+}
+
+function irPagina() {
+    this.navCtrl.push("pR");
+  }
+
 /* Funcion Registro */
 document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario);
 
 
 function regsitroUsuario(){
     let userRegister = document.querySelector("#userRegister").value.trim();
-    let paswRegister = document.querySelector("#paswRegister").value.trim();
-    
+    let paswRegister = document.querySelector("#paswRegister").value.trim();    
 
     /* Creo mi arreglo de datos para pasar al sistema */
     let datosIngresados ={
@@ -85,8 +136,7 @@ document.querySelector("#btnLogin").addEventListener("click", loginUsuario);
 
 function loginUsuario(){
     let userLogin = document.querySelector("#userLogin").value.trim();
-    let paswLogin = document.querySelector("#paswLogin").value.trim();
-    
+    let paswLogin = document.querySelector("#paswLogin").value.trim();    
 
      let datosLogin ={
         "usuario": userLogin, 
@@ -120,16 +170,23 @@ function loginUsuario(){
             return response.json();
         })
         .then(function (data){ 
-            console.log(data); 
+            //console.log(data); 
+            /* Limpio los campos inputs */
             document.querySelector("#userLogin").value = "";
             document.querySelector("#paswLogin").value = "";
-            localStorage.setItem("token",data.apiKey);
+            /* Almaceno el valor del token en una variable */            
+            localStorage.setItem("token",data.apiKey);  
+            /* Oculto el login y muestro una página de estadisticas */
+            document.querySelector("#pLogin").style.display = "none";
+            document.querySelector("#pEstadisticas").style.display = "block";
+           
         })
-        .catch(function(Error){
+        .catch(function(Error){              
            handleButtonClick(Error); 
         })
 
-    } catch (error) {        
+    } catch (error) { 
+          
         handleButtonClick(error);
     }  
     

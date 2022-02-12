@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
 
   <!-- Enlace a Codigo JS -->
   <script src="js/codigo.js" type="text/javascript" defer></script>
@@ -13,28 +13,35 @@
   <!-- Enlace a Codigo Ionic -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
-<!-- Toast para los eventos de Boton -->
-<script type="module">
-  import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
-  window.toastController = toastController;
-</script>
+  <!-- Toast para los eventos de Boton -->
+  <script type="module">
+    import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+    window.toastController = toastController;
+  </script>
 
-<!-- Iconos Ionic -->
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <!-- Iconos Ionic -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
   <title>Obligatorio: Taller de Dispositivos Moviles</title>
 </head>
 
 <body>
   <ion-app>
-   
+
     <!-- Creo el router de el codigo para acceder a él -->
-    <ion-router id="routerMenu"> <!-- Nospermite acceder a los route de menu -->
+    <ion-router id="routerMenu">
+      <!-- Nospermite acceder a los route de menu -->
       <ion-route url="/" component="pRegistro"></ion-route>
       <ion-route url="/Login" component="pLogin"></ion-route>
+      <ion-route url="/CalcularEnvios" component="pCalcularEnvios"></ion-route>
+      <ion-route url="/AgregarEnvios" component="pAgregarEnvios"></ion-route>
+      <ion-route url="/AccionesEnvios" component="pAccionesEnvios"></ion-route>
+      <ion-route url="/Estadisticas" component="pEstadisticas"></ion-route>
+      <ion-route url="/CiudadCercana" component="pCiudadCercana"></ion-route>
+      <ion-route url="/CerrarSesion" component="pCerrarSesion"></ion-route>
     </ion-router>
     <ion-nav></ion-nav><!-- Se le debe adicionar un nav para que se genere -->
 
@@ -47,18 +54,22 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item href="/" onclick="cerrarMenu()">Registro</ion-item>
-          <ion-item href="/Login" onclick="cerrarMenu()"> Iniciar Sesión</ion-item>
-          <!-- <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item>
-                <ion-item>Menu Item</ion-item> -->
+          <ion-item href="/" onclick="cerrarMenu()" class="usuarioRegistrado">Registro</ion-item>
+          <ion-item href="/Login" onclick="cerrarMenu()" class="usuarioRegistrado"> Iniciar Sesión</ion-item>
+          <ion-item href="/CalcularEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Calcular Envíos</ion-item>
+          <ion-item href="/AgregarEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Agregar Envíos</ion-item>
+          <ion-item href="/AccionesEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Listar Envíos</ion-item>
+          <ion-item href="/Estadisticas" onclick="cerrarMenu()" class="usuarioNoRegistrado" id="pR"> Estadísticas</ion-item>
+          <ion-item href="/CiudadCercana" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Ciudad más Cercana</ion-item>
+          <ion-item href="/CerrarSesion" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Cerrar Sesión</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
     <div id="main"></div> <!-- Se asocia a un div para que genere el menu -->
 
     <!-- Pagina Registro -->
-    <ion-page class="ion-page paginaMenu" id="pRegistro"> <!-- Se crea un ion-page para que se genere el menu -->
+    <ion-page class="ion-page paginaMenu" id="pRegistro">
+      <!-- Se crea un ion-page para que se genere el menu -->
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -77,10 +88,10 @@
           <ion-input placeholder="Ingrese Usuario" id="userRegister"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Ingrese Contraseña:</ion-label>         
-          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswRegister">            
+          <ion-label position="floating">Ingrese Contraseña:</ion-label>
+          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswRegister">
           </ion-input>
-        </ion-item>       
+        </ion-item>
         <ion-button color="secondary" id="btnRegistro">
           <ion-icon name="person-add-outline" slot="start"></ion-icon>Registrarse
         </ion-button>
@@ -88,7 +99,7 @@
     </ion-page>
 
     <!-- Pagina Login -->
-    <ion-page class="ion-page paginaMenu" id="pLogin"> 
+    <ion-page class="ion-page paginaMenu" id="pLogin">
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -107,20 +118,145 @@
           <ion-input placeholder="Ingrese Usuario" id="userLogin"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Ingrese Contraseña:</ion-label>         
-          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswLogin">            
+          <ion-label position="floating">Ingrese Contraseña:</ion-label>
+          <ion-input placeholder="Ingrese Contraseña" type="password" id="paswLogin">
           </ion-input>
-        </ion-item>       
+        </ion-item>
         <ion-button color="secondary" id="btnLogin">
           <ion-icon name="log-in-outline"></ion-icon>Iniciar Sesion
         </ion-button>
       </ion-content>
     </ion-page>
 
-<!-- Footer -->
+    <!-- Pagina Calcular Envios -->
+    <ion-page class="ion-page paginaMenu" id="pCalcularEnvios">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Calcular Envíos</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Ciudad</ion-label>
+          <ion-select interface="popover">
+            <ion-select-option value="nes">NES</ion-select-option>            
+          </ion-select>
+        </ion-item>
+      </ion-content>
+    </ion-page>
+
+     <!-- Pagina Agregar Envios -->
+     <ion-page class="ion-page paginaMenu" id="pAgregarEnvios">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Agregar Envíos</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Agregar Envíos</h1>
+        <p>Función 4 del Obligatorio</p>
+      </ion-content>
+    </ion-page>
+
+    <!-- Pagina Listar, Detalle y Compartir Envios -->
+    <ion-page class="ion-page paginaMenu" id="pAccionesEnvios">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Listar Envíos </ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Listar Envíos</h1>
+        <p>Funciones 5,6 y 7 del Obligatorio</p>
+      </ion-content>
+    </ion-page>
+
+    <!-- Pagina Estadisticas -->
+    <ion-page class="ion-page paginaMenu" id="pEstadisticas">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Estadísticas</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Estadisticas</h1>
+        <p>Funciones 8 y 9 del Obligatorio</p>
+      </ion-content>
+    </ion-page>
+
+    <!-- Pagina Ciudad más Cercana-->
+    <ion-page class="ion-page paginaMenu" id="pCiudadCercana">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Ciudad más Cercana</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Ciudad más Cercana</h1>
+        <p>Función 10 del Obligatorio</p>
+      </ion-content>
+    </ion-page>
+
+    <!-- Pagina Cerrar Sesion -->
+    <ion-page class="ion-page paginaMenu" id="pCerrarSesion">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Cerrar Sesion</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Cerrar Sesion</h1>
+        <p>Función 11 del Obligatorio</p>
+      </ion-content>
+    </ion-page>
+
+    <!-- Footer -->
     <ion-footer>
       <ion-toolbar>
-        <ion-title size="small">Universidad ORT - Todos los Derechos Reservados - Natalia Didac y Ronald Lima</ion-title>
+        <ion-title size="small">Universidad ORT - Todos los Derechos Reservados 2022- Natalia Didac y Ronald Lima
+        </ion-title>
       </ion-toolbar>
     </ion-footer>
 
