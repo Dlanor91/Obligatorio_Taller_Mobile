@@ -32,7 +32,7 @@
   <ion-app>
    
     <!-- Creo el router de el codigo para acceder a él -->
-    <ion-router id="routerMenu"> 
+    <ion-router id="routerMenu"> <!-- Nospermite acceder a los route de menu -->
       <ion-route url="/" component="pRegistro"></ion-route>
       <ion-route url="/Login" component="pLogin"></ion-route>
     </ion-router>
@@ -47,8 +47,8 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item href="/">Registro</ion-item>
-          <ion-item href="/Login">Iniciar Sesión</ion-item>
+          <ion-item href="/" onclick="cerrarMenu()">Registro</ion-item>
+          <ion-item href="/Login" onclick="cerrarMenu()"> Iniciar Sesión</ion-item>
           <!-- <ion-item>Menu Item</ion-item>
                 <ion-item>Menu Item</ion-item>
                 <ion-item>Menu Item</ion-item> -->
@@ -58,7 +58,7 @@
     <div id="main"></div> <!-- Se asocia a un div para que genere el menu -->
 
     <!-- Pagina Registro -->
-    <ion-page class="ion-page" id="pRegistro"> <!-- Se crea un ion-page para que se genere el menu -->
+    <ion-page class="ion-page paginaMenu" id="pRegistro"> <!-- Se crea un ion-page para que se genere el menu -->
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -89,7 +89,7 @@
     </ion-page>
 
     <!-- Pagina Login -->
-    <!-- <ion-page class="ion-page" id="pLogin"> 
+    <ion-page class="ion-page paginaMenu" id="pLogin"> 
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -104,9 +104,9 @@
       </ion-header>
       <ion-content class="ion-padding">
         <h1>Iniciar Sesión</h1>
-        <p>Click the icon in the top left to toggle the menu.</p>
+        
       </ion-content>
-    </ion-page> -->
+    </ion-page>
 
 <!-- Footer -->
     <ion-footer>

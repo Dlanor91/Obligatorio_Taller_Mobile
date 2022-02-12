@@ -1,5 +1,25 @@
-/* Menú */
+/* Menú Cambiar de Pestannas*/
+document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
 
+function navegacionMenu(event){
+    let paginaMenu = document.querySelectorAll(".paginaMenu") /* Aqui se llaman todas las paginas de mi sitio */
+    for(i=0;i<paginaMenu.length;i++){
+        paginaMenu[i].style.display = "none";
+    }
+    if(event.detail.to==="/"){
+        document.querySelector("#pRegistro").style.display = "block";
+    }else if(event.detail.to==="/Login"){
+        document.querySelector("#pLogin").style.display = "block";
+    }
+
+}
+
+/* Menu cerrar menu */
+let menu = document.querySelector("#menu");
+
+function cerrarMenu(){
+    menu.close();       //permite cerrar el menu
+}
 
 /* Funcion Registro */
 document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario);
