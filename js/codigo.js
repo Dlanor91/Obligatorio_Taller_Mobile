@@ -43,10 +43,9 @@ function navegacionMenu(event){
         }
        
        if(event.detail.to==="/CalcularEnvios"){
-            document.querySelector("#pCalcularEnvios").style.display = "block";
-            mostrarCiudad();/* Muestro las ciudades */
+            document.querySelector("#pCalcularEnvios").style.display = "block";                      
         }else if(event.detail.to==="/AgregarEnvios"){
-            document.querySelector("#pAgregarEnvios").style.display = "block";
+            document.querySelector("#pAgregarEnvios").style.display = "block";                      
         }else if(event.detail.to==="/AccionesEnvios"){
             document.querySelector("#pAccionesEnvios").style.display = "block";
         }else if(event.detail.to==="/Estadisticas"){
@@ -194,7 +193,7 @@ function loginUsuario(){
 }
 
 /* Api Ciudad */
-
+mostrarCiudad();/* Muestro las ciudades */ 
 function mostrarCiudad() {
 
     fetch("https://envios.develotion.com/ciudades.php",
@@ -210,8 +209,36 @@ function mostrarCiudad() {
     .then(function(data){
         //console.log(data)        
         data.ciudades.forEach(function(element){
-            document.querySelector("#mostrarCiudadOrigen").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
-            document.querySelector("#mostrarCiudadDestino").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            document.querySelector("#mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            document.querySelector("#mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            document.querySelector("#mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            document.querySelector("#mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+        });       
+    })
+    .catch(function(error){
+        handleButtonClick(error); 
+    })
+    
+}
+
+/* Api Electrodomesticos */
+mostrarElectrodomesticos();/* Muestro las ciudades */ 
+function mostrarElectrodomesticos() {
+
+    fetch("https://envios.develotion.com/categorias.php",
+    {
+        headers:{
+            apiKey:localStorage.getItem("token")
+        }
+
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        //console.log(data)        
+        data.categorias.forEach(function(element){
+            document.querySelector("#mostrarElectrodomesticos").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
         });       
     })
     .catch(function(error){
