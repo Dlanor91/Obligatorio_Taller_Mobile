@@ -42,18 +42,19 @@ function navegacionMenu(event){
             elementoMenuMostrar[i].style.display = "block";
         }
        
-        if(event.detail.to==="/CerrarSesion"){
-            document.querySelector("#pCerrarSesion").style.display = "block";
-        }else if(event.detail.to==="/CalcularEnvios"){
+       if(event.detail.to==="/CalcularEnvios"){
             document.querySelector("#pCalcularEnvios").style.display = "block";
+            mostrarCiudad();/* Muestro las ciudades */
         }else if(event.detail.to==="/AgregarEnvios"){
             document.querySelector("#pAgregarEnvios").style.display = "block";
         }else if(event.detail.to==="/AccionesEnvios"){
             document.querySelector("#pAccionesEnvios").style.display = "block";
-        }else if(event.detail.to==="/CiudadCercana"){
-            document.querySelector("#pCiudadCercana").style.display = "block";
         }else if(event.detail.to==="/Estadisticas"){
             document.querySelector("#pEstadisticas").style.display = "block";
+        }else if(event.detail.to==="/CiudadCercana"){
+            document.querySelector("#pCiudadCercana").style.display = "block";
+        } else if(event.detail.to==="/CerrarSesion"){
+            document.querySelector("#pCerrarSesion").style.display = "block";
         }
     }
 }
@@ -192,6 +193,32 @@ function loginUsuario(){
     
 }
 
+/* Api Ciudad */
+
+function mostrarCiudad() {
+
+    fetch("https://envios.develotion.com/ciudades.php",
+    {
+        headers:{
+            apiKey:localStorage.getItem("token")
+        }
+
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        //console.log(data)        
+        data.ciudades.forEach(function(element){
+            document.querySelector("#mostrarCiudadOrigen").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            document.querySelector("#mostrarCiudadDestino").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+        });       
+    })
+    .catch(function(error){
+        handleButtonClick(error); 
+    })
+    
+}
 
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {

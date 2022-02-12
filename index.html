@@ -56,11 +56,14 @@
         <ion-list>
           <ion-item href="/" onclick="cerrarMenu()" class="usuarioRegistrado">Registro</ion-item>
           <ion-item href="/Login" onclick="cerrarMenu()" class="usuarioRegistrado"> Iniciar Sesión</ion-item>
-          <ion-item href="/CalcularEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Calcular Envíos</ion-item>
+          <ion-item href="/CalcularEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Calcular Envíos
+          </ion-item>
           <ion-item href="/AgregarEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Agregar Envíos</ion-item>
           <ion-item href="/AccionesEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Listar Envíos</ion-item>
-          <ion-item href="/Estadisticas" onclick="cerrarMenu()" class="usuarioNoRegistrado" id="pR"> Estadísticas</ion-item>
-          <ion-item href="/CiudadCercana" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Ciudad más Cercana</ion-item>
+          <ion-item href="/Estadisticas" onclick="cerrarMenu()" class="usuarioNoRegistrado" id="pR"> Estadísticas
+          </ion-item>
+          <ion-item href="/CiudadCercana" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Ciudad más Cercana
+          </ion-item>
           <ion-item href="/CerrarSesion" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Cerrar Sesión</ion-item>
         </ion-list>
       </ion-content>
@@ -143,17 +146,27 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-item>
-          <ion-label>Ciudad</ion-label>
-          <ion-select interface="popover">
-            <ion-select-option value="nes">NES</ion-select-option>            
-          </ion-select>
-        </ion-item>
+        <!-- Ciudad Origen -->
+        <ion-list>
+          <ion-item>
+            <ion-label>Ciudad Origen</ion-label>
+            <ion-select id="mostrarCiudadOrigen">
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <!-- Ciudad Destino -->
+        <ion-list>
+          <ion-item>
+            <ion-label>Ciudad Destino</ion-label>
+            <ion-select id="mostrarCiudadDestino">
+            </ion-select>
+          </ion-item>
+        </ion-list>
       </ion-content>
     </ion-page>
 
-     <!-- Pagina Agregar Envios -->
-     <ion-page class="ion-page paginaMenu" id="pAgregarEnvios">
+    <!-- Pagina Agregar Envios -->
+    <ion-page class="ion-page paginaMenu" id="pAgregarEnvios">
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
