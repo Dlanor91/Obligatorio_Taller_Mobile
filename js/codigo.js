@@ -309,48 +309,7 @@ function mostrarEnvio() {
 
 }
 
-/* Api Detalles de Envio */
-/* mostrarDetalle();*/
-function mostrarDetalle() {
-    let idDeUsuario = localStorage.getItem("id")
-    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
-    {
-        headers: {
-            apiKey: localStorage.getItem("token")
-        }
-    })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            data.envios.forEach(function (element) {
-                document.querySelector("#pListaEnvios").innerHTML += `
-                    <ion-list>
-                        <ion-item>
-                            <ion-label>${element.idCiudadOrigen}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.idCiudadDestino}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.peso}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.distancia}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.precio}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.idCategoria}</ion-label>
-                        </ion-item>
-                    </ion-list>
-                
-            `
-            })
-        })
 
-}
 
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
