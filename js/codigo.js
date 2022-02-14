@@ -44,8 +44,11 @@ function navegacionMenu(event) {
 
         if (event.detail.to === "/CalcularEnvios") {
             document.querySelector("#pCalcularEnvios").style.display = "block";
+            mostrarCiudad();/* Muestro las ciudades */
         } else if (event.detail.to === "/AgregarEnvios") {
             document.querySelector("#pAgregarEnvios").style.display = "block";
+            mostrarCiudad();/* Muestro las ciudades */
+            mostrarElectrodomesticos();/* Muestro las electrodomesticos */
         } else if (event.detail.to === "/AccionesEnvios") {
             document.querySelector("#pAccionesEnvios").style.display = "block";
             mostrarEnvio();
@@ -133,7 +136,7 @@ function regsitroUsuario() {
 
 /* Funcion Iniciar Sesion */
 
-let idDeUsuario = 0; 
+
 document.querySelector("#btnLogin").addEventListener("click", loginUsuario);
 
 function loginUsuario() {
@@ -176,10 +179,10 @@ function loginUsuario() {
                 /* Limpio los campos inputs */
                 document.querySelector("#userLogin").value = "";
                 document.querySelector("#paswLogin").value = "";
-                idDeUsuario = data.id;
-                console.log(idDeUsuario); 
                 /* Almaceno el valor del token en una variable */
                 localStorage.setItem("token", data.apiKey);
+                /* Almacenamos el ID en el local storage */
+                localStorage.setItem("id",data.id)
                 /* Oculto el login y muestro una página de estadisticas */
                 document.querySelector("#pLogin").style.display = "none";
                 document.querySelector("#pEstadisticas").style.display = "block";
@@ -193,11 +196,12 @@ function loginUsuario() {
 
         handleButtonClick(error);
     }
-
 }
+    /* Capturo ID del Usuario Registrado */
+    
 
 /* Api Ciudad */
-mostrarCiudad();/* Muestro las ciudades */
+
 function mostrarCiudad() {
 
     fetch("https://envios.develotion.com/ciudades.php",
@@ -226,7 +230,7 @@ function mostrarCiudad() {
 }
 
 /* Api Electrodomesticos */
-mostrarElectrodomesticos();/* Muestro las ciudades */
+
 function mostrarElectrodomesticos() {
 
     fetch("https://envios.develotion.com/categorias.php",
@@ -254,6 +258,7 @@ function mostrarElectrodomesticos() {
 /* Api Listar Envios */
  
 function mostrarEnvio() {
+    let idDeUsuario = localStorage.getItem("id")
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
     {
         headers: {
@@ -261,9 +266,13 @@ function mostrarEnvio() {
         }
     })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Datos mal Ingresado")
+            }
             return response.json();
         })
         .then(function (data) {
+            
             console.log(data)
             /* data.envios.forEach(function (element) {
                 
@@ -298,6 +307,7 @@ function mostrarEnvio() {
 /* Api Detalles de Envio */
 /* mostrarDetalle();*/
 function mostrarDetalle() {
+    let idDeUsuario = localStorage.getItem("id")
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
     {
         headers: {
