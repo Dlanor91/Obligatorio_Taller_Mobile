@@ -49,8 +49,8 @@ function navegacionMenu(event) {
             document.querySelector("#pAgregarEnvios").style.display = "block";
             mostrarCiudad();/* Muestro las ciudades */
             mostrarElectrodomesticos();/* Muestro las electrodomesticos */
-        } else if (event.detail.to === "/AccionesEnvios") {
-            document.querySelector("#pAccionesEnvios").style.display = "block";
+        } else if (event.detail.to === "/Envios") {
+            document.querySelector("#pEnvios").style.display = "block";
             mostrarEnvio();
         } else if (event.detail.to === "/Estadisticas") {
             document.querySelector("#pEstadisticas").style.display = "block";
@@ -258,7 +258,8 @@ function mostrarElectrodomesticos() {
 /* Api Listar Envios */
  
 function mostrarEnvio() {
-    let idDeUsuario = localStorage.getItem("id")
+    let idDeUsuario = localStorage.getItem("id");
+    document.querySelector("#pListarEnvios").innerHTML = "";
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
     {
         headers: {
@@ -272,31 +273,35 @@ function mostrarEnvio() {
             return response.json();
         })
         .then(function (data) {
+            if (data.envios.length === 0) {
+                document.querySelector("#pListarEnvios").innerHTML = "Usted no tiene ningun envio realizado.";
+            }else{
+                data.envios.forEach(function (element) {
+                
+                    document.querySelector("#pListarEnvios").innerHTML += `
+                        <ion-list>
+                        <ion-item>
+                            <ion-label>${element.ciudad_origen}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>${element.ciudad_destino}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>${element.distancia}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>${element.precio}</ion-label>
+                        </ion-item>
+                        <ion-button color="secondary" id="btnDetalleEnvio">
+                                Detalle
+                        </ion-button>
+                        </ion-list>
+                    
+                `
+                })
+            }
+           
             
-            console.log(data)
-            /* data.envios.forEach(function (element) {
-                
-                document.querySelector("#pListarEnvios").innerHTML += `
-                    <ion-list>
-                    <ion-item>
-                        <ion-label>${element.idCiudadOrigen}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>${element.idCiudadDestino}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>${element.distancia}</ion-label>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>${element.precio}</ion-label>
-                    </ion-item>
-                    <ion-button color="secondary" id="btnDetalleEnvio">
-                            Detalle
-                    </ion-button>
-                    </ion-list>
-                
-            `
-            }) */
         })
         .catch(function (error) {
             handleButtonClick(error);
@@ -308,7 +313,7 @@ function mostrarEnvio() {
 /* mostrarDetalle();*/
 function mostrarDetalle() {
     let idDeUsuario = localStorage.getItem("id")
-    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
     {
         headers: {
             apiKey: localStorage.getItem("token")

@@ -38,7 +38,7 @@
       <ion-route url="/Login" component="pLogin"></ion-route>
       <ion-route url="/CalcularEnvios" component="pCalcularEnvios"></ion-route>
       <ion-route url="/AgregarEnvios" component="pAgregarEnvios"></ion-route>
-      <ion-route url="/AccionesEnvios" component="pAccionesEnvios"></ion-route>
+      <ion-route url="/Envios" component="pEnvios"></ion-route>
       <ion-route url="/Estadisticas" component="pEstadisticas"></ion-route>
       <ion-route url="/CiudadCercana" component="pCiudadCercana"></ion-route>
       <ion-route url="/CerrarSesion" component="pCerrarSesion"></ion-route>
@@ -55,16 +55,16 @@
       <ion-content>
         <ion-list>
           <ion-item href="/" onclick="cerrarMenu()" class="usuarioRegistrado">Registro</ion-item>
-          <ion-item href="/Login" onclick="cerrarMenu()" class="usuarioRegistrado"> Iniciar Sesión</ion-item>
-          <ion-item href="/CalcularEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Calcular Envíos
+          <ion-item href="/Login" onclick="cerrarMenu()" class="usuarioRegistrado">Iniciar Sesión</ion-item>
+          <ion-item href="/CalcularEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado">Calcular Envíos
           </ion-item>
-          <ion-item href="/AgregarEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Agregar Envíos</ion-item>
-          <ion-item href="/AccionesEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Listar Envíos</ion-item>
-          <ion-item href="/Estadisticas" onclick="cerrarMenu()" class="usuarioNoRegistrado" id="pR"> Estadísticas
+          <ion-item href="/AgregarEnvios" onclick="cerrarMenu()" class="usuarioNoRegistrado">Agregar Envíos</ion-item>
+          <ion-item href="/Envios" onclick="cerrarMenu()" class="usuarioNoRegistrado">Envíos</ion-item>
+          <ion-item href="/Estadisticas" onclick="cerrarMenu()" class="usuarioNoRegistrado" id="pR">Estadísticas
           </ion-item>
-          <ion-item href="/CiudadCercana" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Ciudad más Cercana
+          <ion-item href="/CiudadCercana" onclick="cerrarMenu()" class="usuarioNoRegistrado">Ciudad más Cercana
           </ion-item>
-          <ion-item href="/CerrarSesion" onclick="cerrarMenu()" class="usuarioNoRegistrado"> Cerrar Sesión</ion-item>
+          <ion-item href="/CerrarSesion" onclick="cerrarMenu()" class="usuarioNoRegistrado">Cerrar Sesión</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
@@ -220,7 +220,7 @@
     
 
     <!-- Pagina Listar, Detalle y Compartir Envios -->
-    <ion-page class="ion-page paginaMenu" id="pAccionesEnvios">
+    <ion-page class="ion-page paginaMenu" id="pEnvios">
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -230,13 +230,12 @@
               </ion-button>
             </ion-menu-toggle>
           </ion-buttons>
-          <ion-title>Listar Envíos </ion-title>
+          <ion-title>Envíos </ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        <h1>Listar Envíos</h1>
-        <p>Funciones 5,6 y 7 del Obligatorio</p>
-        <div id="pListarEnvios"></div>
+      <ion-content class="ion-padding" id="pListarEnvios">
+    
+        
       </ion-content>
     </ion-page>
 
