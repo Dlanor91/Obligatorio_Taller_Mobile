@@ -145,28 +145,45 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <!-- Ciudad Origen -->
+        <!-- Departamento Origen -->
         <ion-list>
           <ion-item>
+            <ion-label>Departamento Origen</ion-label>
+            <ion-select class="mostrarDepartamentoOrigenCE">
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <!-- Ciudad Origen -->
+        <ion-list class="bloqueCiudadOrigenCE">
+          <ion-item>
             <ion-label>Ciudad Origen</ion-label>
-            <ion-select id="mostrarCiudadOrigenCE">
+            <ion-select class="mostrarCiudadOrigenCE">
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <!-- Departamento Destino -->
+        <ion-list>
+          <ion-item>
+            <ion-label>Departamento Destino</ion-label>
+            <ion-select class="mostrarDepartamentoDestinoCE">
             </ion-select>
           </ion-item>
         </ion-list>
         <!-- Ciudad Destino -->
-        <ion-list>
+        <ion-list class="bloqueCiudadDestinoCE">
           <ion-item>
             <ion-label>Ciudad Destino</ion-label>
-            <ion-select id="mostrarCiudadDestinoCE">
+            <ion-select class="mostrarCiudadDestinoCE">
             </ion-select>
           </ion-item>
         </ion-list>
+
         <ion-button color="medium" id="btnLogin">
           <ion-icon name="calculator-outline"></ion-icon>Calcular Envío
         </ion-button>
       </ion-content>
     </ion-page>
-
+      
     <!-- Pagina Agregar Envios -->
     <ion-page class="ion-page paginaMenu" id="pAgregarEnvios">
       <ion-header>
@@ -182,31 +199,48 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-
-        <!-- Ciudad Origen -->
+        <!-- Departamento Origen -->
         <ion-list>
           <ion-item>
+            <ion-label>Departamento Origen</ion-label>
+            <ion-select class="mostrarDepartamentoOrigenAE">
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <!-- Ciudad Origen -->
+        <ion-list class="bloqueCiudadOrigenAE">
+          <ion-item>
             <ion-label>Ciudad Origen</ion-label>
-            <ion-select id="mostrarCiudadOrigenAE">
+            <ion-select class="mostrarCiudadOrigenAE">
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        <!-- Departamento Destino -->
+        <ion-list>
+          <ion-item>
+            <ion-label>Departamento Destino</ion-label>
+            <ion-select class="mostrarDepartamentoDestinoAE">
             </ion-select>
           </ion-item>
         </ion-list>
         <!-- Ciudad Destino -->
-        <ion-list>
+        <ion-list class="bloqueCiudadDestinoAE">
           <ion-item>
             <ion-label>Ciudad Destino</ion-label>
-            <ion-select id="mostrarCiudadDestinoAE">
+            <ion-select class="mostrarCiudadDestinoAE">
             </ion-select>
           </ion-item>
         </ion-list>
-         <!-- Categoria del Paquete -->
-         <ion-list>
+
+        <!-- Agregar Envio -->
+        <ion-list>
           <ion-item>
             <ion-label>Categorias Disponibles</ion-label>
             <ion-select id="mostrarElectrodomesticos">
             </ion-select>
           </ion-item>
         </ion-list>
+        <!-- Peso -->
         <ion-item>
           <ion-label>Peso (kg)</ion-label>
           <ion-input placeholder="Peso (kg)" type="number" class="ion-text-right"></ion-input>
@@ -216,7 +250,7 @@
         </ion-button>
       </ion-content>
     </ion-page>
-    
+
 
     <!-- Pagina Listar, Detalle y Compartir Envios -->
     <ion-page class="ion-page paginaMenu" id="pEnvios">
@@ -233,8 +267,8 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding" id="pListarEnvios">
-    
-        
+
+
       </ion-content>
     </ion-page>
 
@@ -279,7 +313,7 @@
     </ion-page>
 
 
-<!--    Pagina de Detalles Envios
+    <!--    Pagina de Detalles Envios
    <ion-page class="ion-page paginaMenu" id="pDetalleEnvios">
     <ion-header>
         <ion-toolbar>
@@ -315,7 +349,7 @@
       <ion-content class="ion-padding">
         <h1>Cerrar Sesion</h1>
         <p>Función 11 del Obligatorio</p>
-        
+
       </ion-content>
     </ion-page>
 

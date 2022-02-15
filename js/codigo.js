@@ -41,16 +41,23 @@ function navegacionMenu(event) {
         for (i = 0; i < elementoMenuMostrar.length; i++) {
             elementoMenuMostrar[i].style.display = "block";
         }
-
         if (event.detail.to === "/CalcularEnvios") {
             document.querySelector("#pCalcularEnvios").style.display = "block";
-            mostrarCiudad();/* Muestro las ciudades */
+            document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
+            document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";   
+            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;
+            mostrarDepartamentos();           
         } else if (event.detail.to === "/AgregarEnvios") {
-            document.querySelector("#pAgregarEnvios").style.display = "block";
-            mostrarCiudad();/* Muestro las ciudades */
-            mostrarElectrodomesticos();/* Muestro las electrodomesticos */
+            document.querySelector("#pAgregarEnvios").style.display = "block"; 
+            document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
+            document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
+            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";
+            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ;
+            mostrarDepartamentos();          
+            mostrarElectrodomesticos() ;/* Muestro las electrodomesticos */
         } else if (event.detail.to === "/Envios") {
-            document.querySelector("#pEnvios").style.display = "block";
+            document.querySelector("#pEnvios").style.display = "block";                               
             mostrarEnvio();
         } else if (event.detail.to === "/Estadisticas") {
             document.querySelector("#pEstadisticas").style.display = "block";
@@ -135,8 +142,6 @@ function regsitroUsuario() {
 }
 
 /* Funcion Iniciar Sesion */
-
-
 document.querySelector("#btnLogin").addEventListener("click", loginUsuario);
 
 function loginUsuario() {
@@ -197,14 +202,11 @@ function loginUsuario() {
         handleButtonClick(error);
     }
 }
-    /* Capturo ID del Usuario Registrado */
+
+/* Api Departamentos */
+function mostrarDepartamentos(){
     
-
-/* Api Ciudad */
-
-function mostrarCiudad() {
-
-    fetch("https://envios.develotion.com/ciudades.php",
+    fetch("https://envios.develotion.com/departamentos.php",
         {
             headers: {
                 apiKey: localStorage.getItem("token")
@@ -216,17 +218,142 @@ function mostrarCiudad() {
         })
         .then(function (data) {
             //console.log(data)        
-            data.ciudades.forEach(function (element) {
-                document.querySelector("#mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
-                document.querySelector("#mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
-                document.querySelector("#mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
-                document.querySelector("#mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.id_departamento}">${element.nombre}</ion-select-option>`
+            data.departamentos.forEach(function (element) {
+                document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
+           
         })
         .catch(function (error) {
             handleButtonClick(error);
         })
 
+}
+
+/* Api Ciudad Origen Calcular Envios*/
+
+document.querySelector(".mostrarDepartamentoOrigenCE").addEventListener("ionChange", mostrarCiudadPorDepartamentosOrigenCE)
+
+function mostrarCiudadPorDepartamentosOrigenCE() {
+    
+    document.querySelector(".bloqueCiudadOrigenCE").style.display = "block";
+    document.querySelector(".mostrarCiudadOrigenCE").value="";
+    document.querySelector(".mostrarCiudadOrigenCE").innerHTML=""; 
+    
+    let departamentoOrigenCE = document.querySelector(".mostrarDepartamentoOrigenCE").value;    
+
+    fetch(`https://envios.develotion.com/ciudades.php?idDepartamento=${departamentoOrigenCE}`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data)        
+            data.ciudades.forEach(function (element) {
+                document.querySelector(".mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+            });
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Ciudad Destino Calcular Envios*/
+
+document.querySelector(".mostrarDepartamentoDestinoCE").addEventListener("ionChange", mostrarCiudadPorDepartamentosDestinoCE)
+
+function mostrarCiudadPorDepartamentosDestinoCE() {
+    
+    document.querySelector(".bloqueCiudadDestinoCE").style.display = "block";
+    document.querySelector(".mostrarCiudadDestinoCE").value="";
+    document.querySelector(".mostrarCiudadDestinoCE").innerHTML="";
+    let departamentoDestinoCE = document.querySelector(".mostrarDepartamentoDestinoCE").value;
+    fetch(`https://envios.develotion.com/ciudades.php?idDepartamento=${departamentoDestinoCE}`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data)        
+            data.ciudades.forEach(function (element) {
+                document.querySelector(".mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+            });
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Ciudad Origen Calcular Envios*/
+
+document.querySelector(".mostrarDepartamentoOrigenAE").addEventListener("ionChange", mostrarCiudadPorDepartamentosOrigenAE)
+
+function mostrarCiudadPorDepartamentosOrigenAE() {
+    
+    document.querySelector(".bloqueCiudadOrigenAE").style.display = "block";
+    document.querySelector(".mostrarCiudadOrigenAE").value="";
+    document.querySelector(".mostrarCiudadOrigenAE").innerHTML=""; 
+    
+    let departamentoOrigenAE = document.querySelector(".mostrarDepartamentoOrigenAE").value;    
+
+    fetch(`https://envios.develotion.com/ciudades.php?idDepartamento=${departamentoOrigenAE}`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data)        
+            data.ciudades.forEach(function (element) {
+                document.querySelector(".mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+            });
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Ciudad Destino Calcular Envios*/
+
+document.querySelector(".mostrarDepartamentoDestinoAE").addEventListener("ionChange", mostrarCiudadPorDepartamentosDestinoAE)
+
+function mostrarCiudadPorDepartamentosDestinoAE() {
+    
+    document.querySelector(".bloqueCiudadDestinoAE").style.display = "block";
+    document.querySelector(".mostrarCiudadDestinoAE").value="";
+    document.querySelector(".mostrarCiudadDestinoAE").innerHTML="";
+    let departamentoDestinoAE = document.querySelector(".mostrarDepartamentoDestinoAE").value;
+    fetch(`https://envios.develotion.com/ciudades.php?idDepartamento=${departamentoDestinoAE}`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data)        
+            data.ciudades.forEach(function (element) {
+                document.querySelector(".mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+            });
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
 }
 
 /* Api Electrodomesticos */
@@ -295,21 +422,16 @@ function mostrarEnvio() {
                         <ion-button color="secondary" id="btnDetalleEnvio">
                                 Detalle
                         </ion-button>
-                        </ion-list>
-                    
+                        </ion-list>                    
                 `
                 })
-            }
-           
-            
+            }           
         })
         .catch(function (error) {
             handleButtonClick(error);
         })
 
 }
-
-
 
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
