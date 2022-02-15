@@ -44,7 +44,7 @@ function navegacionMenu(event) {
         if (event.detail.to === "/CalcularEnvios") {
             document.querySelector("#pCalcularEnvios").style.display = "block";
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
-            document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";   
+            document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";
             document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;
             mostrarDepartamentos();           
