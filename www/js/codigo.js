@@ -86,7 +86,7 @@ function navegacionMenu(event) {
         } else if (paginaActiva === "/CerrarSesion") {
 
             localStorage.clear(); //elimina todos las claves del localStorage 
-            route.push("/Login")           
+            route.push("/Login")   /* Envia a pagina de Login */        
         }
     }
 }
@@ -217,6 +217,27 @@ function loginUsuario() {
     } catch (error) {
 
         handleButtonClick(error);
+    }
+}
+
+/* Function Calcular Envios */
+document.querySelector("#btnCalcularEnvios").addEventListener("click", calcularEnvios)
+
+function calcularEnvios(){
+    let ciudadOrigen = document.querySelector(".mostrarCiudadOrigenCE").value;    
+    let ciudadDestino = document.querySelector(".mostrarCiudadDestinoCE").value;
+
+    try {
+        if (ciudadOrigen === "") {
+            throw new Error("Seleccione una Ciudad Origen.");
+        }
+        if (ciudadDestino === "") {
+            throw new Error("Seleccione una Ciudad Destino.");
+        }
+        fetch()
+
+    } catch (Error) {
+        handleButtonClick(Error);
     }
 }
 
@@ -419,7 +440,7 @@ function mostrarEnvio() {
         })
         .then(function (data) {
             if (data.envios.length === 0) {
-                document.querySelector("#pListarEnvios").innerHTML = "Usted no tiene ningun envio realizado.";
+                document.querySelector("#pListarEnvios").innerHTML = "Usted no tiene ningún envío realizado.";
             }else{
                 data.envios.forEach(function (element) {
                 
@@ -437,7 +458,7 @@ function mostrarEnvio() {
                         <ion-item>
                             <ion-label>${element.precio}</ion-label>
                         </ion-item>
-                        <ion-button color="secondary" id="btnDetalleEnvio">
+                        <ion-button color="medium" id="btnDetalleEnvio">
                                 Detalle
                         </ion-button>
                         </ion-list>                    
