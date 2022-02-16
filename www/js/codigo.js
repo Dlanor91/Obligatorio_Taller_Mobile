@@ -35,6 +35,7 @@ function navegacionMenu(event) {
     }
 
     if (localStorage.getItem("token")) {
+
         /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
         let elementoMenuNoMostrar = document.querySelectorAll(".usuarioRegistrado");
         for (i = 0; i < elementoMenuNoMostrar.length; i++) {
