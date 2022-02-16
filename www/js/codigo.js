@@ -443,14 +443,15 @@ function mostrarEnvio() {
                 document.querySelector("#pListarEnvios").innerHTML = "Usted no tiene ningún envío realizado.";
             }else{
                 data.envios.forEach(function (element) {
-                
+                    mostrarCiudadOrigenEnvios(element.ciudad_origen);
+                    mostrarCiudadDestinoEnvios(element.ciudad_destino);                    
                     document.querySelector("#pListarEnvios").innerHTML += `
                         <ion-list>
                         <ion-item>
-                            <ion-label>${element.ciudad_origen}</ion-label>
+                            <ion-label id="mostrarCiudadOrigenEnvios"></ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label>${element.ciudad_destino}</ion-label>
+                            <ion-label id="mostrarCiudadDestinosEnvios"></ion-label>
                         </ion-item>
                         <ion-item>
                             <ion-label>${element.distancia}</ion-label>
@@ -471,6 +472,61 @@ function mostrarEnvio() {
         })
 
 }
+
+/* Api Ciudad de Envio Origen/Destino Mostrar */
+
+function mostrarCiudadOrigenEnvios(numeroCiudad) {
+    
+   fetch(`https://envios.develotion.com/ciudades.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(numeroCiudad === ciudadBusc.id){
+                    document.querySelector("#mostrarCiudadOrigenEnvios").innerHTML = ciudadBusc.nombre;                    
+                    break;
+                }
+            }
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Ciudad de Envio Origen/Destino Mostrar */
+
+function mostrarCiudadDestinoEnvios(numeroCiudad) {
+    
+    fetch(`https://envios.develotion.com/ciudades.php`,
+         {
+             headers: {
+                 apiKey: localStorage.getItem("token")
+             }
+         })
+         .then(function (response) {
+             return response.json();
+         })
+         .then(function (data) {
+             for(let i=0; i<data.ciudades.length; i++){
+                 const ciudadBusc = data.ciudades[i];
+                 if(numeroCiudad === ciudadBusc.id){
+                     document.querySelector("#mostrarCiudadDestinosEnvios").innerHTML = ciudadBusc.nombre;                     
+                     break;
+                 }
+             }
+         })
+         .catch(function (error) {
+             handleButtonClick(error);
+         })
+ }
+
 
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
