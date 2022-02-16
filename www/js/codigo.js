@@ -2,7 +2,8 @@
 let route = document.querySelector("#routerMenu") /* Creo variable que adquiere los parametro del menu */
 route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
     /* Para todos los mapas a mostrar */
-let map;
+let map; /* Para los mapas */
+let usuarioNoLogueado = false; /* Para saber si esta registrado o no un usuario */
 
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
@@ -14,7 +15,16 @@ function navegacionMenu(event) {
         paginaMenu[i].style.display = "none";
     }
     let paginaActiva = event.detail.to;
+
+     /* Mantengo pagina por si mi token esta activo */
+     if (localStorage.getItem("token") != null && !usuarioNoLogueado) {
+        /* Cargo estadisticas */
+        paginaActiva = "/Estadisticas";
+        usuarioNoLogueado = true;
+    }
+
     /* Validacion para Mostrar elementos sin registrar */
+    
     if (localStorage.length === 0) {
         /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
         let elementoMenuNoMostrar = document.querySelectorAll(".usuarioNoRegistrado");
@@ -35,6 +45,7 @@ function navegacionMenu(event) {
             document.querySelector("#pLogin").style.display = "block";
         }
     }
+    
 
     if (localStorage.getItem("token")) {
 
@@ -49,6 +60,8 @@ function navegacionMenu(event) {
         for (i = 0; i < elementoMenuMostrar.length; i++) {
             elementoMenuMostrar[i].style.display = "block";
         }
+
+       
         
         if (paginaActiva === "/CalcularEnvios") {  
 
@@ -85,6 +98,7 @@ function navegacionMenu(event) {
         } else if (paginaActiva === "/CerrarSesion") {
 
             localStorage.clear(); //elimina todos las claves del localStorage 
+            usuarioNoLogueado = false;
             route.push("/Login")   /* Envia a pagina de Login */        
         }
     }
