@@ -443,16 +443,23 @@ function mostrarEnvio() {
             if (data.envios.length === 0) {
                 document.querySelector("#pListarEnvios").innerHTML = "Usted no tiene ningún envío realizado.";
             }else{
+                let idLabel = 0;
+                let idLabelCO;
+                let idLabelCD;
                 data.envios.forEach(function (element) {
+                    idLabel ++;
+                    idLabelCO = idLabel+"CO";
+                    idLabelCD = idLabel+"CD";
                     mostrarCiudadOrigenEnvios(element.ciudad_origen);
+                    console.log(mostrarCiudadOrigenEnvios);
                     mostrarCiudadDestinoEnvios(element.ciudad_destino);                    
                     document.querySelector("#pListarEnvios").innerHTML += `
                         <ion-list>
                         <ion-item>
-                            <ion-label id="mostrarCiudadOrigenEnvios"></ion-label>
+                            <ion-label id="1"></ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label id="mostrarCiudadDestinosEnvios"></ion-label>
+                            <ion-label id="2"></ion-label>
                         </ion-item>
                         <ion-item>
                             <ion-label>${element.distancia}</ion-label>
@@ -491,7 +498,7 @@ function mostrarCiudadOrigenEnvios(numeroCiudad) {
             for(let i=0; i<data.ciudades.length; i++){
                 const ciudadBusc = data.ciudades[i];
                 if(numeroCiudad === ciudadBusc.id){
-                    document.querySelector("#mostrarCiudadOrigenEnvios").innerHTML = ciudadBusc.nombre;                    
+                    document.querySelector("#1").innerHTML = ciudadBusc.nombre;                    
                     break;
                 }
             }
@@ -518,7 +525,7 @@ function mostrarCiudadDestinoEnvios(numeroCiudad) {
              for(let i=0; i<data.ciudades.length; i++){
                  const ciudadBusc = data.ciudades[i];
                  if(numeroCiudad === ciudadBusc.id){
-                     document.querySelector("#mostrarCiudadDestinosEnvios").innerHTML = ciudadBusc.nombre;                     
+                     document.querySelector("#2").innerHTML = ciudadBusc.nombre;                     
                      break;
                  }
              }
