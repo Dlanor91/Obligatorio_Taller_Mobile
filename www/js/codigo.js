@@ -1,6 +1,8 @@
 /* Variables Globales */
 let route = document.querySelector("#routerMenu") /* Creo variable que adquiere los parametro del menu */
 route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
+    /* Para todos los mapas a mostrar */
+let map;
 
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
@@ -53,10 +55,8 @@ function navegacionMenu(event) {
             document.querySelector("#pCalcularEnvios").style.display = "block";
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
-            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";   
-            document.querySelector(".mostrarDepartamentoOrigenCE").value ="";          
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ; 
-            document.querySelector(".mostrarDepartamentoDestinoCE").value = "" ;           
+            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;                      
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
@@ -64,10 +64,8 @@ function navegacionMenu(event) {
             document.querySelector("#pAgregarEnvios").style.display = "block"; 
             document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
-            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";  
-            document.querySelector(".mostrarDepartamentoOrigenAE").value ="";           
-            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
-            document.querySelector(".mostrarDepartamentoDestinoAE").value = "" ;            
+            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
+            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ;                        
             mostrarDepartamentos();      
             mostrarElectrodomesticos() ;/* Muestro las electrodomesticos */
 
@@ -223,24 +221,114 @@ function loginUsuario() {
 
 /* Function Calcular Envios */
 document.querySelector("#btnCalcularEnvios").addEventListener("click", calcularEnvios)
-
+let latitudCiudadOrigen;
+    let longitudCiudadOrigen;
 function calcularEnvios(){
-    let ciudadOrigen = document.querySelector(".mostrarCiudadOrigenCE").value;    
-    let ciudadDestino = document.querySelector(".mostrarCiudadDestinoCE").value;
+    let departamentoOrigen = document.querySelector(".mostrarDepartamentoOrigenCE").value;    
+    let departamentoDestino = document.querySelector(".mostrarDepartamentoDestinoCE").value;
+    let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
+    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);
+    
+
+    let mapa = document.querySelector("#map").setAttribute("height","180px");
+    
 
     try {
+        if (departamentoOrigen === undefined) {
+            throw new Error("Seleccione un Departamento Origen.");
+        }
         if (ciudadOrigen === "") {
             throw new Error("Seleccione una Ciudad Origen.");
         }
+        if (departamentoDestino === undefined) {
+            throw new Error("Seleccione un Departamento Destino.");
+        }        
         if (ciudadDestino === "") {
             throw new Error("Seleccione una Ciudad Destino.");
         }
-        fetch()
+        /* API Latitud */
+        fetch(`https://envios.develotion.com/ciudades.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {            
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(ciudadOrigen === ciudadBusc.id){                    
+                    latitudCiudadOrigen = ciudadBusc.latitud;
+                    break;
+                }
+            }
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+
+        /* API Longitud */
+        fetch(`https://envios.develotion.com/ciudades.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {            
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(ciudadDestino === ciudadBusc.id){                    
+                    longitudCiudadOrigen = ciudadBusc.latitud; 
+                    break;
+                }
+            }
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+
+        const busqueda = `Cuareim 2020`;
+        const url = `https://nominatim.openstreetmap.org/search?street=${busqueda}&city=Montevideo&country=Uruguay&format=json`;
+        //Invoco API
+        fetch(url)
+            .then(response => response.json())
+            .then(data => mostrar_resultado(data[0]));
+        
+        function mostrar_resultado(respuesta){
+            console.log("respuesta: ", respuesta);
+        
+            try {
+        
+                if(respuesta === undefined) {
+                    throw "La direccion ingresada no existe";
+                } else {
+                    const lat = respuesta.lat;
+                    const lng = respuesta.lon;
+                    let map = L.map('map').setView([lat, lng], 18);
+                
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup(respuesta.display_name)
+                        .openPopup();   
+                }
+            } catch (error) {
+                alert(error)
+            }
+        }
 
     } catch (Error) {
         handleButtonClick(Error);
     }
 }
+
 
 /* APIs */
 /* Api Departamentos */
