@@ -14,17 +14,9 @@ function navegacionMenu(event) {
     for (i = 0; i < paginaMenu.length; i++) {
         paginaMenu[i].style.display = "none";
     }
-    let paginaActiva = event.detail.to;
+    let paginaActiva = event.detail.to;    
 
-     /* Mantengo pagina por si mi token esta activo */
-     if (localStorage.getItem("token") != null && !usuarioNoLogueado) {
-        /* Cargo estadisticas */
-        paginaActiva = "/Estadisticas";
-        usuarioNoLogueado = true;
-    }
-
-    /* Validacion para Mostrar elementos sin registrar */
-    
+    /* Validacion para Mostrar elementos sin registrar */    
     if (localStorage.length === 0) {
         /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
         let elementoMenuNoMostrar = document.querySelectorAll(".usuarioNoRegistrado");
@@ -48,6 +40,12 @@ function navegacionMenu(event) {
     
 
     if (localStorage.getItem("token")) {
+         /* Mantengo pagina por si mi token esta activo */
+     if (!usuarioNoLogueado) {
+        /* Cargo estadisticas */
+        paginaActiva = "/Estadisticas";
+        usuarioNoLogueado = true;
+    }
 
         /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
         let elementoMenuNoMostrar = document.querySelectorAll(".usuarioRegistrado");
@@ -240,8 +238,8 @@ let latitudCiudadOrigen;
 function calcularEnvios(){
     let departamentoOrigen = document.querySelector(".mostrarDepartamentoOrigenCE").value;    
     let departamentoDestino = document.querySelector(".mostrarDepartamentoDestinoCE").value;
-    let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
-    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);
+    let ciudadOrigen = document.querySelector(".mostrarCiudadOrigenCE").value;    
+    let ciudadDestino = document.querySelector(".mostrarCiudadDestinoCE").value;
     
 
     let mapa = document.querySelector("#map").setAttribute("height","180px");
@@ -260,58 +258,29 @@ function calcularEnvios(){
         if (ciudadDestino === "") {
             throw new Error("Seleccione una Ciudad Destino.");
         }
-        /* API Latitud */
-        fetch(`https://envios.develotion.com/ciudades.php`,
-        {
-            headers: {
-                apiKey: localStorage.getItem("token")
-            }
-        })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {            
-            for(let i=0; i<data.ciudades.length; i++){
-                const ciudadBusc = data.ciudades[i];
-                if(ciudadOrigen === ciudadBusc.id){                    
-                    latitudCiudadOrigen = ciudadBusc.latitud;
-                    break;
-                }
-            }
-        })
-        .catch(function (error) {
-            handleButtonClick(error);
-        })
 
-        /* API Longitud */
-        fetch(`https://envios.develotion.com/ciudades.php`,
-        {
-            headers: {
-                apiKey: localStorage.getItem("token")
-            }
-        })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {            
-            for(let i=0; i<data.ciudades.length; i++){
-                const ciudadBusc = data.ciudades[i];
-                if(ciudadDestino === ciudadBusc.id){                    
-                    longitudCiudadOrigen = ciudadBusc.latitud; 
-                    break;
-                }
-            }
-        })
-        .catch(function (error) {
-            handleButtonClick(error);
-        })
+        latitudLongitud(); /* Invoco las APIs de Latitud y Longitud */
+        mostrarMapa(); /* Muestro el mapa */
+    } catch (Error) {
+        handleButtonClick(Error);
+    }
+}
 
-        const busqueda = `Cuareim 2020`;
-        const url = `https://nominatim.openstreetmap.org/search?street=${busqueda}&city=Montevideo&country=Uruguay&format=json`;
+
+/* APIs */
+
+function mostrarMapa(){
+    
+        let url = `https://nominatim.openstreetmap.org/search?state=Canelones&city=Las Piedras&country=Uruguay&format=json`;
         //Invoco API
         fetch(url)
-            .then(response => response.json())
-            .then(data => mostrar_resultado(data[0]));
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+        })
+        //.then(data => mostrar_resultado(data[0]));
         
         function mostrar_resultado(respuesta){
             console.log("respuesta: ", respuesta);
@@ -323,7 +292,7 @@ function calcularEnvios(){
                 } else {
                     const lat = respuesta.lat;
                     const lng = respuesta.lon;
-                    let map = L.map('map').setView([lat, lng], 18);
+                    map = L.map('map').setView([lat, lng], 13);
                 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -337,14 +306,58 @@ function calcularEnvios(){
                 alert(error)
             }
         }
-
-    } catch (Error) {
-        handleButtonClick(Error);
-    }
 }
 
+/* API Latitud */
+function latitudLongitud(){
+    fetch(`https://envios.develotion.com/ciudades.php`,
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {            
+        for(let i=0; i<data.ciudades.length; i++){
+            const ciudadBusc = data.ciudades[i];
+            if(ciudadOrigen === ciudadBusc.nombre){                    
+                latitudCiudadOrigen = ciudadBusc.latitud;
+                console.log(latitudCiudadOrigen);
+                break;
+            }
+        }
+    })
+    .catch(function (error) {
+        handleButtonClick(error);
+    })
 
-/* APIs */
+    /* API Longitud */
+    fetch(`https://envios.develotion.com/ciudades.php`,
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {            
+        for(let i=0; i<data.ciudades.length; i++){
+            const ciudadBusc = data.ciudades[i];
+            if(ciudadDestino === ciudadBusc.nombre){                    
+                longitudCiudadOrigen = ciudadBusc.latitud; 
+                console.log(longitudCiudadOrigen);
+                break;
+            }
+    }
+        })
+    .catch(function (error) {   
+        handleButtonClick(error);
+    })
+}
+
 /* Api Departamentos */
 function mostrarDepartamentos(){
     
@@ -361,10 +374,10 @@ function mostrarDepartamentos(){
         .then(function (data) {
             //console.log(data)        
             data.departamentos.forEach(function (element) {
-                document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
             });
            
         })
@@ -398,7 +411,7 @@ function mostrarCiudadPorDepartamentosOrigenCE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -428,7 +441,7 @@ function mostrarCiudadPorDepartamentosDestinoCE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -460,7 +473,7 @@ function mostrarCiudadPorDepartamentosOrigenAE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -490,7 +503,7 @@ function mostrarCiudadPorDepartamentosDestinoAE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
