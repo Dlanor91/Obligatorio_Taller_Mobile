@@ -1,3 +1,7 @@
+/* Variables Globales */
+let route = document.querySelector("#routerMenu") /* Creo variable que adquiere los parametro del menu */
+route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
+
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
 
@@ -7,7 +11,7 @@ function navegacionMenu(event) {
     for (i = 0; i < paginaMenu.length; i++) {
         paginaMenu[i].style.display = "none";
     }
-
+    let paginaActiva = event.detail.to;
     /* Validacion para Mostrar elementos sin registrar */
     if (localStorage.length === 0) {
         /* No se muestran los enlaces en el menu de las paginas que precisan estar registrados */
@@ -22,9 +26,10 @@ function navegacionMenu(event) {
             elementoMenuMostrar[i].style.display = "block";
         }
 
-        if (event.detail.to === "/") {
+        if (paginaActiva === "/") {
             document.querySelector("#pRegistro").style.display = "block";
-        } else if (event.detail.to === "/Login") {
+        } else if (paginaActiva === "/Login") {
+           
             document.querySelector("#pLogin").style.display = "block";
         }
     }
@@ -41,30 +46,47 @@ function navegacionMenu(event) {
         for (i = 0; i < elementoMenuMostrar.length; i++) {
             elementoMenuMostrar[i].style.display = "block";
         }
-        if (event.detail.to === "/CalcularEnvios") {
+        
+        if (paginaActiva === "/CalcularEnvios") {  
+
             document.querySelector("#pCalcularEnvios").style.display = "block";
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
-            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;
-            mostrarDepartamentos();           
-        } else if (event.detail.to === "/AgregarEnvios") {
+            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";   
+            document.querySelector(".mostrarDepartamentoOrigenCE").value ="";          
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ; 
+            document.querySelector(".mostrarDepartamentoDestinoCE").value = "" ;           
+            mostrarDepartamentos();  
+
+        } else if (paginaActiva === "/AgregarEnvios") {
+
             document.querySelector("#pAgregarEnvios").style.display = "block"; 
             document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
-            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";
-            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ;
-            mostrarDepartamentos();          
+            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";  
+            document.querySelector(".mostrarDepartamentoOrigenAE").value ="";           
+            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
+            document.querySelector(".mostrarDepartamentoDestinoAE").value = "" ;            
+            mostrarDepartamentos();      
             mostrarElectrodomesticos() ;/* Muestro las electrodomesticos */
-        } else if (event.detail.to === "/Envios") {
+
+        } else if (paginaActiva === "/Envios") {
+
             document.querySelector("#pEnvios").style.display = "block";                               
             mostrarEnvio();
-        } else if (event.detail.to === "/Estadisticas") {
+
+        } else if (paginaActiva === "/Estadisticas") {
+
             document.querySelector("#pEstadisticas").style.display = "block";
-        } else if (event.detail.to === "/CiudadCercana") {
+            
+        } else if (paginaActiva === "/CiudadCercana") {
+
             document.querySelector("#pCiudadCercana").style.display = "block";
-        } else if (event.detail.to === "/CerrarSesion") {
-            document.querySelector("#pCerrarSesion").style.display = "block";
+
+        } else if (paginaActiva === "/CerrarSesion") {
+
+            localStorage.clear(); //elimina todos las claves del localStorage 
+            route.push("/Login")           
         }
     }
 }
@@ -78,10 +100,6 @@ function cerrarMenu() {
 
 function cambiarEnlace() {
     menu.click();       //permite cerrar el menu
-}
-
-function irPagina() {
-    this.navCtrl.push("pR");
 }
 
 /* Funcion Registro */
@@ -189,8 +207,7 @@ function loginUsuario() {
                 /* Almacenamos el ID en el local storage */
                 localStorage.setItem("id",data.id)
                 /* Oculto el login y muestro una página de estadisticas */
-                document.querySelector("#pLogin").style.display = "none";
-                document.querySelector("#pEstadisticas").style.display = "block";
+                route.push("/Estadisticas");
 
             })
             .catch(function (Error) {
@@ -203,6 +220,7 @@ function loginUsuario() {
     }
 }
 
+/* APIs */
 /* Api Departamentos */
 function mostrarDepartamentos(){
     
