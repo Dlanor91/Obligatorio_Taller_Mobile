@@ -265,19 +265,16 @@ function calcularEnvios(){
         if (ciudadDestino === "") {
             throw new Error("Seleccione una Ciudad Destino.");
         }
-
-        setTimeout(function () {            
+                   
         mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
-        }, 2500);  
-        
-        let itemLabel = document.createElement("ion-label");
+        setTimeout(function () { let itemLabel = document.createElement("ion-label");
         let parrafo = document.createElement("p");
         let texto = document.createTextNode("");
-        texto = document.createTextNode("La distancia entre ciudades es de:" + distanciaEnvios);
+        texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + "kms.");
         parrafo.appendChild(texto);
         itemLabel.appendChild(parrafo);        
 
-        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);
+        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500);
              
     } catch (Error) {
         handleButtonClick(Error);
@@ -335,8 +332,7 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
         distanciaEnvios = map.distance([latitudCiudadOrigen, longitudCiudadOrigen], [latitudCiudadDestino, longitudCiudadDestino]);
     
         /* LLevo a KMs */
-        distanciaEnvios  /= 1000;
-        distanciaEnvios.toFixed(2);
+        distanciaEnvios  /= 1000;        
         
     })
     .catch(function (error) {
