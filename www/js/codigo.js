@@ -1,9 +1,15 @@
 /* Variables Globales */
+/* Menu */
 let route = document.querySelector("#routerMenu") /* Creo variable que adquiere los parametro del menu */
 route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
-    /* Para todos los mapas a mostrar */
-let map; /* Para los mapas */
 let usuarioNoLogueado = false; /* Para saber si esta registrado o no un usuario */
+    /* Para todos los mapas a mostrar */
+let map;
+let latitudCiudadOrigen;
+let longitudCiudadOrigen;
+let latitudCiudadDestino;
+let longitudCiudadDestino;
+
 
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
@@ -232,11 +238,10 @@ function loginUsuario() {
 
 /* Function Calcular Envios */
 document.querySelector("#btnCalcularEnvios").addEventListener("click", calcularEnvios)
-let latitudCiudadOrigen;
-    let longitudCiudadOrigen;
+
 function calcularEnvios(){
-    let departamentoOrigen = document.querySelector(".mostrarDepartamentoOrigenCE").value;    
-    let departamentoDestino = document.querySelector(".mostrarDepartamentoDestinoCE").value;
+    let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenCE").value);    
+    let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = document.querySelector(".mostrarCiudadOrigenCE").value;    
     let ciudadDestino = document.querySelector(".mostrarCiudadDestinoCE").value;
     
@@ -258,7 +263,7 @@ function calcularEnvios(){
             throw new Error("Seleccione una Ciudad Destino.");
         }
 
-        mostrarCiudades(ciudadOrigen); /* Invoco las APIs de Latitud y Longitud */        
+        mostrarCiudades(departamentoOrigen,ciudadOrigen,departamentoDestino,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */        
     } catch (Error) {
         handleButtonClick(Error);
     }
@@ -268,7 +273,7 @@ function calcularEnvios(){
 /* APIs */
 
 /* API Mostrar Ciudad */
-function mostrarCiudades(ciudad){
+function mostrarCiudades(idCiudadOrigen,nombreCiudadOrigen,idCiudadDestino,nombreCiudadDestino){
     fetch(`https://envios.develotion.com/ciudades.php`,
     {
         headers: {
@@ -281,23 +286,36 @@ function mostrarCiudades(ciudad){
     .then(function (data) {            
         for(let i=0; i<data.ciudades.length; i++){
             const ciudadBusc = data.ciudades[i];
-            if(ciudad === ciudadBusc.nombre){                    
+            if(nombreCiudadOrigen === ciudadBusc.nombre && idCiudadOrigen === ciudadBusc.id_departamento){                    
                 latitudCiudadOrigen = ciudadBusc.latitud;
-                longitudCiudadOrigen = ciudadBusc.longitud; 
-                console.log(latitudCiudadOrigen);
-                console.log(longitudCiudadOrigen);
+                longitudCiudadOrigen = ciudadBusc.longitud;                 
                 break;
             }
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(nombreCiudadDestino === ciudadBusc.nombre && idCiudadDestino === ciudadBusc.id_departamento){                    
+                    latitudCiudadDestino = ciudadBusc.latitud;
+                    longitudCiudadDestino = ciudadBusc.longitud;                 
+                    break;
+                }
+            }
+        }
+        if (map != null) {
+            map.remove();
         }
             map = L.map('map').setView([latitudCiudadOrigen, longitudCiudadOrigen], 13);
                 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
-                
+                }).addTo(map);   
+
+        L.marker([latitudCiudadDestino, longitudCiudadDestino]).addTo(map)
+        .bindPopup('Ciudad Destino')
+        .openPopup(); 
+
         L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
         .bindPopup('Ciudad Origen')
-        .openPopup();   
+        .openPopup();  
         
     })
     .catch(function (error) {
