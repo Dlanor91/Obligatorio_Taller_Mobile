@@ -269,8 +269,8 @@ function calcularEnvios(){
         mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
         setTimeout(function () { let itemLabel = document.createElement("ion-label");
         let parrafo = document.createElement("p");
-        let texto = document.createTextNode("");
-        texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + "kms.");
+        let texto = document.createTextNode(""); 
+        texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + " kms.");
         parrafo.appendChild(texto);
         itemLabel.appendChild(parrafo);        
 
