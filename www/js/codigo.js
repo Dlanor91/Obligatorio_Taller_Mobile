@@ -267,7 +267,7 @@ function calcularEnvios(){
 
 /* APIs */
 
-/* API Latitud */
+/* API Mostrar Ciudad */
 function mostrarCiudades(ciudad){
     fetch(`https://envios.develotion.com/ciudades.php`,
     {
