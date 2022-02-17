@@ -253,16 +253,16 @@ function calcularEnvios(){
     let mapa = document.querySelector("#map").setAttribute("height","180px");    
 
     try {
-        if (departamentoOrigen === undefined) {
+        if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
             throw new Error("Seleccione un Departamento Origen.");
         }
-        if (ciudadOrigen === "") {
+        if (ciudadOrigen === 0 || isNaN(ciudadOrigen)) {
             throw new Error("Seleccione una Ciudad Origen.");
         }
-        if (departamentoDestino === undefined) {
+        if (departamentoDestino === "" || isNaN(departamentoDestino) ) {
             throw new Error("Seleccione un Departamento Destino.");
         }        
-        if (ciudadDestino === "") {
+        if (ciudadDestino === 0 || isNaN(ciudadDestino) ) {
             throw new Error("Seleccione una Ciudad Destino.");
         }
                    
@@ -289,27 +289,32 @@ function agregarEnvios(){
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoAE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenAE").value);    
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoAE").value);    
-    let mostrarCategorias  = document.querySelector(".mostrarCategorias").value
+    let mostrarCategorias  = document.querySelector("#mostrarCategorias").value;
+    let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);
     let mapa = document.querySelector("#map").setAttribute("height","180px");    
 
     try {
-        if (departamentoOrigen === undefined) {
+        if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
             throw new Error("Seleccione un Departamento Origen.");
         }
-        if (ciudadOrigen === "") {
+        if (ciudadOrigen === 0 || isNaN(ciudadOrigen)) {
             throw new Error("Seleccione una Ciudad Origen.");
         }
-        if (departamentoDestino === undefined) {
+        if (departamentoDestino === "" || isNaN(departamentoDestino) ) {
             throw new Error("Seleccione un Departamento Destino.");
         }        
-        if (ciudadDestino === "") {
+        if (ciudadDestino === 0 || isNaN(ciudadDestino) ) {
             throw new Error("Seleccione una Ciudad Destino.");
         }
-        if (mostrarCategorias === "") {
+        if (mostrarCategorias === 0 || isNaN(mostrarCategorias) ) {
             throw new Error("Seleccione una Categoría.");
         }
-                   
-        mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
+        if (pesoEnvio>0 || isNaN(pesoEnvio) ) {
+            throw new Error("Seleccione un Peso y que seea mayor que 0.");
+        }
+        
+        /* Invoco las APIs de Latitud y Longitud */
+        /* mostrarCiudades(ciudadOrigen,ciudadDestino); 
         setTimeout(function () { let itemLabel = document.createElement("ion-label");
         let parrafo = document.createElement("p");
         let texto = document.createTextNode(""); 
@@ -317,7 +322,7 @@ function agregarEnvios(){
         parrafo.appendChild(texto);
         itemLabel.appendChild(parrafo);        
 
-        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500);
+        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500); */
              
     } catch (Error) {
         handleButtonClick(Error);
