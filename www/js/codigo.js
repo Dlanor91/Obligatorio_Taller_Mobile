@@ -243,8 +243,8 @@ document.querySelector("#btnCalcularEnvios").addEventListener("click", calcularE
 function calcularEnvios(){
     let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenCE").value);    
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
-    let ciudadOrigen = document.querySelector(".mostrarCiudadOrigenCE").value;    
-    let ciudadDestino = document.querySelector(".mostrarCiudadDestinoCE").value;
+    let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
+    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);
     
 
     let mapa = document.querySelector("#map").setAttribute("height","180px");
@@ -264,7 +264,7 @@ function calcularEnvios(){
             throw new Error("Seleccione una Ciudad Destino.");
         }
 
-        mostrarCiudades(departamentoOrigen,ciudadOrigen,departamentoDestino,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */  
+        mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */  
              
     } catch (Error) {
         handleButtonClick(Error);
@@ -275,7 +275,7 @@ function calcularEnvios(){
 /* APIs */
 
 /* API Mostrar Ciudad */
-function mostrarCiudades(idCiudadOrigen,nombreCiudadOrigen,idCiudadDestino,nombreCiudadDestino){
+function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
     fetch(`https://envios.develotion.com/ciudades.php`,
     {
         headers: {
@@ -288,14 +288,14 @@ function mostrarCiudades(idCiudadOrigen,nombreCiudadOrigen,idCiudadDestino,nombr
     .then(function (data) {            
         for(let i=0; i<data.ciudades.length; i++){
             const ciudadBusc = data.ciudades[i];
-            if(nombreCiudadOrigen === ciudadBusc.nombre && idCiudadOrigen === ciudadBusc.id_departamento){                    
+            if(idCiudadOrigen === ciudadBusc.id){                    
                 latitudCiudadOrigen = ciudadBusc.latitud;
                 longitudCiudadOrigen = ciudadBusc.longitud;                 
                 break;
             }
             for(let i=0; i<data.ciudades.length; i++){
                 const ciudadBusc = data.ciudades[i];
-                if(nombreCiudadDestino === ciudadBusc.nombre && idCiudadDestino === ciudadBusc.id_departamento){                    
+                if(idCiudadDestino === ciudadBusc.id){                    
                     latitudCiudadDestino = ciudadBusc.latitud;
                     longitudCiudadDestino = ciudadBusc.longitud;                 
                     break;
@@ -382,7 +382,7 @@ function mostrarCiudadPorDepartamentosOrigenCE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -412,7 +412,7 @@ function mostrarCiudadPorDepartamentosDestinoCE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -420,7 +420,7 @@ function mostrarCiudadPorDepartamentosDestinoCE() {
         })
 }
 
-/* Api Ciudad Origen Calcular Envios*/
+/* Api Ciudad Origen Agregar Envios*/
 
 document.querySelector(".mostrarDepartamentoOrigenAE").addEventListener("ionChange", mostrarCiudadPorDepartamentosOrigenAE)
 
@@ -444,7 +444,7 @@ function mostrarCiudadPorDepartamentosOrigenAE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
@@ -452,7 +452,7 @@ function mostrarCiudadPorDepartamentosOrigenAE() {
         })
 }
 
-/* Api Ciudad Destino Calcular Envios*/
+/* Api Ciudad Destino Agregar Envios*/
 
 document.querySelector(".mostrarDepartamentoDestinoAE").addEventListener("ionChange", mostrarCiudadPorDepartamentosDestinoAE)
 
@@ -474,7 +474,7 @@ function mostrarCiudadPorDepartamentosDestinoAE() {
         .then(function (data) {
             //console.log(data)        
             data.ciudades.forEach(function (element) {
-                document.querySelector(".mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarCiudadDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
