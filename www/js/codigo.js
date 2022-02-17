@@ -84,7 +84,7 @@ function navegacionMenu(event) {
             document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
             document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ;                        
             mostrarDepartamentos();      
-            mostrarElectrodomesticos() ;/* Muestro las electrodomesticos */
+            mostrarCategorias() ;/* Muestro las electrodomesticos */
 
         } else if (paginaActiva === "/Envios") {
 
@@ -281,6 +281,48 @@ function calcularEnvios(){
     }
 }
 
+/* Function Calcular Envios */
+document.querySelector("#btnAgregarEnvios").addEventListener("click", agregarEnvios)
+
+function agregarEnvios(){
+    let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenAE").value);    
+    let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoAE").value);
+    let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenAE").value);    
+    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoAE").value);    
+    let mostrarCategorias  = document.querySelector(".mostrarCategorias").value
+    let mapa = document.querySelector("#map").setAttribute("height","180px");    
+
+    try {
+        if (departamentoOrigen === undefined) {
+            throw new Error("Seleccione un Departamento Origen.");
+        }
+        if (ciudadOrigen === "") {
+            throw new Error("Seleccione una Ciudad Origen.");
+        }
+        if (departamentoDestino === undefined) {
+            throw new Error("Seleccione un Departamento Destino.");
+        }        
+        if (ciudadDestino === "") {
+            throw new Error("Seleccione una Ciudad Destino.");
+        }
+        if (mostrarCategorias === "") {
+            throw new Error("Seleccione una Categoría.");
+        }
+                   
+        mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
+        setTimeout(function () { let itemLabel = document.createElement("ion-label");
+        let parrafo = document.createElement("p");
+        let texto = document.createTextNode(""); 
+        texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + " kms.");
+        parrafo.appendChild(texto);
+        itemLabel.appendChild(parrafo);        
+
+        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500);
+             
+    } catch (Error) {
+        handleButtonClick(Error);
+    }
+}
 
 /* APIs */
 
@@ -496,7 +538,7 @@ function mostrarCiudadPorDepartamentosDestinoAE() {
 
 /* Api Electrodomesticos */
 
-function mostrarElectrodomesticos() {
+function mostrarCategorias() {
 
     fetch("https://envios.develotion.com/categorias.php",
         {
@@ -511,7 +553,7 @@ function mostrarElectrodomesticos() {
         .then(function (data) {
             //console.log(data)        
             data.categorias.forEach(function (element) {
-                document.querySelector("#mostrarElectrodomesticos").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector("#mostrarCategorias").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
         })
         .catch(function (error) {
