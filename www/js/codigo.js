@@ -557,10 +557,10 @@ function mostrarEnvio() {
                     document.querySelector("#pListarEnvios").innerHTML += `
                         <ion-list>
                         <ion-item>
-                            <ion-label id="${idCiudadOrig}"></ion-label>
+                            <ion-label class="${idCiudadOrig}"></ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label id=${idCiudadDest}></ion-label>
+                            <ion-label class=${idCiudadDest}></ion-label>
                         </ion-item>
                         <ion-item>
                             <ion-label>${element.distancia}</ion-label>
@@ -605,17 +605,17 @@ function btnDetalleEnvio(idDeEnvio){
             const idBusc = data.envios[i];
             if (idDeEnvio === idBusc.id) {
                 idCiudad++;
-                idCiudadOrig = "CO"+idCiudad;
-                idCiudadDest = "CD"+idCiudad;
-                mostrarCiudadOrigenEnvios(idBusc.ciudad_origen,idCiudadOrig);                    
-                mostrarCiudadDestinoEnvios(idBusc.ciudad_destino,idCiudadDest);                    
+                idCiudadOrig = "COD"+idCiudad;
+                idCiudadDest = "CDD"+idCiudad;
+                mostrarCiudadOrigenEnviosD(idBusc.ciudad_origen,idCiudadOrig);                    
+                mostrarCiudadDestinoEnviosD(idBusc.ciudad_destino,idCiudadDest);                    
                 document.querySelector("#detalleEnvios").innerHTML += `
                     <ion-list>
                     <ion-item>
-                        <ion-label id="${idCiudadOrig}"></ion-label>
+                        <ion-label class="${idCiudadOrig}"></ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label id=${idCiudadDest}></ion-label>
+                        <ion-label class=${idCiudadDest}></ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label>${idBusc.distancia}</ion-label>
@@ -625,7 +625,7 @@ function btnDetalleEnvio(idDeEnvio){
                     </ion-item>
                                   
                 `
-                //mostrarCiudades(idBusc.ciudad_origen,idBusc.ciudad_destino);
+                mostrarCiudades(idBusc.ciudad_origen,idBusc.ciudad_destino);
             }
             break;
         }    
@@ -648,7 +648,7 @@ function btnDetalleEnvio(idDeEnvio){
 /* Api Ciudad de Envio Origen/Destino Mostrar */
 
 function mostrarCiudadOrigenEnvios(numeroCiudad,idLabel) {
-    let idCO = "#"+idLabel;
+    let idCO = "."+idLabel;
     
    fetch(`https://envios.develotion.com/ciudades.php`,
         {
@@ -677,7 +677,7 @@ function mostrarCiudadOrigenEnvios(numeroCiudad,idLabel) {
 /* Api Ciudad de Envio Origen/Destino Mostrar */
 
 function mostrarCiudadDestinoEnvios(numeroCiudad,idLabel) {
-    let idCD = "#"+idLabel;
+    let idCD = "."+idLabel;
     fetch(`https://envios.develotion.com/ciudades.php`,
          {
              headers: {
@@ -692,6 +692,64 @@ function mostrarCiudadDestinoEnvios(numeroCiudad,idLabel) {
                  const ciudadBusc = data.ciudades[i];
                  if(numeroCiudad === ciudadBusc.id){                    
                      document.querySelector(idCD).innerHTML = ciudadBusc.nombre;                     
+                     break;
+                 }
+             }
+         })
+         .catch(function (error) {
+             handleButtonClick(error);
+         })
+ }
+
+
+ /* Para Detalles */
+ /* Api Ciudad de Envio Origen/Destino Mostrar */
+
+function mostrarCiudadOrigenEnviosD(numeroCiudad,idLabel) {
+    let idCOD = "."+idLabel;
+    
+   fetch(`https://envios.develotion.com/ciudades.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(numeroCiudad === ciudadBusc.id){                    
+                    document.querySelector(idCOD).innerHTML = ciudadBusc.nombre;  
+                                    
+                    break;
+                }
+            }
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Ciudad de Envio Origen/Destino Mostrar */
+
+function mostrarCiudadDestinoEnviosD(numeroCiudad,idLabel) {
+    let idCDD = "."+idLabel;
+    fetch(`https://envios.develotion.com/ciudades.php`,
+         {
+             headers: {
+                 apiKey: localStorage.getItem("token")
+             }
+         })
+         .then(function (response) {
+             return response.json();
+         })
+         .then(function (data) {
+             for(let i=0; i<data.ciudades.length; i++){
+                 const ciudadBusc = data.ciudades[i];
+                 if(numeroCiudad === ciudadBusc.id){                    
+                     document.querySelector(idCDD).innerHTML = ciudadBusc.nombre;                     
                      break;
                  }
              }
