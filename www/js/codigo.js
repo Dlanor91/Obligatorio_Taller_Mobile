@@ -9,6 +9,7 @@ let latitudCiudadOrigen;
 let longitudCiudadOrigen;
 let latitudCiudadDestino;
 let longitudCiudadDestino;
+let distanciaEnvios;
 
 
 /* Menú Cambiar de Pestannas*/
@@ -263,7 +264,8 @@ function calcularEnvios(){
             throw new Error("Seleccione una Ciudad Destino.");
         }
 
-        mostrarCiudades(departamentoOrigen,ciudadOrigen,departamentoDestino,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */        
+        mostrarCiudades(departamentoOrigen,ciudadOrigen,departamentoDestino,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */  
+             
     } catch (Error) {
         handleButtonClick(Error);
     }
@@ -315,7 +317,10 @@ function mostrarCiudades(idCiudadOrigen,nombreCiudadOrigen,idCiudadDestino,nombr
 
         L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
         .bindPopup('Ciudad Origen')
-        .openPopup();    
+        .openPopup();  
+        
+        distanciaEnvios = map.distance([latitudCiudadOrigen, longitudCiudadOrigen], [latitudCiudadDestino, longitudCiudadDestino]);
+            console.log(distanciaEnvios); 
         
     })
     .catch(function (error) {
