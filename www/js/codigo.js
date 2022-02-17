@@ -552,8 +552,11 @@ function mostrarEnvio() {
                         <ion-item>
                             <ion-label>${element.precio}</ion-label>
                         </ion-item>
-                        <ion-button color="medium" id="btnDetalleEnvio">
+                        <ion-button color="medium" onclick="btnDetalleEnvio()">
                                 Detalle
+                        </ion-button>
+                        <ion-button color="medium" onclick="btnEliminarEnvio()">
+                                Eliminar
                         </ion-button>
                         </ion-list>                    
                 `
@@ -565,6 +568,63 @@ function mostrarEnvio() {
         })
 
 }
+
+/* Api para mostrar Detalle */
+function btnDetalleEnvio(){
+    let idDeUsuario = localStorage.getItem("id");
+    document.querySelector("#detalleEnvios").innerHTML = "";
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data){
+        let idCiudad = 0;
+                let idCiudadOrig;    
+                let idCiudadDest;        
+                data.envios.forEach(function (element) {
+                    idCiudad++;
+                    idCiudadOrig = "CO"+idCiudad;
+                    idCiudadDest = "CD"+idCiudad;
+                    mostrarCiudadOrigenEnvios(element.ciudad_origen,idCiudadOrig);                    
+                    mostrarCiudadDestinoEnvios(element.ciudad_destino,idCiudadDest);                    
+                    document.querySelector("#detalleEnvios").innerHTML += `
+                        <ion-list>
+                        <ion-item>
+                            <ion-label id="${idCiudadOrig}"></ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label id=${idCiudadDest}></ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>${element.distancia}</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>${element.precio}</ion-label>
+                        </ion-item>
+                                          
+                `
+                })
+        //mostrarCiudades(element.ciudad_origen,element.ciudad_destino)
+
+        setTimeout(function () {
+            let routeDetalle = document.createElement("ion-route");
+            routeDetalle.setAttribute("url", "/Detalle-Envios");
+            routeDetalle.setAttribute("component", "pDetalleEnvios");
+            route.appendChild(routeDetalle);
+            route.push("/Detalle-Envios");
+        }, 500);
+
+    })
+    .catch(function (error) {
+        handleButtonClick(error);
+    })
+}
+
+
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
 
