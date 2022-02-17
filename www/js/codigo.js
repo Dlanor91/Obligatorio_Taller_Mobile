@@ -315,7 +315,7 @@ function mostrarCiudades(idCiudadOrigen,nombreCiudadOrigen,idCiudadDestino,nombr
 
         L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
         .bindPopup('Ciudad Origen')
-        .openPopup();  
+        .openPopup();    
         
     })
     .catch(function (error) {
