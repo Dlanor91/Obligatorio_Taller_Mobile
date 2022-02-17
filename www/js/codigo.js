@@ -309,7 +309,7 @@ function agregarEnvios(){
         if (mostrarCategorias === 0 || isNaN(mostrarCategorias) ) {
             throw new Error("Seleccione una Categoría.");
         }
-        if (pesoEnvio>0 || isNaN(pesoEnvio) ) {
+        if (pesoEnvio <=0 || isNaN(pesoEnvio) ) {
             throw new Error("Seleccione un Peso y que seea mayor que 0.");
         }
         
