@@ -36,8 +36,7 @@ function navegacionMenu(event) {
            
             document.querySelector("#pLogin").style.display = "block";
         }
-    }
-    
+    }    
 
     if (localStorage.getItem("token")) {
          /* Mantengo pagina por si mi token esta activo */
@@ -259,8 +258,7 @@ function calcularEnvios(){
             throw new Error("Seleccione una Ciudad Destino.");
         }
 
-        latitudLongitud(); /* Invoco las APIs de Latitud y Longitud */
-        mostrarMapa(); /* Muestro el mapa */
+        mostrarCiudades(ciudadOrigen); /* Invoco las APIs de Latitud y Longitud */        
     } catch (Error) {
         handleButtonClick(Error);
     }
@@ -269,47 +267,8 @@ function calcularEnvios(){
 
 /* APIs */
 
-function mostrarMapa(){
-    
-        let url = `https://nominatim.openstreetmap.org/search?state=Canelones&city=Las Piedras&country=Uruguay&format=json`;
-        //Invoco API
-        fetch(url)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-        })
-        //.then(data => mostrar_resultado(data[0]));
-        
-        function mostrar_resultado(respuesta){
-            console.log("respuesta: ", respuesta);
-        
-            try {
-        
-                if(respuesta === undefined) {
-                    throw "La direccion ingresada no existe";
-                } else {
-                    const lat = respuesta.lat;
-                    const lng = respuesta.lon;
-                    map = L.map('map').setView([lat, lng], 13);
-                
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-                
-                    L.marker([lat, lng]).addTo(map)
-                        .bindPopup(respuesta.display_name)
-                        .openPopup();   
-                }
-            } catch (error) {
-                alert(error)
-            }
-        }
-}
-
 /* API Latitud */
-function latitudLongitud(){
+function mostrarCiudades(ciudad){
     fetch(`https://envios.develotion.com/ciudades.php`,
     {
         headers: {
@@ -322,40 +281,29 @@ function latitudLongitud(){
     .then(function (data) {            
         for(let i=0; i<data.ciudades.length; i++){
             const ciudadBusc = data.ciudades[i];
-            if(ciudadOrigen === ciudadBusc.nombre){                    
+            if(ciudad === ciudadBusc.nombre){                    
                 latitudCiudadOrigen = ciudadBusc.latitud;
+                longitudCiudadOrigen = ciudadBusc.longitud; 
                 console.log(latitudCiudadOrigen);
-                break;
-            }
-        }
-    })
-    .catch(function (error) {
-        handleButtonClick(error);
-    })
-
-    /* API Longitud */
-    fetch(`https://envios.develotion.com/ciudades.php`,
-    {
-        headers: {
-            apiKey: localStorage.getItem("token")
-        }
-    })
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {            
-        for(let i=0; i<data.ciudades.length; i++){
-            const ciudadBusc = data.ciudades[i];
-            if(ciudadDestino === ciudadBusc.nombre){                    
-                longitudCiudadOrigen = ciudadBusc.latitud; 
                 console.log(longitudCiudadOrigen);
                 break;
             }
-    }
-        })
-    .catch(function (error) {   
-        handleButtonClick(error);
+        }
+            map = L.map('map').setView([latitudCiudadOrigen, longitudCiudadOrigen], 13);
+                
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                
+        L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
+        .bindPopup('Ciudad Origen')
+        .openPopup();   
+        
     })
+    .catch(function (error) {
+        handleButtonClick(error);
+    })   
+    
 }
 
 /* Api Departamentos */
@@ -374,10 +322,10 @@ function mostrarDepartamentos(){
         .then(function (data) {
             //console.log(data)        
             data.departamentos.forEach(function (element) {
-                document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
-                document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML += `<ion-select-option value="${element.nombre}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
+                document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML += `<ion-select-option value="${element.id}">${element.nombre}</ion-select-option>`
             });
            
         })
