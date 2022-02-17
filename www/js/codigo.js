@@ -556,7 +556,7 @@ function mostrarEnvio() {
                         <ion-item>
                             <ion-label>${element.precio}</ion-label>
                         </ion-item>
-                        <ion-button color="medium" onclick="btnDetalleEnvio()">
+                        <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
                                 Detalle
                         </ion-button>
                         <ion-button color="medium" onclick="btnEliminarEnvio()">
@@ -574,7 +574,7 @@ function mostrarEnvio() {
 }
 
 /* Api para mostrar Detalle */
-function btnDetalleEnvio(){
+function btnDetalleEnvio(idDeEnvio){
     let idDeUsuario = localStorage.getItem("id");
     document.querySelector("#detalleEnvios").innerHTML = "";
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, {
@@ -587,32 +587,37 @@ function btnDetalleEnvio(){
     })
     .then(function (data){
         let idCiudad = 0;
-                let idCiudadOrig;    
-                let idCiudadDest;        
-                data.envios.forEach(function (element) {
-                    idCiudad++;
-                    idCiudadOrig = "CO"+idCiudad;
-                    idCiudadDest = "CD"+idCiudad;
-                    mostrarCiudadOrigenEnvios(element.ciudad_origen,idCiudadOrig);                    
-                    mostrarCiudadDestinoEnvios(element.ciudad_destino,idCiudadDest);                    
-                    document.querySelector("#detalleEnvios").innerHTML += `
-                        <ion-list>
-                        <ion-item>
-                            <ion-label id="${idCiudadOrig}"></ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label id=${idCiudadDest}></ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.distancia}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>${element.precio}</ion-label>
-                        </ion-item>
-                                          
+        let idCiudadOrig;
+        let idCiudadDest;
+        for (let i = 0; i < data.envios.length; i++) {
+            const idBusc = data.envios[i];
+            if (idDeEnvio === idBusc.id) {
+                idCiudad++;
+                idCiudadOrig = "CO"+idCiudad;
+                idCiudadDest = "CD"+idCiudad;
+                mostrarCiudadOrigenEnvios(idBusc.ciudad_origen,idCiudadOrig);                    
+                mostrarCiudadDestinoEnvios(idBusc.ciudad_destino,idCiudadDest);                    
+                document.querySelector("#detalleEnvios").innerHTML += `
+                    <ion-list>
+                    <ion-item>
+                        <ion-label id="${idCiudadOrig}"></ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label id=${idCiudadDest}></ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>${idBusc.distancia}</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>${idBusc.precio}</ion-label>
+                    </ion-item>
+                                  
                 `
-                })
-        //mostrarCiudades(element.ciudad_origen,element.ciudad_destino)
+                //mostrarCiudades(idBusc.ciudad_origen,idBusc.ciudad_destino);
+            }
+            break;
+        }    
+        
 
         setTimeout(function () {
             let routeDetalle = document.createElement("ion-route");
