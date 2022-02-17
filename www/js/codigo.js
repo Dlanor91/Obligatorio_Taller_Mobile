@@ -248,11 +248,9 @@ function calcularEnvios(){
     let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenCE").value);    
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
-    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);
-    
+    let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);    
 
-    let mapa = document.querySelector("#map").setAttribute("height","180px");
-    
+    let mapa = document.querySelector("#map").setAttribute("height","180px");    
 
     try {
         if (departamentoOrigen === undefined) {
@@ -268,7 +266,18 @@ function calcularEnvios(){
             throw new Error("Seleccione una Ciudad Destino.");
         }
 
-        mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */  
+        setTimeout(function () {            
+        mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
+        }, 2500);  
+        
+        let itemLabel = document.createElement("ion-label");
+        let parrafo = document.createElement("p");
+        let texto = document.createTextNode("");
+        texto = document.createTextNode("La distancia entre ciudades es de:" + distanciaEnvios);
+        parrafo.appendChild(texto);
+        itemLabel.appendChild(parrafo);        
+
+        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);
              
     } catch (Error) {
         handleButtonClick(Error);
@@ -324,7 +333,10 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
         .openPopup();  
         
         distanciaEnvios = map.distance([latitudCiudadOrigen, longitudCiudadOrigen], [latitudCiudadDestino, longitudCiudadDestino]);
-            console.log(distanciaEnvios); 
+    
+        /* LLevo a KMs */
+        distanciaEnvios  /= 1000;
+        distanciaEnvios.toFixed(2);
         
     })
     .catch(function (error) {
@@ -632,8 +644,6 @@ function btnDetalleEnvio(idDeEnvio){
         handleButtonClick(error);
     })
 }
-
-
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
 
