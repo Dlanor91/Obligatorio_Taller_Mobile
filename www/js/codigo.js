@@ -91,7 +91,11 @@ function navegacionMenu(event) {
             document.querySelector("#pEnvios").style.display = "block";                               
             mostrarEnvio();
 
-        } else if (paginaActiva === "/Estadisticas") {
+        }else if (paginaActiva === "/Detalle-Envios") {
+
+            document.querySelector("#pDetalleEnvios").style.display = "block";
+            
+        }else if (paginaActiva === "/Estadisticas") {
 
             document.querySelector("#pEstadisticas").style.display = "block";
             
