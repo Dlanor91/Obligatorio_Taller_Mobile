@@ -10,6 +10,7 @@ let longitudCiudadOrigen;
 let latitudCiudadDestino;
 let longitudCiudadDestino;
 let distanciaEnvios;
+let nombreDeCategoria;
 
 
 /* Menú Cambiar de Pestannas*/
@@ -589,6 +590,36 @@ function mostrarCategorias() {
 
 }
 
+/* Api Obtener Nombre Categoria */
+
+function mostrarNombreCategoria(idCategoria){
+    fetch("https://envios.develotion.com/categorias.php",
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for (let i = 0; i < data.categorias.length; i++) {
+                const idEncontrado = data.categorias[i];
+                if (idCategoria ===  idEncontrado.id) {
+                    nombreDeCategoria =  idEncontrado.nombre;
+                    break;
+                }
+            }     
+           
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+
+
 /* Api Listar Envios */
  
 function mostrarEnvio() {
@@ -676,9 +707,11 @@ function btnDetalleEnvio(idDeEnvio){
                 idCiudadDest = "CDD"+idCiudad;
                 /* Capturo los Id de ciudades para mostrar */
                 idCiudadOrigen = idBusc.ciudad_origen
-                idCiudadDestino = idBusc.ciudad_destino
-                mostrarCiudadDetalles(idBusc.ciudad_origen,idCiudadOrig,idBusc.ciudad_destino,idCiudadDest);                 
-                document.querySelector("#detalleEnvios").innerHTML += `
+                idCiudadDestino = idBusc.ciudad_destino 
+                mostrarNombreCategoria(idBusc.id_categoria);                
+                setTimeout(function () {
+                    mostrarCiudadDetalles(idBusc.ciudad_origen,idCiudadOrig,idBusc.ciudad_destino,idCiudadDest);
+                    document.querySelector("#detalleEnvios").innerHTML += `
                     <ion-list>
                     <ion-item>
                         <ion-label class="${idCiudadOrig}"></ion-label>
@@ -696,9 +729,11 @@ function btnDetalleEnvio(idDeEnvio){
                         <ion-label>${idBusc.precio}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>${idBusc.precio}</ion-label>
+                        <ion-label>${nombreDeCategoria}</ion-label>
                     </ion-item>                                     
-                `                
+                ` 
+                }, 1200);
+                               
                 break;
             }
            
