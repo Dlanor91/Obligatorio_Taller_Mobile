@@ -679,11 +679,17 @@ function btnDetalleEnvio(idDeEnvio){
                         <ion-label class=${idCiudadDest}></ion-label>
                     </ion-item>
                     <ion-item>
+                        <ion-label>${idBusc.peso}</ion-label>
+                    </ion-item>
+                    <ion-item>
                         <ion-label>${idBusc.distancia}</ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label>${idBusc.precio}</ion-label>
-                    </ion-item>                                  
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>${idBusc.precio}</ion-label>
+                    </ion-item>                                     
                 `                
                 break;
             }
