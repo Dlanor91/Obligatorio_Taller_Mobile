@@ -72,7 +72,9 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;   
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ; 
+            document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "block";
+            document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "block";   
                                
             mostrarDepartamentos();  
 
@@ -300,11 +302,8 @@ function agregarEnvios(){
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoAE").value);    
     let mostrarCategorias  = document.querySelector("#mostrarCategorias").value;
     let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);   
-    let pEnvios = document.querySelector("#mostrarAgregarEnvios"); 
-       
-    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");
-    /* Para eliminar el mapa */
-    pEnvios = document.querySelector("#mostrarCalculoEnvio");
+    let pEnvios = document.querySelector("#mostrarCalculoEnvio");        
+    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");    
     
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -329,7 +328,8 @@ function agregarEnvios(){
         /* Invoco las APIs de Latitud y Longitud */
          /* Creo el div de mapa */
          if(map!=null){
-            pEnvios.removeChild(map);
+             let mapa = document.querySelector("#map");
+            pEnvios.removeChild(mapa);
          }
          
          let divMapa = document.createElement("div");
@@ -344,8 +344,7 @@ function agregarEnvios(){
             distancia = Math.ceil(distancia);
             let precio = 0;
             precio = (50 + (pesoEnvio*10) + (50*distancia));
-            precio = precio.toFixed(2);
-            console.log(precio);}, 2500);
+            precio = precio.toFixed(2);;}, 2500);
               
     } catch (Error) {
         handleButtonClick(Error);
