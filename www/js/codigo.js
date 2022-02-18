@@ -313,11 +313,17 @@ function agregarEnvios(){
             throw new Error("Seleccione una Categoría.");
         }
         if (pesoEnvio <=0 || isNaN(pesoEnvio) ) {
-            throw new Error("Seleccione un Peso y que seea mayor que 0.");
+            throw new Error("Seleccione un Peso y que sea numérico y mayor que 0.");
         }
-        
+        console.log("todos los datos bien")
         /* Invoco las APIs de Latitud y Longitud */
-        /* mostrarCiudades(ciudadOrigen,ciudadDestino); 
+         /* Creo el div de mapa */
+         let divMapa = document.createElement("div");
+         divMapa.style.height = "200px";
+         divMapa.setAttribute("id","map");
+         pEnvios.appendChild(divMapa);
+ 
+        mostrarCiudades(ciudadOrigen,ciudadDestino); 
         setTimeout(function () { let itemLabel = document.createElement("ion-label");
         let parrafo = document.createElement("p");
         let texto = document.createTextNode(""); 
@@ -325,7 +331,7 @@ function agregarEnvios(){
         parrafo.appendChild(texto);
         itemLabel.appendChild(parrafo);        
 
-        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500); */
+        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500);
              
     } catch (Error) {
         handleButtonClick(Error);
