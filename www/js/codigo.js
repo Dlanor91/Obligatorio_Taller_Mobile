@@ -625,7 +625,7 @@ function mostrarNombreCategoria(idCategoria){
 function mostrarEnvio() {
     let idDeUsuario = localStorage.getItem("id");
     document.querySelector("#pListarEnvios").innerHTML = "";
-    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`,  
     {
         headers: {
             apiKey: localStorage.getItem("token")
@@ -753,6 +753,21 @@ function btnDetalleEnvio(idDeEnvio){
     .catch(function (error) {
         handleButtonClick(error);
     })
+}
+
+/* Api para Calcular Total */
+ 
+function totalGastoEnvios(){
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+            return response.json();
+    })
+    .then()
 }
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
