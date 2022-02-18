@@ -27,11 +27,11 @@
 
   <!-- Enlace a API del leafletjs -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
 
   <title>Obligatorio: Taller de Dispositivos Moviles</title>
 </head>
@@ -134,7 +134,7 @@
         </ion-item>
         <ion-button color="secondary" id="btnLogin">
           <ion-icon name="log-in-outline"></ion-icon>Iniciar Sesion
-        </ion-button>    
+        </ion-button>
       </ion-content>
     </ion-page>
 
@@ -187,12 +187,10 @@
         </ion-list>
         <ion-button color="medium" id="btnCalcularEnvios">
           <ion-icon name="calculator-outline"></ion-icon>Calcular Envío
-        </ion-button>
-        <!-- Div de mapas a generar -->
-        <div style="height: 200px;" id="map"></div>
+        </ion-button>        
       </ion-content>
     </ion-page>
-      
+
     <!-- Pagina Agregar Envios -->
     <ion-page class="ion-page paginaMenu" id="pAgregarEnvios">
       <ion-header>
@@ -256,7 +254,7 @@
         </ion-item>
         <ion-button color="medium" id="btnAgregarEnvios">
           <ion-icon name="add-outline"></ion-icon>Agregar Envío
-        </ion-button>
+        </ion-button>        
       </ion-content>
     </ion-page>
 
@@ -276,6 +274,25 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding" id="pListarEnvios">
+
+      </ion-content>
+    </ion-page>
+
+    <!--    Pagina de Detalles Envios  -->
+    <ion-page class="ion-page paginaMenu" id="pDetalleEnvios">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon slot="icon-only" name="menu"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
+          <ion-title>Detalles</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding" id="detalleEnvios">       
       </ion-content>
     </ion-page>
 
@@ -319,26 +336,6 @@
       </ion-content>
     </ion-page>
 
-
-    <!--    Pagina de Detalles Envios  -->
-   <ion-page class="ion-page paginaMenu" id="pDetalleEnvios">
-    <ion-header>
-        <ion-toolbar>
-            <ion-buttons slot="start">
-                <ion-menu-toggle>
-                    <ion-button>
-                        <ion-icon slot="icon-only" name="menu"></ion-icon>
-                    </ion-button>
-                </ion-menu-toggle>
-            </ion-buttons>
-            <ion-title>Detalles</ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding" id="detalleEnvios">
-                                  
-    </ion-content>
-</ion-page>
-
     <!-- Pagina Cerrar Sesion -->
     <ion-page class="ion-page paginaMenu" id="pCerrarSesion">
       <ion-header>
@@ -353,7 +350,7 @@
           <ion-title>Cerrar Sesion</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding"> 
+      <ion-content class="ion-padding">
       </ion-content>
     </ion-page>
 
