@@ -71,7 +71,9 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;                      
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;   
+            document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "block";
+            document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "block";                   
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
@@ -80,7 +82,9 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
             document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
-            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ;                        
+            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
+            document.querySelector(".bloqueDepartamentoDestinoAE").style.display = "block";
+            document.querySelector(".bloqueDepartamentoOrigenAE").style.display = "block";                       
             mostrarDepartamentos();      
             mostrarCategorias() ;/* Muestro las electrodomesticos */
 
@@ -321,23 +325,19 @@ function agregarEnvios(){
             throw new Error("Seleccione un Peso y que sea numérico y mayor que 0.");
         }
         console.log("todos los datos bien")
-        /* Invoco las APIs de Latitud y Longitud */
-         /* Creo el div de mapa */
-         let divMapa = document.createElement("div");
-         divMapa.style.height = "200px";
-         divMapa.setAttribute("id","map");
-         pEnvios.appendChild(divMapa);
+        /* Invoco las APIs de Latitud y Longitud */         
  
         mostrarCiudades(ciudadOrigen,ciudadDestino); 
-        setTimeout(function () { let itemLabel = document.createElement("ion-label");
+
+        /* Creo que no lo necesito */
+        /* setTimeout(function () { let itemLabel = document.createElement("ion-label");
         let parrafo = document.createElement("p");
         let texto = document.createTextNode(""); 
         texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + " kms.");
         parrafo.appendChild(texto);
-        itemLabel.appendChild(parrafo);        
-
+        itemLabel.appendChild(parrafo);
         document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel);}, 2500);
-             
+              */
     } catch (Error) {
         handleButtonClick(Error);
     }
