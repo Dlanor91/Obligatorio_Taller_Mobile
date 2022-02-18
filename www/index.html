@@ -154,7 +154,7 @@
       </ion-header>
       <ion-content class="ion-padding" id="mostrarCalculoEnvio">
         <!-- Departamento Origen -->
-        <ion-list>
+        <ion-list class="bloqueDepartamentoOrigenCE">
           <ion-item>
             <ion-label>Departamento Origen</ion-label>
             <ion-select class="mostrarDepartamentoOrigenCE">
@@ -170,7 +170,7 @@
           </ion-item>
         </ion-list>
         <!-- Departamento Destino -->
-        <ion-list>
+        <ion-list class="bloqueDepartamentoDestinoCE">
           <ion-item>
             <ion-label>Departamento Destino</ion-label>
             <ion-select class="mostrarDepartamentoDestinoCE">
@@ -205,9 +205,9 @@
           <ion-title>Agregar Envíos</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding" id="mostrarAgregarEnvios">
         <!-- Departamento Origen -->
-        <ion-list>
+        <ion-list class="bloqueDepartamentoOrigenAE">
           <ion-item>
             <ion-label>Departamento Origen</ion-label>
             <ion-select class="mostrarDepartamentoOrigenAE">
@@ -223,7 +223,7 @@
           </ion-item>
         </ion-list>
         <!-- Departamento Destino -->
-        <ion-list>
+        <ion-list class="bloqueDepartamentoDestinoAE">
           <ion-item>
             <ion-label>Departamento Destino</ion-label>
             <ion-select class="mostrarDepartamentoDestinoAE">
@@ -240,7 +240,7 @@
         </ion-list>
 
         <!-- Agregar Envio -->
-        <ion-list>
+        <ion-list class="bloqueCategoriasAE">
           <ion-item>
             <ion-label>Categorias Disponibles</ion-label>
             <ion-select id="mostrarCategorias">
@@ -248,7 +248,7 @@
           </ion-item>
         </ion-list>
         <!-- Peso -->
-        <ion-item>
+        <ion-item class="bloquePesoAE">
           <ion-label>Peso (kg)</ion-label>
           <ion-input placeholder="Peso (kg)" class="ion-text-right" id="pesoEnvio"></ion-input>
         </ion-item>

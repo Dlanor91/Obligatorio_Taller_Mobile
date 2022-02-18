@@ -249,6 +249,8 @@ function calcularEnvios(){
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);  
+    document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "none";
+    document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "none"; 
 
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -285,7 +287,7 @@ function calcularEnvios(){
     }
 }
 
-/* Function Calcular Envios */
+/* Function Agregar Envios */
 document.querySelector("#btnAgregarEnvios").addEventListener("click", agregarEnvios)
 
 function agregarEnvios(){
@@ -294,8 +296,11 @@ function agregarEnvios(){
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenAE").value);    
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoAE").value);    
     let mostrarCategorias  = document.querySelector("#mostrarCategorias").value;
-    let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);      
-
+    let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);   
+    let pEnvios = document.querySelector("#mostrarAgregarEnvios"); 
+    document.querySelector(".bloqueDepartamentoDestinoAE").style.display = "none";
+    document.querySelector(".bloqueDepartamentoOrigenAE").style.display = "none";    
+    
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
             throw new Error("Seleccione un Departamento Origen.");
@@ -331,7 +336,7 @@ function agregarEnvios(){
         parrafo.appendChild(texto);
         itemLabel.appendChild(parrafo);        
 
-        document.querySelector("#mostrarCalculoEnvio").appendChild(itemLabel);}, 2500);
+        document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel);}, 2500);
              
     } catch (Error) {
         handleButtonClick(Error);
