@@ -72,8 +72,7 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
             document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;   
-            document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "block";
-            document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "block";                   
+                               
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
@@ -83,8 +82,7 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
             document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
             document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
-            document.querySelector(".bloqueDepartamentoDestinoAE").style.display = "block";
-            document.querySelector(".bloqueDepartamentoOrigenAE").style.display = "block";                       
+                                  
             mostrarDepartamentos();      
             mostrarCategorias() ;/* Muestro las electrodomesticos */
 
@@ -302,8 +300,10 @@ function agregarEnvios(){
     let mostrarCategorias  = document.querySelector("#mostrarCategorias").value;
     let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);   
     let pEnvios = document.querySelector("#mostrarAgregarEnvios"); 
-    document.querySelector(".bloqueDepartamentoDestinoAE").style.display = "none";
-    document.querySelector(".bloqueDepartamentoOrigenAE").style.display = "none";    
+       
+    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");
+    /* Para eliminar el mapa */
+    pEnvios = document.querySelector("#mostrarCalculoEnvio");
     
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -324,20 +324,28 @@ function agregarEnvios(){
         if (pesoEnvio <=0 || isNaN(pesoEnvio) ) {
             throw new Error("Seleccione un Peso y que sea numérico y mayor que 0.");
         }
-        console.log("todos los datos bien")
-        /* Invoco las APIs de Latitud y Longitud */         
- 
-        mostrarCiudades(ciudadOrigen,ciudadDestino); 
-
-        /* Creo que no lo necesito */
-        /* setTimeout(function () { let itemLabel = document.createElement("ion-label");
-        let parrafo = document.createElement("p");
-        let texto = document.createTextNode(""); 
-        texto = document.createTextNode("La distancia entre ciudades es de: " + distanciaEnvios.toFixed(2) + " kms.");
-        parrafo.appendChild(texto);
-        itemLabel.appendChild(parrafo);
-        document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel);}, 2500);
-              */
+        
+        /* Invoco las APIs de Latitud y Longitud */
+         /* Creo el div de mapa */
+         if(map!=null){
+            pEnvios.removeChild(map);
+         }
+         
+         let divMapa = document.createElement("div");
+         divMapa.style.height = "200px";
+         divMapa.setAttribute("id","map");
+         pAgregarEnvios.appendChild(divMapa);
+        mostrarCiudades(ciudadOrigen,ciudadDestino);
+        
+        setTimeout(function () { 
+            let distancia = 0;
+            distancia = distanciaEnvios/100;
+            distancia = Math.ceil(distancia);
+            let precio = 0;
+            precio = (50 + (pesoEnvio*10) + (50*distancia));
+            precio = precio.toFixed(2);
+            console.log(precio);}, 2500);
+              
     } catch (Error) {
         handleButtonClick(Error);
     }
