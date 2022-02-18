@@ -378,6 +378,8 @@ function agregarEnvios(){
             let precio = 0;
             precio = (50 + (pesoEnvio*10) + (50*distancia));
             precio = precio.toFixed(2);}, 2500);
+
+            //almacenarEnvio(); funciona que llama la api de almacenar
               
     } catch (Error) {
         handleButtonClick(Error);
