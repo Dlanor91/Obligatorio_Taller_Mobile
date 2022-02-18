@@ -3,7 +3,8 @@
 let route = document.querySelector("#routerMenu") /* Creo variable que adquiere los parametro del menu */
 route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
 let usuarioNoLogueado = false; /* Para saber si esta registrado o no un usuario */
-    /* Para todos los mapas a mostrar */
+
+/* Para todos los mapas a mostrar */
 let map;
 let latitudCiudadOrigen;
 let longitudCiudadOrigen;
@@ -11,6 +12,11 @@ let latitudCiudadDestino;
 let longitudCiudadDestino;
 let distanciaEnvios;
 let nombreDeCategoria;
+
+/* Banderas para mapas activos  */
+let flagCalcularEnvio = false;
+let flagAgregarEnvio = false;
+let flagDetalleEnvio = false;
 
 
 /* Menú Cambiar de Pestannas*/
@@ -128,7 +134,6 @@ function cambiarEnlace() {
 
 /* Funcion Registro */
 document.querySelector("#btnRegistro").addEventListener("click", regsitroUsuario);
-
 
 function regsitroUsuario() {
     let userRegister = document.querySelector("#userRegister").value.trim();
@@ -250,6 +255,8 @@ document.querySelector("#btnCalcularEnvios").addEventListener("click", calcularE
 function calcularEnvios(){
    
     let pEnvios = document.querySelector("#mostrarCalculoEnvio");
+    let pDetalleEnvio = document.querySelector("#detalleEnvios");  
+    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");  
     let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenCE").value);    
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
@@ -272,10 +279,25 @@ function calcularEnvios(){
         }
          
         /* Creo el div de mapa */
+        if(map!=null && !flagCalcularEnvio){
+            let mapa = document.querySelector("#map");
+            if(flagAgregarEnvio){
+
+                pAgregarEnvios.removeChild(mapa);
+               flagAgregarEnvio = false;
+
+           }else if(flagDetalleEnvio){
+
+               pDetalleEnvio.removeChild(mapa);
+               flagDetalleEnvio = false;
+           }
+        }
+
         let divMapa = document.createElement("div");
         divMapa.style.height = "200px";
         divMapa.setAttribute("id","map");
         pEnvios.appendChild(divMapa);
+        flagCalcularEnvio = true;
 
         mostrarCiudades(ciudadOrigen,ciudadDestino); /* Invoco las APIs de Latitud y Longitud */
         setTimeout(function () { let itemLabel = document.createElement("ion-label");
@@ -302,8 +324,10 @@ function agregarEnvios(){
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoAE").value);    
     let mostrarCategorias  = document.querySelector("#mostrarCategorias").value;
     let pesoEnvio = Number(document.querySelector("#pesoEnvio").value);   
-    let pEnvios = document.querySelector("#mostrarCalculoEnvio");        
-    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");    
+    let pEnvios = document.querySelector("#mostrarCalculoEnvio");    
+    let pDetalleEnvio = document.querySelector("#detalleEnvios");  
+    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");  
+
     
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -327,15 +351,24 @@ function agregarEnvios(){
         
         /* Invoco las APIs de Latitud y Longitud */
          /* Creo el div de mapa */
-         if(map!=null){
+         if(map!=null && !flagAgregarEnvio){
              let mapa = document.querySelector("#map");
-            pEnvios.removeChild(mapa);
+             if(flagCalcularEnvio){
+                pEnvios.removeChild(mapa);
+                flagCalcularEnvio = false;
+            }else if(flagDetalleEnvio){
+
+                pDetalleEnvio.removeChild(mapa);
+                flagDetalleEnvio = false;
+            }
          }
          
          let divMapa = document.createElement("div");
          divMapa.style.height = "200px";
          divMapa.setAttribute("id","map");
          pAgregarEnvios.appendChild(divMapa);
+         flagAgregarEnvio = true
+
         mostrarCiudades(ciudadOrigen,ciudadDestino);
         
         setTimeout(function () { 
@@ -344,7 +377,7 @@ function agregarEnvios(){
             distancia = Math.ceil(distancia);
             let precio = 0;
             precio = (50 + (pesoEnvio*10) + (50*distancia));
-            precio = precio.toFixed(2);;}, 2500);
+            precio = precio.toFixed(2);}, 2500);
               
     } catch (Error) {
         handleButtonClick(Error);
@@ -617,14 +650,12 @@ function mostrarNombreCategoria(idCategoria){
         })
 }
 
-
-
 /* Api Listar Envios */
  
 function mostrarEnvio() {
     let idDeUsuario = localStorage.getItem("id");
     document.querySelector("#pListarEnvios").innerHTML = "";
-    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, //La idea es encontrar el ID de usuario con un for 
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
     {
         headers: {
             apiKey: localStorage.getItem("token")
@@ -680,7 +711,7 @@ function mostrarEnvio() {
 
 }
 
-/* Api para mostrar Detalle */
+/* Api para mostrar Detalle de un envio */
 function btnDetalleEnvio(idDeEnvio){
     let idDeUsuario = localStorage.getItem("id");
     let idCiudadOrigen;
@@ -740,9 +771,36 @@ function btnDetalleEnvio(idDeEnvio){
       
     })
     .then(function(){
-        mostrarCiudades(idCiudadOrigen,idCiudadDestino);
+    /* Creo el div de mapa */
+        let pEnvios = document.querySelector("#mostrarCalculoEnvio");
+        let agregarEnvios = document.querySelector("#mostrarAgregarEnvios");
+        let detalleEnvios = document.querySelector("#detalleEnvios");
+        
+          if(map!=null && !flagDetalleEnvio){
+            let mapa = document.querySelector("#map");
+            if(flagAgregarEnvio){
+
+                agregarEnvios.removeChild(mapa);
+               flagAgregarEnvio = false;
+
+           }else if(flagCalcularEnvio){
+
+                pEnvios.removeChild(mapa);
+                flagCalcularEnvio = false;
+
+           }
+        }       
+         
+        setTimeout(function () {let divMapa = document.createElement("div");
+        divMapa.style.height = "200px";
+        divMapa.setAttribute("id","map");
+        detalleEnvios.appendChild(divMapa);
+        flagDetalleEnvio = true;
+        mostrarCiudades(idCiudadOrigen,idCiudadDestino); },1500);
+
     })
     .then(function(){
+        
         let routeDetalle = document.createElement("ion-route");
         routeDetalle.setAttribute("url", "/Detalle-Envios");
         routeDetalle.setAttribute("component", "pDetalleEnvios");
