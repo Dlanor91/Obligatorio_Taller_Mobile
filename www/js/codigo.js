@@ -388,6 +388,11 @@ function agregarEnvios(){
     }
 }
 
+/* Funcion Retornar en detalles */
+document.querySelector("#volverDetalle").addEventListener("click", VolveraPaginaDetalles);
+function VolveraPaginaDetalles() {
+    route.back();
+}
 /* APIs */
 
 /* API Mostrar Ciudad */
@@ -737,7 +742,7 @@ function mostrarEnvio() {
                         </ion-item>
                         <ion-item>
                             <ion-label>Distancia: ${element.distancia}</ion-label>
-                        </ion-item>
+                        </ion-item>                        
                         <ion-item>
                             <ion-label>Precio: ${element.precio}</ion-label>
                         </ion-item>
@@ -851,7 +856,7 @@ function btnDetalleEnvio(idDeEnvio){
 
     })
     .then(function(){
-        
+        /* Te lleva al menu de Detalle de Envios */
         let routeDetalle = document.createElement("ion-route");
         routeDetalle.setAttribute("url", "/Detalle-Envios");
         routeDetalle.setAttribute("component", "pDetalleEnvios");
