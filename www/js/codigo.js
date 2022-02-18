@@ -695,10 +695,10 @@ function mostrarEnvio() {
                             <ion-label class=${idCiudadDest}></ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label>${element.distancia}</ion-label>
+                            <ion-label>Distancia: ${element.distancia}</ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label>${element.precio}</ion-label>
+                            <ion-label>Precio: ${element.precio}</ion-label>
                         </ion-item>
                         <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
                                 Detalle
@@ -757,16 +757,16 @@ function btnDetalleEnvio(idDeEnvio){
                         <ion-label class=${idCiudadDest}></ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>${idBusc.peso}</ion-label>
+                        <ion-label>Peso: ${idBusc.peso}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>${idBusc.distancia}</ion-label>
+                        <ion-label>Distancia: ${idBusc.distancia}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>${idBusc.precio}</ion-label>
+                        <ion-label>Precio: ${idBusc.precio}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>${nombreDeCategoria}</ion-label>
+                        <ion-label>Categoria: ${nombreDeCategoria}</ion-label>
                     </ion-item>                                     
                 ` 
                 }, 1200);
@@ -798,12 +798,15 @@ function btnDetalleEnvio(idDeEnvio){
            }
         }       
          
-        let divMapa = document.createElement("div");
-        divMapa.style.height = "200px";
-        divMapa.setAttribute("id","map");
-        detalleEnvios.appendChild(divMapa);
-        flagDetalleEnvio = true;
-        mostrarCiudades(idCiudadOrigen,idCiudadDestino);
+        setTimeout(function () {
+            let divMapa = document.createElement("div");
+            divMapa.style.height = "200px";
+            divMapa.setAttribute("id","map");
+            detalleEnvios.appendChild(divMapa);
+            flagDetalleEnvio = true;
+            mostrarCiudades(idCiudadOrigen,idCiudadDestino);
+        }, 1500)
+        
 
     })
     .then(function(){
@@ -817,6 +820,21 @@ function btnDetalleEnvio(idDeEnvio){
     .catch(function (error) {
         handleButtonClick(error);
     })
+}
+
+/* Api para Calcular Total */
+ 
+function totalGastoEnvios(){
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+            return response.json();
+    })
+    .then()
 }
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
@@ -838,7 +856,7 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
             for(let i=0; i<data.ciudades.length; i++){
                 const ciudadBusc = data.ciudades[i];
                 if(numeroCiudadOrign === ciudadBusc.id){                    
-                    document.querySelector(idCO).innerHTML = ciudadBusc.nombre;
+                    document.querySelector(idCO).innerHTML = "Ciudad Origen: " + ciudadBusc.nombre;
                     break;
                 }
             }
@@ -846,7 +864,7 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
             for(let i=0; i<data.ciudades.length; i++){
                 const ciudadBusc = data.ciudades[i];
                 if(numeroCiudadDest === ciudadBusc.id){                    
-                    document.querySelector(idCD).innerHTML = ciudadBusc.nombre;                     
+                    document.querySelector(idCD).innerHTML = "Ciudad Destino: " +ciudadBusc.nombre;                     
                     break;
                 }
             }
