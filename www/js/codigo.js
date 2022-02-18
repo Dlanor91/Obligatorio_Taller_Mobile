@@ -327,7 +327,6 @@ function agregarEnvios(){
     let pEnvios = document.querySelector("#mostrarCalculoEnvio");    
     let pDetalleEnvio = document.querySelector("#detalleEnvios");  
     let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");  
-
     
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -380,8 +379,6 @@ function agregarEnvios(){
             precio = precio.toFixed(2);
             agregarEnvio(ciudadOrigen,ciudadDestino,pesoEnvio,distanciaEnvios,precio,mostrarCategorias);//funciona que llama la api de almacenar
         }, 2500);
-
-             
               
     } catch (Error) {
         handleButtonClick(Error);
@@ -393,6 +390,7 @@ document.querySelector("#volverDetalle").addEventListener("click", VolveraPagina
 function VolveraPaginaDetalles() {
     route.back();
 }
+
 /* APIs */
 
 /* API Mostrar Ciudad */
@@ -741,10 +739,10 @@ function mostrarEnvio() {
                             <ion-label class=${idCiudadDest}></ion-label>
                         </ion-item>
                         <ion-item>
-                            <ion-label>Distancia: ${element.distancia}</ion-label>
+                            <ion-label>Distancia: ${element.distancia} kms</ion-label>
                         </ion-item>                        
                         <ion-item>
-                            <ion-label>Precio: ${element.precio}</ion-label>
+                            <ion-label>Precio: $${element.precio}</ion-label>
                         </ion-item>
                         <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
                                 Detalle
@@ -803,13 +801,13 @@ function btnDetalleEnvio(idDeEnvio){
                         <ion-label class=${idCiudadDest}></ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>Peso: ${idBusc.peso}</ion-label>
+                        <ion-label>Peso: ${idBusc.peso} kgs</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>Distancia: ${idBusc.distancia}</ion-label>
+                        <ion-label>Distancia: ${idBusc.distancia} kms</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>Precio: ${idBusc.precio}</ion-label>
+                        <ion-label>Precio: $${idBusc.precio}</ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label>Categoria: ${nombreDeCategoria}</ion-label>
