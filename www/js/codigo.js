@@ -875,64 +875,6 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
         })
 }
 
- /* Para Detalles */
- /* Api Ciudad de Envio Origen/Destino Mostrar */
-
-function mostrarCiudadOrigenEnviosD(numeroCiudad,idLabel) {
-    let idCOD = "."+idLabel;
-    
-   fetch(`https://envios.develotion.com/ciudades.php`,
-        {
-            headers: {
-                apiKey: localStorage.getItem("token")
-            }
-        })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            for(let i=0; i<data.ciudades.length; i++){
-                const ciudadBusc = data.ciudades[i];
-                if(numeroCiudad === ciudadBusc.id){                    
-                    document.querySelector(idCOD).innerHTML = ciudadBusc.nombre;  
-                                    
-                    break;
-                }
-            }
-        })
-        .catch(function (error) {
-            handleButtonClick(error);
-        })
-}
-
-/* Api Ciudad de Envio Origen/Destino Mostrar */
-
-function mostrarCiudadDestinoEnviosD(numeroCiudad,idLabel) {
-    let idCDD = "."+idLabel;
-    fetch(`https://envios.develotion.com/ciudades.php`,
-         {
-             headers: {
-                 apiKey: localStorage.getItem("token")
-             }
-         })
-         .then(function (response) {
-             return response.json();
-         })
-         .then(function (data) {
-             for(let i=0; i<data.ciudades.length; i++){
-                 const ciudadBusc = data.ciudades[i];
-                 if(numeroCiudad === ciudadBusc.id){                    
-                     document.querySelector(idCDD).innerHTML = ciudadBusc.nombre;                     
-                     break;
-                 }
-             }
-         })
-         .catch(function (error) {
-             handleButtonClick(error);
-         })
- }
-
-
 /* Codigo del Toast para carteles emergentes Errores*/
 async function handleButtonClick(showError) {
     const toast = await toastController.create({
@@ -956,5 +898,3 @@ async function registroCorrecto(showFine) {
 
     await toast.present();
 }
-
-
