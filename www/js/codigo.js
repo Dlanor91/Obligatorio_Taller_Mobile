@@ -397,23 +397,28 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
     .then(function (response) {
         return response.json();
     })
-    .then(function (data) {            
+    .then(function (data) {  
+        let ciudadOrigenEnc = false;
+        let ciudadDestinoEnc = false;          
         for(let i=0; i<data.ciudades.length; i++){
             const ciudadBusc = data.ciudades[i];
             if(idCiudadOrigen === ciudadBusc.id){                    
                 latitudCiudadOrigen = ciudadBusc.latitud;
-                longitudCiudadOrigen = ciudadBusc.longitud;                 
-                break;
+                longitudCiudadOrigen = ciudadBusc.longitud;
+                ciudadOrigenEnc = true;
             }
-            for(let i=0; i<data.ciudades.length; i++){
-                const ciudadBusc = data.ciudades[i];
-                if(idCiudadDestino === ciudadBusc.id){                    
-                    latitudCiudadDestino = ciudadBusc.latitud;
-                    longitudCiudadDestino = ciudadBusc.longitud;                 
-                    break;
-                }
+
+            if(idCiudadDestino === ciudadBusc.id){                    
+                latitudCiudadDestino = ciudadBusc.latitud;
+                longitudCiudadDestino = ciudadBusc.longitud;
+                ciudadDestinoEnc = true;
+            }
+            if (ciudadOrigenEnc && ciudadDestinoEnc) {
+               break;
             }
         }
+            
+        
         if (map != null) {
             map.remove();
         }
@@ -791,12 +796,12 @@ function btnDetalleEnvio(idDeEnvio){
            }
         }       
          
-        setTimeout(function () {let divMapa = document.createElement("div");
+        let divMapa = document.createElement("div");
         divMapa.style.height = "200px";
         divMapa.setAttribute("id","map");
         detalleEnvios.appendChild(divMapa);
         flagDetalleEnvio = true;
-        mostrarCiudades(idCiudadOrigen,idCiudadDestino); },1500);
+        mostrarCiudades(idCiudadOrigen,idCiudadDestino);
 
     })
     .then(function(){
