@@ -64,8 +64,6 @@ function navegacionMenu(event) {
         for (i = 0; i < elementoMenuMostrar.length; i++) {
             elementoMenuMostrar[i].style.display = "block";
         }
-
-       
         
         if (paginaActiva === "/CalcularEnvios") {  
 
@@ -590,13 +588,12 @@ function mostrarEnvio() {
             }else{      
                 let idCiudad = 0;
                 let idCiudadOrig;    
-                let idCiudadDest;        
+                let idCiudadDest;                       
                 data.envios.forEach(function (element) {
                     idCiudad++;
                     idCiudadOrig = "CO"+idCiudad;
-                    idCiudadDest = "CD"+idCiudad;
-                    mostrarCiudadOrigenEnvios(element.ciudad_origen,idCiudadOrig);                    
-                    mostrarCiudadDestinoEnvios(element.ciudad_destino,idCiudadDest);                    
+                    idCiudadDest = "CD"+idCiudad; 
+                    mostrarCiudadDetalles(element.ciudad_origen,idCiudadOrig,element.ciudad_destino,idCiudadDest);
                     document.querySelector("#pListarEnvios").innerHTML += `
                         <ion-list>
                         <ion-item>
@@ -620,6 +617,7 @@ function mostrarEnvio() {
                         </ion-list>                    
                 `
                 })
+                
             }           
         })
         .catch(function (error) {
@@ -650,8 +648,7 @@ function btnDetalleEnvio(idDeEnvio){
                 idCiudad++;
                 idCiudadOrig = "COD"+idCiudad;
                 idCiudadDest = "CDD"+idCiudad;
-                mostrarCiudadOrigenEnviosD(idBusc.ciudad_origen,idCiudadOrig);                    
-                mostrarCiudadDestinoEnviosD(idBusc.ciudad_destino,idCiudadDest);                    
+                mostrarCiudadDetalles(idBusc.ciudad_origen,idCiudadOrig,idBusc.ciudad_destino,idCiudadDest);                 
                 document.querySelector("#detalleEnvios").innerHTML += `
                     <ion-list>
                     <ion-item>
@@ -665,23 +662,21 @@ function btnDetalleEnvio(idDeEnvio){
                     </ion-item>
                     <ion-item>
                         <ion-label>${idBusc.precio}</ion-label>
-                    </ion-item>
-                                  
+                    </ion-item>                                  
                 `
-                mostrarCiudades(idBusc.ciudad_origen,idBusc.ciudad_destino);
+                //mostrarCiudades(idBusc.ciudad_origen,idBusc.ciudad_destino);
+                break;
             }
-            break;
+           
         }    
-        
-
-        setTimeout(function () {
-            let routeDetalle = document.createElement("ion-route");
-            routeDetalle.setAttribute("url", "/Detalle-Envios");
-            routeDetalle.setAttribute("component", "pDetalleEnvios");
-            route.appendChild(routeDetalle);
-            route.push("/Detalle-Envios");
-        }, 500);
-
+      
+    })
+    .then(function(){
+        let routeDetalle = document.createElement("ion-route");
+        routeDetalle.setAttribute("url", "/Detalle-Envios");
+        routeDetalle.setAttribute("component", "pDetalleEnvios");
+        route.appendChild(routeDetalle);
+        route.push("/Detalle-Envios");
     })
     .catch(function (error) {
         handleButtonClick(error);
@@ -690,8 +685,9 @@ function btnDetalleEnvio(idDeEnvio){
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
 
-function mostrarCiudadOrigenEnvios(numeroCiudad,idLabel) {
-    let idCO = "."+idLabel;
+function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,idLabelDest) {
+    let idCO = "."+idLabelOrign;
+    let idCD = "."+idLabelDest;
     
    fetch(`https://envios.develotion.com/ciudades.php`,
         {
@@ -705,45 +701,25 @@ function mostrarCiudadOrigenEnvios(numeroCiudad,idLabel) {
         .then(function (data) {
             for(let i=0; i<data.ciudades.length; i++){
                 const ciudadBusc = data.ciudades[i];
-                if(numeroCiudad === ciudadBusc.id){                    
-                    document.querySelector(idCO).innerHTML = ciudadBusc.nombre;  
-                                    
+                if(numeroCiudadOrign === ciudadBusc.id){                    
+                    document.querySelector(idCO).innerHTML = ciudadBusc.nombre;
                     break;
                 }
             }
+
+            for(let i=0; i<data.ciudades.length; i++){
+                const ciudadBusc = data.ciudades[i];
+                if(numeroCiudadDest === ciudadBusc.id){                    
+                    document.querySelector(idCD).innerHTML = ciudadBusc.nombre;                     
+                    break;
+                }
+            }
+            
         })
         .catch(function (error) {
             handleButtonClick(error);
         })
 }
-
-/* Api Ciudad de Envio Origen/Destino Mostrar */
-
-function mostrarCiudadDestinoEnvios(numeroCiudad,idLabel) {
-    let idCD = "."+idLabel;
-    fetch(`https://envios.develotion.com/ciudades.php`,
-         {
-             headers: {
-                 apiKey: localStorage.getItem("token")
-             }
-         })
-         .then(function (response) {
-             return response.json();
-         })
-         .then(function (data) {
-             for(let i=0; i<data.ciudades.length; i++){
-                 const ciudadBusc = data.ciudades[i];
-                 if(numeroCiudad === ciudadBusc.id){                    
-                     document.querySelector(idCD).innerHTML = ciudadBusc.nombre;                     
-                     break;
-                 }
-             }
-         })
-         .catch(function (error) {
-             handleButtonClick(error);
-         })
- }
-
 
  /* Para Detalles */
  /* Api Ciudad de Envio Origen/Destino Mostrar */
