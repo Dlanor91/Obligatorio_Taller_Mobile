@@ -377,9 +377,11 @@ function agregarEnvios(){
             distancia = Math.ceil(distancia);
             let precio = 0;
             precio = (50 + (pesoEnvio*10) + (50*distancia));
-            precio = precio.toFixed(2);}, 2500);
+            precio = precio.toFixed(2);
+            agregarEnvio(ciudadOrigen,ciudadDestino,pesoEnvio,distanciaEnvios,precio,mostrarCategorias);//funciona que llama la api de almacenar
+        }, 2500);
 
-            //almacenarEnvio(); funciona que llama la api de almacenar
+             
               
     } catch (Error) {
         handleButtonClick(Error);
@@ -628,6 +630,45 @@ function mostrarCategorias() {
         })
 
 }
+
+/* Api Agregar un Envio */
+
+function agregarEnvio(idCiudadOrigen,idCiudadDestino,peso,distancia,precio,idCategoria){
+
+    let datosAgregarEnvio = {
+        "idUsuario": localStorage.getItem("id"),
+        "idCiudadOrigen": idCiudadOrigen,
+        "idCiudadDestino": idCiudadDestino,
+        "peso": peso,
+        "distancia": distancia,
+        "precio": precio,
+        "idCategoria": idCategoria
+    }
+
+    fetch("https://envios.develotion.com/envios.php",
+        {
+            
+           method: "POST",
+           body: JSON.stringify(datosAgregarEnvio),
+           headers: {
+            apiKey: localStorage.getItem("token")
+        }
+
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            let envioIngresado = `Envio registrado correctamente. El precio del envío es: ${precio}$.`;
+            registroCorrecto(envioIngresado)
+           
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+
 
 /* Api Obtener Nombre Categoria */
 
