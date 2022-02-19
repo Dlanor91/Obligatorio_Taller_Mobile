@@ -310,9 +310,11 @@ function calcularEnvios(){
                 flagCiudadCercana = false
            }
         }else if(flagCalcularEnvio){ 
-            let parrafoCreado = document.querySelector("#distanciaEnvios"); 
-            parrafoCreado.innerHTML = "";          
+            let parrafoCreado = document.querySelector("#distanciaEnvios");                     
             pEnvios.removeChild(mapa); 
+            if (parrafoCreado!=null) {
+                parrafoCreado.remove();
+            }
                 
         }
 
