@@ -28,6 +28,9 @@ let flagAgregarEnvio = false;
 let flagDetalleEnvio = false;
 let flagCiudadCercana = false;
 
+/* Arreglo de Top5 */
+let ciudadesCantidad = [];
+
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
 
@@ -1150,7 +1153,7 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
         })
 }
 
-/* Api Top 5 */
+/* Api para contar todas las ciudades de envios */
 function contarCiudades() {
     let idDeUsuario = localStorage.getItem("id");
     document.querySelector("#pListarEnvios").innerHTML = "";
@@ -1158,7 +1161,7 @@ function contarCiudades() {
     let ciudadYaContada = false;
    
     /* Arreglo de Top 5 */
-    let ciudadesCantidad = []
+    ciudadesCantidad = []
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
     {
         headers: {
@@ -1181,7 +1184,7 @@ function contarCiudades() {
 
                     /* Aqui revisamos si existe la ciudad en el arreglo */
                     for (let l = 0; l < ciudadesCantidad.length; l++) {
-                        const ciudadArreglo = ciudadesCantidad[l].ciudad;
+                        const ciudadArreglo = ciudadesCantidad[l].idCiudadDestino;
                             if (ciudadEncontrada === ciudadArreglo) {
                                 ciudadYaContada = true;
                                 break;
@@ -1196,7 +1199,8 @@ function contarCiudades() {
                                 cantidadContada++;
                             }                            
                         }
-                        ciudadesCantidad.push({ciudad: ciudadEncontrada,cant: cantidadContada});
+
+                        ciudadesCantidad.push({idCiudadDestino: ciudadEncontrada, cant: cantidadContada});
                    }
                 }
              }  
