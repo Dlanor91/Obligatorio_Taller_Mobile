@@ -400,7 +400,8 @@ function agregarEnvios(){
             texto = document.createTextNode("El precio del envío es de: $" + precioEnvios);
        
             parrafo.appendChild(texto);
-            itemLabel2.appendChild(parrafo);document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel2); }, 2500);
+            itemLabel2.appendChild(parrafo);
+            document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel2); }, 2500);
 
         
     } 
