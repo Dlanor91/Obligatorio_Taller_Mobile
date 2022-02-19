@@ -16,10 +16,15 @@ let latitudCiudadDestino;
 let longitudCiudadDestino;
 let nombreDeCategoria;
 
+/* Para la geolocalizacion */
+let latitudUsuarioLogueado;
+let longitudUsuarioLogueado;
+
 /* Banderas para mapas activos  */
 let flagCalcularEnvio = false;
 let flagAgregarEnvio = false;
 let flagDetalleEnvio = false;
+
 
 
 /* Menú Cambiar de Pestannas*/
@@ -112,6 +117,8 @@ function navegacionMenu(event) {
             document.querySelector("#pEstadisticas").style.display = "block";
             
         } else if (paginaActiva === "/CiudadCercana") {
+
+            mostrarCiudadCercana();
 
             document.querySelector("#pCiudadCercana").style.display = "block";
 
@@ -388,7 +395,7 @@ function agregarEnvios(){
             let itemLabel2 = document.createElement("ion-label");
             let parrafo = document.createElement("p");
             texto = document.createTextNode("");
-            
+
             setTimeout(function () { 
             texto = document.createTextNode("El precio del envío es de: $" + precioEnvios);
        
@@ -407,6 +414,27 @@ function agregarEnvios(){
 document.querySelector("#volverDetalle").addEventListener("click", VolveraPaginaDetalles);
 function VolveraPaginaDetalles() {
     route.back();
+}
+
+/* Funcion mostrar ciudad mas cercana */
+
+function mostrarCiudadCercana(){
+
+    /* Datos de Mi posicion actual que me proveen las mismas api siempre que mi navegador lo tenga activo*/
+navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbicacion);
+
+function GuardarPosicionUsuario(positionActual) {
+    latitudUsuarioLogueado = positionActual.coords.latitude;
+    longitudUsuarioLogueado = positionActual.coords.longitude;
+}
+function MostrarErrorUbicacion(error) {
+    console.log(error)
+    if(error){
+        let errorMostrar = "Active su Geo Localización";
+        registroCorrecto(errorMostrar);
+        route.push("/Estadisticas");
+    }
+}
 }
 
 /* APIs */
