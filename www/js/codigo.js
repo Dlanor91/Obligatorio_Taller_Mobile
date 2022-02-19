@@ -935,7 +935,7 @@ function btnEliminarEnvio(idDeEnvio){
             .then(function (data) {
                 let envioEliminado = `El envío ha sido eliminado correctamente.`;
                 registroCorrecto(envioEliminado)
-                //mostrarEnvio();
+                mostrarEnvio();
             })
             .catch(function (error) {
                 handleButtonClick(error);
