@@ -424,18 +424,20 @@ function mostrarCiudadCercana(){
     /* Datos de Mi posicion actual que me proveen las mismas api siempre que mi navegador lo tenga activo*/
 navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbicacion);
 
-function GuardarPosicionUsuario(positionActual) {
-    latitudUsuarioLogueado = positionActual.coords.latitude;
-    longitudUsuarioLogueado = positionActual.coords.longitude;
-}
-function MostrarErrorUbicacion(error) {
-    console.log(error)
-    if(error){
-        let errorMostrar = "Active su Geo Localización";
-        registroCorrecto(errorMostrar);
-        route.push("/Estadisticas");
+    function GuardarPosicionUsuario(positionActual) {
+        console.log(positionActual);
+        latitudUsuarioLogueado = positionActual.coords.latitude;
+        longitudUsuarioLogueado = positionActual.coords.longitude;
+        mostrarCiudadCercanaMapa(latitudUsuarioLogueado,longitudUsuarioLogueado);
     }
-}
+    function MostrarErrorUbicacion(error) {
+        console.log(error)
+        if(error){
+            let errorMostrar = "Active su Geo Localización";
+            registroCorrecto(errorMostrar);
+            route.push("/Estadisticas");
+        }  
+    }
 }
 
 /* APIs */
@@ -501,6 +503,75 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
     })   
     
 }
+
+
+/* API Mostrar Ciudad mas Cercana */
+function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
+    let mostrarCiudadCercanaUsuario = document.querySelector("#mostrarCiudadCercanaUsuario");
+   /*  fetch(`https://envios.develotion.com/ciudades.php`,
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {  */ 
+        /* let ciudadOrigenEnc = false;
+        let ciudadDestinoEnc = false;          
+        for(let i=0; i<data.ciudades.length; i++){
+            const ciudadBusc = data.ciudades[i];
+            if(idCiudadOrigen === ciudadBusc.id){                    
+                latitudCiudadOrigen = ciudadBusc.latitud;
+                longitudCiudadOrigen = ciudadBusc.longitud;
+                ciudadOrigenEnc = true;
+            }
+
+            if(idCiudadDestino === ciudadBusc.id){                    
+                latitudCiudadDestino = ciudadBusc.latitud;
+                longitudCiudadDestino = ciudadBusc.longitud;
+                ciudadDestinoEnc = true;
+            }
+            if (ciudadOrigenEnc && ciudadDestinoEnc) {
+               break;
+            }
+        } */
+            
+        
+        if (map != null) {
+            map.remove();
+        }
+            let divMapa = document.createElement("div");
+            divMapa.style.height = "200px";
+            divMapa.setAttribute("id","map");
+            mostrarCiudadCercanaUsuario.appendChild(divMapa);
+            map = L.map('map').setView([latUsuario, longUsuario], 13);
+                
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);   
+
+        L.marker([latUsuario, longUsuario]).addTo(map)
+        .bindPopup('Mi posición.')
+        .openPopup(); 
+
+        /* L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
+        .bindPopup('Ciudad Origen')
+        .openPopup();   */
+        
+        /* distanciaEnvios = map.distance([latitudCiudadOrigen, longitudCiudadOrigen], [latitudCiudadDestino, longitudCiudadDestino]); */
+    
+        /* LLevo a KMs */
+        /* distanciaEnvios  /= 1000;   */      
+        
+  /*   })
+    .catch(function (error) {
+        handleButtonClick(error);
+    })   
+     */
+}
+
 
 /* Api Departamentos */
 function mostrarDepartamentos(){
