@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!--Codigo CSS  -->
+  <link rel="stylesheet" href="css/estilos.css" type="text/css">
+
   <!-- Enlace a Codigo JS -->
   <script src="js/codigo.js" type="text/javascript" defer></script>
 
@@ -32,6 +35,13 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <style>
+      ::content {
+        --ion-safe-area-top: 20px;
+        --ion-safe-area-bottom: -100px;
+      }
+    </style>
+
   <title>Obligatorio: Taller de Dispositivos Moviles</title>  
   
 </head>
@@ -54,7 +64,7 @@
     <ion-nav></ion-nav><!-- Se le debe adicionar un nav para que se genere -->
 
     <!-- Creo el menu hamburguesa -->
-    <ion-menu side="start" menu-id="first" class="my-custom-menu" content-id="main" id="menu">
+    <ion-menu side="start" menu-id="first" content-id="main" id="menu">
       <ion-header>
         <ion-toolbar color="primary">
           <ion-title>Menú Principal</ion-title>
@@ -260,7 +270,7 @@
 
 
     <!-- Pagina Listar, Detalle y Compartir Envios -->
-    <ion-page class="ion-page paginaMenu" id="pEnvios">
+    <ion-page class="ion-page paginaMenu" id="pEnvios" >
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
@@ -273,7 +283,7 @@
           <ion-title>Envíos </ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding" id="pListarEnvios" fullscreen>
+      <ion-content class="ion-padding" id="pListarEnvios">
 
       </ion-content>
     </ion-page>
@@ -352,12 +362,12 @@
     </ion-page>
 
     <!-- Footer -->
-    <!-- <ion-footer side="end" menu-id="first" class="my-custom-menu" content-id="main" >
+    <ion-footer>
        <ion-toolbar >
         <ion-title size="small">Universidad ORT - © 2022 - Natalia Didac - Ronald Lima
         </ion-title>
       </ion-toolbar>
-    </ion-footer> -->
+    </ion-footer>
 
   </ion-app>
 

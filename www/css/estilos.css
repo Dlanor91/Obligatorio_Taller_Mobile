@@ -1,0 +1,4 @@
+ion-content {
+--offset-top: 10px !important;  
+--offset-bottom: -120px !important;
+}
