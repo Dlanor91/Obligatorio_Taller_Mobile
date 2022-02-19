@@ -430,8 +430,7 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
         longitudUsuarioLogueado = positionActual.coords.longitude;
         mostrarCiudadCercanaMapa(latitudUsuarioLogueado,longitudUsuarioLogueado);
     }
-    function MostrarErrorUbicacion(error) {
-        console.log(error)
+    function MostrarErrorUbicacion(error) {        
         if(error){
             let errorMostrar = "Active su Geo Localización";
             registroCorrecto(errorMostrar);
