@@ -1109,6 +1109,8 @@ function precioTotalEnvios(){
 function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,idLabelDest) {
     let idCO = "."+idLabelOrign;
     let idCD = "."+idLabelDest;
+    let ciudadOrigenEnc = false;
+    let ciudadDestinoEnc = false;
     
    fetch(`https://envios.develotion.com/ciudades.php`,
         {
@@ -1124,15 +1126,17 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
                 const ciudadBusc = data.ciudades[i];
                 if(numeroCiudadOrign === ciudadBusc.id){                    
                     document.querySelector(idCO).innerHTML = "Ciudad Origen: " + ciudadBusc.nombre;
-                    break;
+                    ciudadOrigenEnc = true;
                 }
-            }
-
-            for(let i=0; i<data.ciudades.length; i++){
-                const ciudadBusc = data.ciudades[i];
+            
                 if(numeroCiudadDest === ciudadBusc.id){                    
                     document.querySelector(idCD).innerHTML = "Ciudad Destino: " +ciudadBusc.nombre;                     
+                    ciudadDestinoEnc = true;
+                }
+
+                if (ciudadOrigenEnc && ciudadDestinoEnc) {
                     break;
+                    
                 }
             }
             
