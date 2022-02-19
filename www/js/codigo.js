@@ -106,8 +106,8 @@ function navegacionMenu(event) {
 
         } else if (paginaActiva === "/Envios") {
 
-            document.querySelector("#pEnvios").style.display = "block";                               
-            mostrarEnvio();
+            document.querySelector("#pEnvios").style.display = "block"; 
+            setTimeout(mostrarEnvio,2000); 
 
         }else if (paginaActiva === "/Detalle-Envios") {
             
