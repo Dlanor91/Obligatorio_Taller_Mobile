@@ -747,7 +747,7 @@ function mostrarEnvio() {
                         <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
                                 Detalle
                         </ion-button>
-                        <ion-button color="medium" onclick="btnEliminarEnvio()">
+                        <ion-button color="medium" onclick="btnEliminarEnvio(${element.id})">
                                 Eliminar
                         </ion-button>
                         </ion-list>                    
@@ -865,6 +865,36 @@ function btnDetalleEnvio(idDeEnvio){
         handleButtonClick(error);
     })
 }
+
+/* Eliminar Envio de un Usuario */
+
+function btnEliminarEnvio(idDeEnvio){
+
+    
+    let envioEliminar  = {
+        "idEnvio": idDeEnvio,
+    }
+
+    fetch("https://envios.develotion.com/envios.php",
+            {
+                method: "DELETE",
+                body: JSON.stringify(envioEliminar), 
+                headers: {
+                    apiKey: localStorage.getItem("token")
+                }
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                let envioEliminado = `El envío ha sido eliminado correctamente.`;
+                registroCorrecto(envioEliminado)
+                //mostrarEnvio();
+            })
+            .catch(function (error) {
+                handleButtonClick(error);
+            })
+};
 
 /* Api para Calcular Total */
  
