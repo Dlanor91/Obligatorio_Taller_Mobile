@@ -903,6 +903,9 @@ function mostrarEnvio() {
                     document.querySelector("#pListarEnvios").innerHTML += `
                         <ion-list>
                         <ion-item>
+                            <ion-label>Envío: ${idCiudad}</ion-label>
+                        </ion-item>
+                        <ion-item>
                             <ion-label class="${idCiudadOrig}"></ion-label>
                         </ion-item>
                         <ion-item>
