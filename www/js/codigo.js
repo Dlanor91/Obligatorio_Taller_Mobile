@@ -89,9 +89,7 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ; 
-            document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "block";
-            document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "block";   
+            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;               
                                
             mostrarDepartamentos();  
 
@@ -276,8 +274,7 @@ function calcularEnvios(){
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
     let ciudadDestino = Number(document.querySelector(".mostrarCiudadDestinoCE").value);  
-    document.querySelector(".bloqueDepartamentoDestinoCE").style.display = "none";
-    document.querySelector(".bloqueDepartamentoOrigenCE").style.display = "none"; 
+    
 
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -492,19 +489,20 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
         if (map != null) {
             map.remove();
         }
-            map = L.map('map').setView([latitudCiudadOrigen, longitudCiudadOrigen], 13);
+            map = L.map('map').setView([latitudCiudadDestino, longitudCiudadDestino], 12);
                 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);   
 
+        L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
+        .bindPopup('Ciudad Origen')
+        .openPopup();  
+        
         L.marker([latitudCiudadDestino, longitudCiudadDestino]).addTo(map)
         .bindPopup('Ciudad Destino')
         .openPopup(); 
 
-        L.marker([latitudCiudadOrigen, longitudCiudadOrigen]).addTo(map)
-        .bindPopup('Ciudad Origen')
-        .openPopup();  
         
         distanciaEnvios = map.distance([latitudCiudadOrigen, longitudCiudadOrigen], [latitudCiudadDestino, longitudCiudadDestino]);
     
