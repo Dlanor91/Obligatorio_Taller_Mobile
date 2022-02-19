@@ -567,13 +567,20 @@ function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
                 pEnvios.removeChild(mapa)
                 flagCalcularEnvio = false
            }
+        }else if(flagCiudadCercana){ 
+            let parrafoCreado = document.querySelector("#ciudadCercana");                     
+            mostrarCiudadCercanaUsuario.removeChild(mapa); 
+            if (parrafoCreado!=null) {
+                parrafoCreado.remove();
+            } 
         }
-         
+
         let divMapa = document.createElement("div");
         divMapa.style.height = "200px";
         divMapa.setAttribute("id","map");
         mostrarCiudadCercanaUsuario.appendChild(divMapa);
         flagCiudadCercana = true;
+
         map = L.map('map').setView([latUsuario, longUsuario], 13);
                   
         for(let i=0; i<data.ciudades.length; i++){
@@ -587,7 +594,7 @@ function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
                 longCiudadCercana = ciudadCercana.longitud;                
             }
         }
-                            
+                                    
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);   
@@ -599,6 +606,16 @@ function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
         L.marker([latCiudadCercana, longCiudadCercana]).addTo(map)
         .bindPopup('Ciudad mas cercana')
         .openPopup();
+
+        let itemLabel2 = document.createElement("ion-label");
+        let parrafo = document.createElement("p");
+        parrafo.setAttribute("id","ciudadCercana")            
+        setTimeout(function () { 
+        distanciaMinimaCiudad /=1000;
+        texto = document.createTextNode("La distancia a la ciudad más cercana es de: " + distanciaMinimaCiudad.toFixed(2) + " kms.");
+        parrafo.appendChild(texto);
+        itemLabel2.appendChild(parrafo);
+        document.querySelector("#mostrarCiudadCercanaUsuario").appendChild(itemLabel2); }, 2500);
         
     })
     .catch(function (error) {
