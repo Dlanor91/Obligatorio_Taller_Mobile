@@ -1181,7 +1181,7 @@ function contarCiudades() {
 
                     /* Aqui revisamos si existe la ciudad en el arreglo */
                     for (let l = 0; l < ciudadesCantidad.length; l++) {
-                        const ciudadArreglo = ciudadesCantidad[l][0].ciudad;
+                        const ciudadArreglo = ciudadesCantidad[l].ciudad;
                             if (ciudadEncontrada === ciudadArreglo) {
                                 ciudadYaContada = true;
                                 break;
@@ -1196,11 +1196,11 @@ function contarCiudades() {
                                 cantidadContada++;
                             }                            
                         }
-                        ciudadesCantidad.push([{ciudad: ciudadEncontrada,cant: cantidadContada}]);
+                        ciudadesCantidad.push({ciudad: ciudadEncontrada,cant: cantidadContada});
                    }
                 }
              }  
-             //console.log (ciudadesCantidad);
+             console.log (ciudadesCantidad);
         })
         .catch(function (error) {
             handleButtonClick(error);
