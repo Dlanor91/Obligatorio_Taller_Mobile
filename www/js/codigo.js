@@ -4,13 +4,16 @@ let route = document.querySelector("#routerMenu") /* Creo variable que adquiere 
 route.addEventListener("ionRouteWillChange",navegacionMenu); /* Detecto el cambio de evento */
 let usuarioNoLogueado = false; /* Para saber si esta registrado o no un usuario */
 
+/* Variables Para Funciones */
+let distanciaEnvios;
+let precioEnvios;
+
 /* Para todos los mapas a mostrar */
 let map;
 let latitudCiudadOrigen;
 let longitudCiudadOrigen;
 let latitudCiudadDestino;
 let longitudCiudadDestino;
-let distanciaEnvios;
 let nombreDeCategoria;
 
 /* Banderas para mapas activos  */
@@ -376,11 +379,26 @@ function agregarEnvios(){
             distancia = Math.ceil(distancia);
             let precio = 0;
             precio = (50 + (pesoEnvio*10) + (50*distancia));
-            precio = precio.toFixed(2);
+            precio = precio.toFixed(2);  
+            precioEnvios = precio;          
             agregarEnvio(ciudadOrigen,ciudadDestino,pesoEnvio,distanciaEnvios,precio,mostrarCategorias);//funciona que llama la api de almacenar
         }, 2500);
               
-    } catch (Error) {
+        
+            let itemLabel2 = document.createElement("ion-label");
+            let parrafo = document.createElement("p");
+            texto = document.createTextNode("");
+            
+            setTimeout(function () { 
+            texto = document.createTextNode("El precio del envío es de: $" + precioEnvios);
+       
+            parrafo.appendChild(texto);
+            itemLabel2.appendChild(parrafo);document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel2); }, 2500);
+
+        
+    } 
+    
+    catch (Error) {
         handleButtonClick(Error);
     }
 }
@@ -662,7 +680,7 @@ function agregarEnvio(idCiudadOrigen,idCiudadDestino,peso,distancia,precio,idCat
             return response.json();
         })
         .then(function (data) {
-            let envioIngresado = `Envio registrado correctamente. El precio del envío es: ${precio}$.`;
+            let envioIngresado = `Envio registrado correctamente.`;
             registroCorrecto(envioIngresado)
            
         })
