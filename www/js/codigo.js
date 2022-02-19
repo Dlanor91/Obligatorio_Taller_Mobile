@@ -26,6 +26,7 @@ let distanciaMinimaCiudad;
 let flagCalcularEnvio = false;
 let flagAgregarEnvio = false;
 let flagDetalleEnvio = false;
+let flagCiudadCercana = false;
 
 
 
@@ -270,6 +271,7 @@ function calcularEnvios(){
     let pEnvios = document.querySelector("#mostrarCalculoEnvio");
     let pDetalleEnvio = document.querySelector("#detalleEnvios");  
     let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");  
+    let mostrarCiudadCercanaUsuario = document.querySelector("#mostrarCiudadCercanaUsuario");
     let departamentoOrigen = Number(document.querySelector(".mostrarDepartamentoOrigenCE").value);    
     let departamentoDestino = Number(document.querySelector(".mostrarDepartamentoDestinoCE").value);
     let ciudadOrigen = Number(document.querySelector(".mostrarCiudadOrigenCE").value);    
@@ -297,12 +299,17 @@ function calcularEnvios(){
             if(flagAgregarEnvio){
 
                 pAgregarEnvios.removeChild(mapa);
-               flagAgregarEnvio = false;
+                flagAgregarEnvio = false;
 
            }else if(flagDetalleEnvio){
 
-               pDetalleEnvio.removeChild(mapa);
-               flagDetalleEnvio = false;
+                pDetalleEnvio.removeChild(mapa);
+                flagDetalleEnvio = false;
+
+           }else if(flagCiudadCercana){
+
+                mostrarCiudadCercanaUsuario.removeChild(mapa)
+                flagCiudadCercana = false
            }
         }
 
@@ -340,6 +347,7 @@ function agregarEnvios(){
     let pEnvios = document.querySelector("#mostrarCalculoEnvio");    
     let pDetalleEnvio = document.querySelector("#detalleEnvios");  
     let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");  
+    let mostrarCiudadCercanaUsuario = document.querySelector("#mostrarCiudadCercanaUsuario");
     
     try {
         if (departamentoOrigen === "" || isNaN(departamentoOrigen) ) {
@@ -372,7 +380,11 @@ function agregarEnvios(){
 
                 pDetalleEnvio.removeChild(mapa);
                 flagDetalleEnvio = false;
-            }
+            }else if(flagCiudadCercana){
+
+                mostrarCiudadCercanaUsuario.removeChild(mapa)
+                flagCiudadCercana = false
+           }
          }
          
          let divMapa = document.createElement("div");
@@ -432,8 +444,7 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
         longitudUsuarioLogueado = positionActual.coords.longitude;
         mostrarCiudadCercanaMapa(latitudUsuarioLogueado,longitudUsuarioLogueado);
     }
-    function MostrarErrorUbicacion(error) {
-        console.log(error)
+    function MostrarErrorUbicacion(error) {        
         if(error){
             let errorMostrar = "Active su Geo Localización";
             registroCorrecto(errorMostrar);
@@ -507,14 +518,17 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
     
 }
 
-
 /* API Mostrar Ciudad mas Cercana */
 function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
     let mostrarCiudadCercanaUsuario = document.querySelector("#mostrarCiudadCercanaUsuario");
+    let pEnvios = document.querySelector("#mostrarCalculoEnvio");
+    let pDetalleEnvio = document.querySelector("#detalleEnvios");  
+    let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");
     distanciaMinimaCiudad = Number.POSITIVE_INFINITY; /* Inicializa en un numero positivo infinito */
     let latCiudadCercana;
     let longCiudadCercana;
     let distanciaCiudadCercana;
+
    fetch(`https://envios.develotion.com/ciudades.php`,
     {
         headers: {
@@ -526,14 +540,30 @@ function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
     })
     .then(function (data) {
         
-        if (map != null) {
-            map.remove();
+        if(map!=null && !flagCiudadCercana){
+            let mapa = document.querySelector("#map");
+            if(flagAgregarEnvio){
+
+                pAgregarEnvios.removeChild(mapa);
+                flagAgregarEnvio = false;
+
+           }else if(flagDetalleEnvio){
+
+                pDetalleEnvio.removeChild(mapa);
+                flagDetalleEnvio = false;
+
+           }else if(flagCalcularEnvio){
+
+                pEnvios.removeChild(mapa)
+                flagCalcularEnvio = false
+           }
         }
          
         let divMapa = document.createElement("div");
         divMapa.style.height = "200px";
         divMapa.setAttribute("id","map");
         mostrarCiudadCercanaUsuario.appendChild(divMapa);
+        flagCiudadCercana = true;
         map = L.map('map').setView([latUsuario, longUsuario], 13);
                   
         for(let i=0; i<data.ciudades.length; i++){
@@ -939,6 +969,7 @@ function btnDetalleEnvio(idDeEnvio){
         let pEnvios = document.querySelector("#mostrarCalculoEnvio");
         let agregarEnvios = document.querySelector("#mostrarAgregarEnvios");
         let detalleEnvios = document.querySelector("#detalleEnvios");
+        let mostrarCiudadCercanaUsuario = document.querySelector("#mostrarCiudadCercanaUsuario");
         
           if(map!=null && !flagDetalleEnvio){
             let mapa = document.querySelector("#map");
@@ -952,7 +983,11 @@ function btnDetalleEnvio(idDeEnvio){
                 pEnvios.removeChild(mapa);
                 flagCalcularEnvio = false;
 
-           }
+           }else if(flagCiudadCercana){
+
+            mostrarCiudadCercanaUsuario.removeChild(mapa)
+            flagCiudadCercana = false
+            }
         }       
          
         setTimeout(function () {
