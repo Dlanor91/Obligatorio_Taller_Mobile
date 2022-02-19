@@ -28,8 +28,6 @@ let flagAgregarEnvio = false;
 let flagDetalleEnvio = false;
 let flagCiudadCercana = false;
 
-
-
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
 
@@ -117,6 +115,7 @@ function navegacionMenu(event) {
 
             document.querySelector("#pEstadisticas").style.display = "block";
             precioTotalEnvios();
+            setTimeout(mostrarTop5,1500)
             
         } else if (paginaActiva === "/CiudadCercana") {
 
@@ -462,6 +461,11 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
     }
 }
 
+/* Mostrar Top 5 Ciudades con mas envios */
+function mostrarTop5() {
+    contarCiudades();
+    
+}
 
 /* APIs */
 
@@ -932,7 +936,6 @@ function mostrarEnvio() {
         .catch(function (error) {
             handleButtonClick(error);
         })
-
 }
 
 /* Api para mostrar Detalle de un envio */
@@ -1089,6 +1092,7 @@ function precioTotalEnvios(){
             return response.json();
     })
     .then(function (data){
+       
         for (let i = 0; i < data.envios.length; i++) {
             const precioBuscar = data.envios[i];
             totalPrecioEnvios += precioBuscar.precio;
@@ -1098,7 +1102,7 @@ function precioTotalEnvios(){
             <ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}.</ion-label>
         </ion-item> 
         `
-    })
+       })
     .catch(function (error) {
         handleButtonClick(error);
     })
@@ -1140,6 +1144,63 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
                 }
             }
             
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api Top 5 */
+function contarCiudades() {
+    let idDeUsuario = localStorage.getItem("id");
+    document.querySelector("#pListarEnvios").innerHTML = "";
+    let cantidadContada = 0;
+    let ciudadYaContada = false;
+   
+    /* Arreglo de Top 5 */
+    let ciudadesCantidad = []
+    fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
+    {
+        headers: {
+            apiKey: localStorage.getItem("token")
+        }
+    })
+        .then(function (response) {
+            if(response.status !=200){
+                throw new error("Datos mal Ingresado")
+            }
+            return response.json();
+        })
+        .then(function (data) {
+             //console.log(data);  
+             if(data.envios.length>0){
+                for (let i = 0; i < data.envios.length; i++) {
+                    const ciudadEncontrada = data.envios[i].ciudad_destino;
+                    cantidadContada = 1;
+                    ciudadYaContada = false;
+
+                    /* Aqui revisamos si existe la ciudad en el arreglo */
+                    for (let l = 0; l < ciudadesCantidad.length; l++) {
+                        const ciudadArreglo = ciudadesCantidad[l][0].ciudad;
+                            if (ciudadEncontrada === ciudadArreglo) {
+                                ciudadYaContada = true;
+                                break;
+                            }
+                    }
+
+                    /* Si no se conto la ciudad, que la cuente */
+                   if(!ciudadYaContada){
+                        for (let j = i+1; j < data.envios.length; j++) {
+                            const compararCiudad = data.envios[j].ciudad_destino;
+                            if (ciudadEncontrada === compararCiudad) {
+                                cantidadContada++;
+                            }                            
+                        }
+                        ciudadesCantidad.push([{ciudad: ciudadEncontrada,cant: cantidadContada}]);
+                   }
+                }
+             }  
+             //console.log (ciudadesCantidad);
         })
         .catch(function (error) {
             handleButtonClick(error);
