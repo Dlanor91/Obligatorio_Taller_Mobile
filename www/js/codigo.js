@@ -7,6 +7,7 @@ let usuarioNoLogueado = false; /* Para saber si esta registrado o no un usuario 
 /* Variables Para Funciones */
 let distanciaEnvios;
 let precioEnvios;
+let totalPrecioEnvios = 0;
 
 /* Para todos los mapas a mostrar */
 let map;
@@ -116,6 +117,7 @@ function navegacionMenu(event) {
         }else if (paginaActiva === "/Estadisticas") {
 
             document.querySelector("#pEstadisticas").style.display = "block";
+            precioTotalEnvios();
             
         } else if (paginaActiva === "/CiudadCercana") {
 
@@ -439,6 +441,7 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
         }  
     }
 }
+
 
 /* APIs */
 
@@ -1008,7 +1011,9 @@ function btnEliminarEnvio(idDeEnvio){
 
 /* Api para Calcular Total */
  
-function totalGastoEnvios(){
+function precioTotalEnvios(){
+    totalPrecioEnvios = 0;
+    let idDeUsuario = localStorage.getItem("id");
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
     {
         headers: {
@@ -1018,7 +1023,20 @@ function totalGastoEnvios(){
     .then(function (response) {
             return response.json();
     })
-    .then()
+    .then(function (data){
+        for (let i = 0; i < data.envios.length; i++) {
+            const precioBuscar = data.envios[i];
+            totalPrecioEnvios += precioBuscar.precio;
+        }
+        document.querySelector("#estadisticasPrecios").innerHTML = `
+        <ion-item>
+            <ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}</ion-label>
+        </ion-item> 
+        `
+    })
+    .catch(function (error) {
+        handleButtonClick(error);
+    })
 }
 
 /* Api Ciudad de Envio Origen/Destino Mostrar */
