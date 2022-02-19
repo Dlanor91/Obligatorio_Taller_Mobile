@@ -32,7 +32,8 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
-  <title>Obligatorio: Taller de Dispositivos Moviles</title>
+  <title>Obligatorio: Taller de Dispositivos Moviles</title>  
+  
 </head>
 
 <body>
@@ -132,7 +133,7 @@
           </ion-input>
         </ion-item>
         <ion-button color="secondary" id="btnLogin">
-          <ion-icon name="log-in-outline"></ion-icon>Iniciar Sesion
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>Iniciar Sesion
         </ion-button>
       </ion-content>
     </ion-page>
@@ -185,7 +186,7 @@
           </ion-item>
         </ion-list>
         <ion-button color="medium" id="btnCalcularEnvios">
-          <ion-icon name="calculator-outline"></ion-icon>Calcular Envío
+          <ion-icon name="calculator-outline" slot="start"></ion-icon>Calcular Envío
         </ion-button>        
       </ion-content>
     </ion-page>
@@ -252,7 +253,7 @@
           <ion-input placeholder="Peso (kg)" class="ion-text-right" id="pesoEnvio"></ion-input>
         </ion-item>
         <ion-button color="medium" id="btnAgregarEnvios">
-          <ion-icon name="add-outline"></ion-icon>Agregar Envío
+          <ion-icon name="add-outline" slot="start"></ion-icon>Agregar Envío
         </ion-button>        
       </ion-content>
     </ion-page>
@@ -272,7 +273,7 @@
           <ion-title>Envíos </ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding" id="pListarEnvios">
+      <ion-content class="ion-padding" id="pListarEnvios" fullscreen>
 
       </ion-content>
     </ion-page>
@@ -351,12 +352,12 @@
     </ion-page>
 
     <!-- Footer -->
-    <ion-footer collapse="fade">
-      <ion-toolbar>
+    <!-- <ion-footer side="end" menu-id="first" class="my-custom-menu" content-id="main" >
+       <ion-toolbar >
         <ion-title size="small">Universidad ORT - © 2022 - Natalia Didac - Ronald Lima
         </ion-title>
       </ion-toolbar>
-    </ion-footer>
+    </ion-footer> -->
 
   </ion-app>
 

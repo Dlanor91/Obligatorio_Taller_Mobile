@@ -887,14 +887,14 @@ function mostrarEnvio() {
                         <ion-item>
                             <ion-label>Precio: $${element.precio}</ion-label>
                         </ion-item>
+                        </ion-list>                        
                         <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
-                                Detalle
+                        <ion-icon name="reader-outline" slot="start"></ion-icon>Detalle
                         </ion-button>
                         <ion-button color="medium" onclick="btnEliminarEnvio(${element.id})">
-                                Eliminar
+                        <ion-icon name="trash-outline" slot="start"></ion-icon> Eliminar
                         </ion-button>
-                        </ion-list>                    
-                `
+                          `
                 })
                 
             }           
@@ -1065,7 +1065,7 @@ function precioTotalEnvios(){
         }
         document.querySelector("#estadisticasPrecios").innerHTML = `
         <ion-item>
-            <ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}</ion-label>
+            <ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}.</ion-label>
         </ion-item> 
         `
     })
