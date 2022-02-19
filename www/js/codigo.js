@@ -314,8 +314,7 @@ function calcularEnvios(){
             pEnvios.removeChild(mapa); 
             if (parrafoCreado!=null) {
                 parrafoCreado.remove();
-            }
-                
+            }  
         }
 
         let divMapa = document.createElement("div");
@@ -376,8 +375,9 @@ function agregarEnvios(){
         
         /* Invoco las APIs de Latitud y Longitud */
          /* Creo el div de mapa */
+         let mapa = document.querySelector("#map");
          if(map!=null && !flagAgregarEnvio){
-             let mapa = document.querySelector("#map");
+             
              if(flagCalcularEnvio){
                 pEnvios.removeChild(mapa);
                 flagCalcularEnvio = false;
@@ -390,7 +390,13 @@ function agregarEnvios(){
                 mostrarCiudadCercanaUsuario.removeChild(mapa)
                 flagCiudadCercana = false
            }
-         }
+         }else if(flagAgregarEnvio){ 
+            let parrafoCreado = document.querySelector("#distanciaAgregarEnvios");                     
+            pAgregarEnvios.removeChild(mapa); 
+            if (parrafoCreado!=null) {
+                parrafoCreado.remove();
+            }  
+        }
          
          let divMapa = document.createElement("div");
          divMapa.style.height = "200px";
@@ -414,11 +420,9 @@ function agregarEnvios(){
         
             let itemLabel2 = document.createElement("ion-label");
             let parrafo = document.createElement("p");
-            texto = document.createTextNode("");
-
+            parrafo.setAttribute("id","distanciaAgregarEnvios")            
             setTimeout(function () { 
             texto = document.createTextNode("El precio del envío es de: $" + precioEnvios);
-       
             parrafo.appendChild(texto);
             itemLabel2.appendChild(parrafo);
             document.querySelector("#mostrarAgregarEnvios").appendChild(itemLabel2); }, 2500);
