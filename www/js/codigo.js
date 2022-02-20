@@ -102,6 +102,8 @@ function navegacionMenu(event) {
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
             document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
             document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
+            document.querySelector("#mostrarCategorias").innerHTML = "";
+            document.querySelector("#pesoEnvio").value = "";
                                   
             mostrarDepartamentos();      
             mostrarCategorias() ;/* Muestro las electrodomesticos */
@@ -118,6 +120,7 @@ function navegacionMenu(event) {
         }else if (paginaActiva === "/Estadisticas") {
 
             document.querySelector("#pEstadisticas").style.display = "block";
+            document.querySelector("#top5Mostrar").innerHTML = "";
             precioTotalEnvios();
             setTimeout(contarCiudades,1500);
             setTimeout(buscarDepartamento,1500);
