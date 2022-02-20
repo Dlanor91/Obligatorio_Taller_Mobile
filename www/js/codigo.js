@@ -1297,6 +1297,7 @@ function btnEliminarEnvio(idDeEnvio){
 function precioTotalEnvios(){
     totalPrecioEnvios = 0;
     let idDeUsuario = localStorage.getItem("id");
+    document.querySelector("#totalEnvios").innerHTML =""
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
     {
         headers: {
