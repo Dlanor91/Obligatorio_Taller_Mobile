@@ -122,7 +122,6 @@ function navegacionMenu(event) {
             setTimeout(contarCiudades,1500);
             setTimeout(buscarDepartamento,1500);
             
-            
         } else if (paginaActiva === "/CiudadCercana") {
 
             mostrarCiudadCercana();
@@ -474,6 +473,10 @@ function mostrarTop5() {
     let buscarDepartamentoContar = false;
     
     departamentosCantidad=[];
+    if(ciudadesCantidad.length===0){
+        document.querySelector("#top5Mostrar").innerHTML = `<ion-label>No tiene envios para mostrar datos.</ion-label>`;
+    }else{
+        document.querySelector("#top5Mostrar").innerHTML ="";
         for (let i = 0; i<ciudadesCantidad.length; i++) {
             const unDepartamento = ciudadesCantidad[i];        
             totalEnviosDepartamento = unDepartamento.cant;
@@ -499,9 +502,25 @@ function mostrarTop5() {
             }  
             
         }
-        setTimeout(buscarDepartamentoNombre,1500);
+        setTimeout(buscarDepartamentoNombre,1500); //Inserto el nombre del departamento.        
+
+        /* Ordeno los envios*/
+       departamentosCantidad.sort(function (a, b) {
+        if (a.totalEnviosDepartamento < b.totalEnviosDepartamento) {
+          return 1;
+        }
+        if (a.totalEnviosDepartamento > b.totalEnviosDepartamento) {
+          return -1;
+        }
+        // a must be equal to b
+        return 0;
+      })
+
+    }
            
 }
+
+ 
 
 /* APIs */
 
