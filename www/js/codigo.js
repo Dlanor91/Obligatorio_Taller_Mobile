@@ -100,13 +100,18 @@ function navegacionMenu(event) {
                 pCalcularEnvios.remove();
             }
 
+            /* Elimino el mapa */
            if(flagCalcularEnvio){
             pEnvios.removeChild(mapa);
             }
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
-            
+
+            let pMostrarEnvios = document.querySelector("#distanciaAgregarEnvios");
+            let pAgregarEnvios = document.querySelector("#mostrarAgregarEnvios");
+            let mapa = document.querySelector("#map");
+
             document.querySelector("#pAgregarEnvios").style.display = "block"; 
             document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
@@ -114,6 +119,16 @@ function navegacionMenu(event) {
             document.querySelector(".mostrarDepartamentoDestinoAE").value = undefined; 
             document.querySelector("#mostrarCategorias").value = undefined;
             document.querySelector("#pesoEnvio").value = "";
+
+             /* Elimino el cartel anterior */
+             if (pMostrarEnvios != null){
+                pMostrarEnvios.remove();
+            }
+
+            /* Elimino el mapa */
+           if(flagAgregarEnvio){
+            pAgregarEnvios.removeChild(mapa);
+            }
                                   
             mostrarDepartamentos();      
             mostrarCategorias() ;/* Muestro las electrodomesticos */
