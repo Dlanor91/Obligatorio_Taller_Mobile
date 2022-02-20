@@ -469,7 +469,7 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
     }
 }
 
-/* Mostrar Top 5 Ciudades con mas envios */
+/*Funcion para Mostrar Top 5 Ciudades con mas envios */
 document.querySelector("#btnTop5").addEventListener("click",mostrarTop5)
 function mostrarTop5() {    
     let totalEnviosDepartamento = 0
@@ -1027,8 +1027,6 @@ function agregarEnvio(idCiudadOrigen,idCiudadDestino,peso,distancia,precio,idCat
         })
 }
 
-
-
 /* Api Obtener Nombre Categoria */
 
 function mostrarNombreCategoria(idCategoria){
@@ -1259,7 +1257,6 @@ function btnDetalleEnvio(idDeEnvio){
 
 function btnEliminarEnvio(idDeEnvio){
 
-    
     let envioEliminar  = {
         "idEnvio": idDeEnvio,
     }
@@ -1485,7 +1482,7 @@ function buscarDepartamento() {
         })
 }
 
-/* Funcion que busca el nombre del departamento de top 5 */
+/* Api Funcion que busca el nombre del departamento de top 5 */
 function buscarDepartamentoNombre() {
     
     fetch(`https://envios.develotion.com/departamentos.php`,
