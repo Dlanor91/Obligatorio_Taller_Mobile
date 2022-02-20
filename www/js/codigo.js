@@ -560,6 +560,16 @@ function mostrarCiudades(idCiudadOrigen,idCiudadDestino){
         }
     })
     .then(function (response) {
+        if(response.status !=200){
+            throw new error("Sesión expirada. Inicie sesión nuevamente.")
+        }
+        if(response.status === 401){
+            /* Si falla el apikey que lo lleve al login */
+            localStorage.clear()
+            usuarioNoLogueado = false;
+            route.push("/Login")
+            
+        }
         return response.json();
     })
     .then(function (data) {  
@@ -632,6 +642,16 @@ function mostrarCiudadCercanaMapa(latUsuario,longUsuario){
         }
     })
     .then(function (response) {
+        if(response.status !=200){
+            throw new error("Sesión expirada. Inicie sesión nuevamente.")
+        }
+        if(response.status === 401){
+            /* Si falla el apikey que lo lleve al login */
+            localStorage.clear()
+            usuarioNoLogueado = false;
+            route.push("/Login")
+            
+        }
         return response.json();
     })
     .then(function (data) {
@@ -722,6 +742,16 @@ function mostrarDepartamentos(){
 
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -759,6 +789,26 @@ function mostrarCiudadPorDepartamentosOrigenCE() {
             }
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -789,6 +839,16 @@ function mostrarCiudadPorDepartamentosDestinoCE() {
             }
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -821,6 +881,16 @@ function mostrarCiudadPorDepartamentosOrigenAE() {
             }
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -851,6 +921,16 @@ function mostrarCiudadPorDepartamentosDestinoAE() {
             }
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -876,6 +956,16 @@ function mostrarCategorias() {
 
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -915,6 +1005,16 @@ function agregarEnvio(idCiudadOrigen,idCiudadDestino,peso,distancia,precio,idCat
 
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -940,6 +1040,16 @@ function mostrarNombreCategoria(idCategoria){
 
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -970,7 +1080,13 @@ function mostrarEnvio() {
     })
         .then(function (response) {
             if(response.status !=200){
-                throw new error("Datos mal Ingresado")
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
             }
             return response.json();
         })
@@ -1032,6 +1148,16 @@ function btnDetalleEnvio(idDeEnvio){
         }
     })
     .then(function (response) {
+        if(response.status !=200){
+            throw new error("Sesión expirada. Inicie sesión nuevamente.")
+        }
+        if(response.status === 401){
+            /* Si falla el apikey que lo lleve al login */
+            localStorage.clear()
+            usuarioNoLogueado = false;
+            route.push("/Login")
+            
+        }
         return response.json();
     })
     .then(function (data){
@@ -1147,6 +1273,16 @@ function btnEliminarEnvio(idDeEnvio){
                 }
             })
             .then(function (response) {
+                if(response.status !=200){
+                    throw new error("Sesión expirada. Inicie sesión nuevamente.")
+                }
+                if(response.status === 401){
+                    /* Si falla el apikey que lo lleve al login */
+                    localStorage.clear()
+                    usuarioNoLogueado = false;
+                    route.push("/Login")
+                    
+                }
                 return response.json();
             })
             .then(function (data) {
@@ -1171,6 +1307,16 @@ function precioTotalEnvios(){
         }
     })
     .then(function (response) {
+        if(response.status !=200){
+            throw new error("Sesión expirada. Inicie sesión nuevamente.")
+        }
+        if(response.status === 401){
+            /* Si falla el apikey que lo lleve al login */
+            localStorage.clear()
+            usuarioNoLogueado = false;
+            route.push("/Login")
+            
+        }
             return response.json();
     })
     .then(function (data){
@@ -1202,6 +1348,16 @@ function mostrarCiudadDetalles(numeroCiudadOrign,idLabelOrign,numeroCiudadDest,i
             }
         })
         .then(function (response) {
+            if(response.status !=200){
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
+            }
             return response.json();
         })
         .then(function (data) {
@@ -1247,7 +1403,14 @@ function contarCiudades() {
     })
         .then(function (response) {
             if(response.status !=200){
-                throw new error("Datos mal Ingresado")
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
+            }
+            if(response.status === 401){
+                /* Si falla el apikey que lo lleve al login */
+                localStorage.clear()
+                usuarioNoLogueado = false;
+                route.push("/Login")
+                
             }
             return response.json();
         })
@@ -1298,7 +1461,7 @@ function buscarDepartamento() {
         })
         .then(function (response) {
             if(response.status !=200){
-                throw new error("Datos mal Ingresado")
+                throw new error("Sesión expirada. Inicie sesión nuevamente.")
             }
             return response.json();
         })
