@@ -30,6 +30,7 @@ let flagCiudadCercana = false;
 
 /* Arreglo de Top5 */
 let ciudadesCantidad = [];
+let departamentosCantidad = [];
 
 /* Menú Cambiar de Pestannas*/
 document.querySelector("#routerMenu").addEventListener("ionRouteWillChange", navegacionMenu)
@@ -118,7 +119,11 @@ function navegacionMenu(event) {
 
             document.querySelector("#pEstadisticas").style.display = "block";
             precioTotalEnvios();
-            setTimeout(mostrarTop5,1500)
+            contarCiudades();
+            setTimeout(buscarDepartamento,1500);
+            setTimeout(buscarDepartamentoNombre,1500);
+            
+            
             
         } else if (paginaActiva === "/CiudadCercana") {
 
@@ -465,8 +470,43 @@ navigator.geolocation.getCurrentPosition(GuardarPosicionUsuario, MostrarErrorUbi
 }
 
 /* Mostrar Top 5 Ciudades con mas envios */
-function mostrarTop5() {
-    contarCiudades();
+document.querySelector("#btnTop5").addEventListener("click",mostrarTop5)
+function mostrarTop5() {    
+    let totalEnviosDepartamento = 0
+    let buscarDepartamentoContar = false;
+    
+    departamentosCantidad=[];
+    
+    
+        for (let i = 0; i<ciudadesCantidad.length; i++) {
+            const unDepartamento = ciudadesCantidad[i];        
+            totalEnviosDepartamento = unDepartamento.cant;
+            buscarDepartamentoContar = false;
+
+            for (let k = 0; k < departamentosCantidad.length; k++) {
+                const unDepartamentoExistente = departamentosCantidad[k];
+                if (unDepartamento.idDepartamento === unDepartamentoExistente.idDepartamento) {
+                    buscarDepartamentoContar = true;
+                    break;
+                }
+            }
+        
+            if (!buscarDepartamentoContar) {
+                for (let j = i+1; j < ciudadesCantidad.length; j++) {
+                    const undepartamentoBuscado = ciudadesCantidad[j];
+                    if (unDepartamento.idDepartamento === undepartamentoBuscado.idDepartamento) {
+                        totalEnviosDepartamento += undepartamentoBuscado.cant;                                          
+                    }
+                
+                }
+                departamentosCantidad.push({idDepartamento: unDepartamento.idDepartamento, nombreDepartamento: departamentoNombre, totalEnviosDepartamento})
+            }        
+
+            
+            
+        }
+        console.log(departamentosCantidad);
+    
     
 }
 
@@ -1100,10 +1140,7 @@ function precioTotalEnvios(){
             const precioBuscar = data.envios[i];
             totalPrecioEnvios += precioBuscar.precio;
         }
-        document.querySelector("#estadisticasPrecios").innerHTML = `
-        <ion-item>
-            <ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}.</ion-label>
-        </ion-item> 
+        document.querySelector("#totalEnvios").innerHTML = `<ion-label>El precio final de todos sus envíos es: $${totalPrecioEnvios}.</ion-label>
         `
        })
     .catch(function (error) {
@@ -1160,6 +1197,7 @@ function contarCiudades() {
     let cantidadContada = 0;
     let ciudadYaContada = false;
    
+   
     /* Arreglo de Top 5 */
     ciudadesCantidad = []
     fetch(`https://envios.develotion.com/envios.php?idUsuario=${idDeUsuario}`, 
@@ -1196,15 +1234,82 @@ function contarCiudades() {
                         for (let j = i+1; j < data.envios.length; j++) {
                             const compararCiudad = data.envios[j].ciudad_destino;
                             if (ciudadEncontrada === compararCiudad) {
-                                cantidadContada++;
-                            }                            
-                        }
-
-                        ciudadesCantidad.push({idCiudadDestino: ciudadEncontrada, cant: cantidadContada});
+                                cantidadContada++;                                
+                            }                      
+                        }                        
+                        ciudadesCantidad.push({idCiudadDestino: ciudadEncontrada, cant: cantidadContada,idDepartamento: "", nombreDpto: ""});
+                        
                    }
                 }
              }  
-             console.log (ciudadesCantidad);
+             
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Api top 5 obtener el departamento del envio */
+function buscarDepartamento() {    
+    fetch(`https://envios.develotion.com/ciudades.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            if(response.status !=200){
+                throw new error("Datos mal Ingresado")
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data)       
+            
+                for (let j = 0; j < ciudadesCantidad.length; j++) {
+                    const ciudadEnvio = ciudadesCantidad[j];
+                    for (let i = 0; i < data.ciudades.length; i++) {
+                        const unaCiudad = data.ciudades[i];
+                    if(unaCiudad.id === ciudadEnvio.idCiudadDestino){                        
+                        ciudadEnvio.idDepartamento =unaCiudad.id_departamento;
+                        break; 
+                    }
+                }
+            }
+            //console.log (ciudadesCantidad);
+        })
+        .catch(function (error) {
+            handleButtonClick(error);
+        })
+}
+
+/* Funcion que busca el nombre del departamento de top 5 */
+function buscarDepartamentoNombre() {
+    
+    fetch(`https://envios.develotion.com/departamentos.php`,
+        {
+            headers: {
+                apiKey: localStorage.getItem("token")
+            }
+        })
+        .then(function (response) {
+            if(response.status !=200){
+                throw new error("Datos mal Ingresado")
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            //console.log(data) 
+                for (let j = 0; j < ciudadesCantidad.length; j++) {
+                    const ciudadEnvio = ciudadesCantidad[j];
+                    for (let i = 0; i < data.departamentos.length; i++) {
+                        const unDepartamento= data.departamentos[i];
+                    if(unDepartamento.id === ciudadEnvio.idDepartamento){                        
+                        ciudadEnvio.nombreDpto =unDepartamento.nombre;
+                        break; 
+                    }
+                }
+            }
         })
         .catch(function (error) {
             handleButtonClick(error);
