@@ -85,15 +85,24 @@ function navegacionMenu(event) {
             elementoMenuMostrar[i].style.display = "block";
         }
         
-        if (paginaActiva === "/CalcularEnvios") {  
-            let departamentosOrigenCE =  document.querySelector(".mostrarDepartamentoOrigenCE");
-            let departamentosDestinoCE = document.querySelector(".mostrarDepartamentoDestinoCE")
+        if (paginaActiva === "/CalcularEnvios") {
             document.querySelector("#pCalcularEnvios").style.display = "block";
+            let pCalcularEnvios = document.querySelector("#distanciaEnvios");
+            let pEnvios = document.querySelector("#mostrarCalculoEnvio");
+            let mapa = document.querySelector("#map");
             
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
             document.querySelector(".mostrarDepartamentoOrigenCE").value =undefined;                    
             document.querySelector(".mostrarDepartamentoDestinoCE").value = undefined;
+            /* Elimino el cartel anterior */
+            if (pCalcularEnvios != null){
+                pCalcularEnvios.remove();
+            }
+
+           if(flagCalcularEnvio){
+            pEnvios.removeChild(mapa);
+            }
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
