@@ -476,7 +476,7 @@ function mostrarTop5() {
     if(ciudadesCantidad.length===0){
         document.querySelector("#top5Mostrar").innerHTML = `<ion-label>No tiene envios para mostrar datos.</ion-label>`;
     }else{
-        document.querySelector("#top5Mostrar").innerHTML ="";
+        document.querySelector("#top5Mostrar").innerHTML = "";
         for (let i = 0; i<ciudadesCantidad.length; i++) {
             const unDepartamento = ciudadesCantidad[i];        
             totalEnviosDepartamento = unDepartamento.cant;
@@ -498,29 +498,56 @@ function mostrarTop5() {
                     }
                 
                 }
-                departamentosCantidad.push({idDepartamento: unDepartamento.idDepartamento, nombreDpto: "", totalEnviosDepartamento})
+                departamentosCantidad.push({idDepartamento: unDepartamento.idDepartamento, nombre: "", totalEnviosDepartamento})
             }  
             
-        }
-        setTimeout(buscarDepartamentoNombre,1500); //Inserto el nombre del departamento.        
+        }    
 
         /* Ordeno los envios*/
-       departamentosCantidad.sort(function (a, b) {
-        if (a.totalEnviosDepartamento < b.totalEnviosDepartamento) {
-          return 1;
+       departamentosCantidad.sort(ordenarElementos);
+       buscarDepartamentoNombre()
+
+       setTimeout(function (params) {
+         /* Muestro los 5 más enviados */ 
+         let mostrar = `<ion-list-header>Top 5</ion-list-header>`;
+         let control = 0;
+         let maximo;
+         if (departamentosCantidad.length>5) {
+             maximo = 5;
+         }else{
+            maximo = departamentosCantidad.length;
+         }
+         //Inserto el nombre del departamento.        
+         while(control<maximo){
+            mostrar+=`                
+            <ion-item>
+                <ion-label>${departamentosCantidad[control].nombre}</ion-label>
+                <ion-note slot="end" color="dark">${departamentosCantidad[control].totalEnviosDepartamento}</ion-note>                    
+            </ion-item>`
+            control++;
         }
-        if (a.totalEnviosDepartamento > b.totalEnviosDepartamento) {
-          return -1;
-        }
-        // a must be equal to b
-        return 0;
-      })
+            
+        document.querySelector("#top5Mostrar").innerHTML = mostrar;  
+        },2000)
+       
+
+       
 
     }
            
 }
 
- 
+/* Ordeno los envios */
+function ordenarElementos(a, b) {
+    if (a.totalEnviosDepartamento < b.totalEnviosDepartamento) {
+      return 1;
+    }
+    if (a.totalEnviosDepartamento > b.totalEnviosDepartamento) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+} 
 
 /* APIs */
 
@@ -1317,7 +1344,7 @@ function buscarDepartamentoNombre() {
                     for (let i = 0; i < data.departamentos.length; i++) {
                         const unDepartamento= data.departamentos[i];
                     if(unDepartamento.id === deptEnvio.idDepartamento){                        
-                        deptEnvio.nombreDpto =unDepartamento.nombre;
+                        deptEnvio.nombre =unDepartamento.nombre;
                         break; 
                     }
                 }
