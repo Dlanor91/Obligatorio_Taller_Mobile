@@ -529,9 +529,6 @@ function mostrarTop5() {
             
         document.querySelector("#top5Mostrar").innerHTML = mostrar;  
         },2000)
-       
-
-       
 
     }
            
