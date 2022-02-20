@@ -1136,6 +1136,8 @@ function mostrarEnvio() {
                         </ion-list>                        
                         <ion-button color="medium" onclick="btnDetalleEnvio(${element.id})">
                         <ion-icon name="reader-outline" slot="start"></ion-icon>Detalle
+                        </ion-button><ion-button color="medium" onclick="">
+                        <ion-icon name="arrow-redo-outline" slot="start"></ion-icon> Compartir
                         </ion-button>
                         <ion-button color="medium" onclick="btnEliminarEnvio(${element.id})">
                         <ion-icon name="trash-outline" slot="start"></ion-icon> Eliminar
