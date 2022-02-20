@@ -86,13 +86,14 @@ function navegacionMenu(event) {
         }
         
         if (paginaActiva === "/CalcularEnvios") {  
-            
+            let departamentosOrigenCE =  document.querySelector(".mostrarDepartamentoOrigenCE");
+            let departamentosDestinoCE = document.querySelector(".mostrarDepartamentoDestinoCE")
             document.querySelector("#pCalcularEnvios").style.display = "block";
+            
             document.querySelector(".bloqueCiudadOrigenCE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoCE").style.display = "none";
-            document.querySelector(".mostrarDepartamentoOrigenCE").innerHTML ="";                    
-            document.querySelector(".mostrarDepartamentoDestinoCE").innerHTML = "" ;               
-                               
+            document.querySelector(".mostrarDepartamentoOrigenCE").value =undefined;                    
+            document.querySelector(".mostrarDepartamentoDestinoCE").value = undefined;
             mostrarDepartamentos();  
 
         } else if (paginaActiva === "/AgregarEnvios") {
@@ -100,9 +101,9 @@ function navegacionMenu(event) {
             document.querySelector("#pAgregarEnvios").style.display = "block"; 
             document.querySelector(".bloqueCiudadOrigenAE").style.display = "none";
             document.querySelector(".bloqueCiudadDestinoAE").style.display = "none";   
-            document.querySelector(".mostrarDepartamentoOrigenAE").innerHTML ="";                       
-            document.querySelector(".mostrarDepartamentoDestinoAE").innerHTML = "" ; 
-            document.querySelector("#mostrarCategorias").innerHTML = "";
+            document.querySelector(".mostrarDepartamentoOrigenAE").value = undefined;                       
+            document.querySelector(".mostrarDepartamentoDestinoAE").value = undefined; 
+            document.querySelector("#mostrarCategorias").value = undefined;
             document.querySelector("#pesoEnvio").value = "";
                                   
             mostrarDepartamentos();      
