@@ -119,10 +119,8 @@ function navegacionMenu(event) {
 
             document.querySelector("#pEstadisticas").style.display = "block";
             precioTotalEnvios();
-            contarCiudades();
+            setTimeout(contarCiudades,1500);
             setTimeout(buscarDepartamento,1500);
-            setTimeout(buscarDepartamentoNombre,1500);
-            
             
             
         } else if (paginaActiva === "/CiudadCercana") {
@@ -476,8 +474,6 @@ function mostrarTop5() {
     let buscarDepartamentoContar = false;
     
     departamentosCantidad=[];
-    
-    
         for (let i = 0; i<ciudadesCantidad.length; i++) {
             const unDepartamento = ciudadesCantidad[i];        
             totalEnviosDepartamento = unDepartamento.cant;
@@ -499,15 +495,12 @@ function mostrarTop5() {
                     }
                 
                 }
-                departamentosCantidad.push({idDepartamento: unDepartamento.idDepartamento, nombreDepartamento: departamentoNombre, totalEnviosDepartamento})
-            }        
-
-            
+                departamentosCantidad.push({idDepartamento: unDepartamento.idDepartamento, nombreDpto: "", totalEnviosDepartamento})
+            }  
             
         }
-        console.log(departamentosCantidad);
-    
-    
+        setTimeout(buscarDepartamentoNombre,1500);
+           
 }
 
 /* APIs */
@@ -1237,7 +1230,7 @@ function contarCiudades() {
                                 cantidadContada++;                                
                             }                      
                         }                        
-                        ciudadesCantidad.push({idCiudadDestino: ciudadEncontrada, cant: cantidadContada,idDepartamento: "", nombreDpto: ""});
+                        ciudadesCantidad.push({idCiudadDestino: ciudadEncontrada, cant: cantidadContada,idDepartamento: ""});
                         
                    }
                 }
@@ -1300,12 +1293,12 @@ function buscarDepartamentoNombre() {
         })
         .then(function (data) {
             //console.log(data) 
-                for (let j = 0; j < ciudadesCantidad.length; j++) {
-                    const ciudadEnvio = ciudadesCantidad[j];
+                for (let j = 0; j < departamentosCantidad.length; j++) {
+                    const deptEnvio = departamentosCantidad[j];
                     for (let i = 0; i < data.departamentos.length; i++) {
                         const unDepartamento= data.departamentos[i];
-                    if(unDepartamento.id === ciudadEnvio.idDepartamento){                        
-                        ciudadEnvio.nombreDpto =unDepartamento.nombre;
+                    if(unDepartamento.id === deptEnvio.idDepartamento){                        
+                        deptEnvio.nombreDpto =unDepartamento.nombre;
                         break; 
                     }
                 }
